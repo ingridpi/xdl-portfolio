@@ -1,2 +1,1 @@
-# xdl-portfolio
-Explainable Deep Learning for Portfolio Optimisation
+# Explainable Deep Learning for Portfolio Optimisation
