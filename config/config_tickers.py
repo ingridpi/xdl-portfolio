@@ -1,4 +1,4 @@
-TEST_TICKER = [
+TEST_TICKERS = [
     "AAPL",
     "CSCO",
     "MSFT",
@@ -7,11 +7,11 @@ TEST_TICKER = [
 ]
 
 # https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average
-DOW_30_TICKER = [
+DOW_30_TICKERS = [
     "AXP",
     "AMGN",
     "AAPL",
-    "AXP",
+    "AMZN",
     "BA",
     "CAT",
     "CRM",
@@ -41,7 +41,7 @@ DOW_30_TICKER = [
 ]
 
 # https://en.wikipedia.org/wiki/EURO_STOXX_50
-EURO_STOXX_50_TICKER = [
+EURO_STOXX_50_TICKERS = [
     "ADS.DE",
     "ADYEN.AS",
     "AD.AS",
@@ -95,7 +95,7 @@ EURO_STOXX_50_TICKER = [
 ]
 
 # https://en.wikipedia.org/wiki/FTSE_100_Index
-FTSE_100_TICKER = [
+FTSE_100_TICKERS = [
     "III",
     "ADM",
     "AAF",
@@ -199,7 +199,7 @@ FTSE_100_TICKER = [
 ]
 
 # https://en.wikipedia.org/wiki/List_of_S%26P_500_companies
-SP_500_TICKER = [
+SP_500_TICKERS = [
     "MMM",
     "AOS",
     "ABT",
@@ -433,7 +433,8 @@ SP_500_TICKER = [
     "HLT",
     "HOLX",
     "HD",
-    "HON" "HRL",
+    "HON",
+    "HRL",
     "HST",
     "HWM",
     "HPQ",
@@ -711,7 +712,6 @@ FX_TICKERS = [
     "USDJPY=X",
     "AUDUSD=X",
     "USDCAD=X",
-    "USDCNY=X",
     "USDCNY=X",
     "USDCHF=X",
     "USDHKD=X",
