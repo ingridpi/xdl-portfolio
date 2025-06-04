@@ -16,6 +16,7 @@ classifiers = [
 readme = "README.md"
 license = { text = "MIT License" }
 license-files = ["LICENSE"]
+
 [tool.black]
 line-length = 80
 skip-string-normalization = false
