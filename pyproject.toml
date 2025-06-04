@@ -1,0 +1,24 @@
+[project]
+name = "xdl-portfolio"
+version = "0.1.0"
+requires-python = ">=3.13"
+
+description = "Explainable Deep Learning for Portfolio Optimisation"
+authors = [
+    { name = "Ingrid Perez", email = "ingridperez_@outlook.com" },
+]
+keywords = ["explainable AI", "portfolio optimisation", "deep learning", "finance"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python",
+]
+
+readme = "README.md"
+license = { text = "MIT License" }
+license-files = ["LICENSE"]
+
+[tool.black]
+line-length = 80
+skip-string-normalization = false
+skip-magic-trailing-comma = false
+target-version = ['py313']
