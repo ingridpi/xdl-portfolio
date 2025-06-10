@@ -715,8 +715,8 @@ FX_TICKERS = [
     "USDCNY=X",
     "USDCHF=X",
     "USDHKD=X",
-    "EURGBP=X",
     "USDKRW=X",
+    "USDINR=X",
 ]
 
 # https://www.linkedin.com/pulse/top-10-most-traded-commodities-worldwide-focuseconomics-ts18f/
@@ -725,5 +725,6 @@ COMMODITY_TICKERS = [
     "NG=F",  # Natural gas
     "GC=F",  # Gold
     "SI=F",  # Silver
-    "ZC=F",  # Corn
+    "ALI=F",  # Aluminum
+    "HG=F",  # Copper
 ]
