@@ -7,7 +7,9 @@ class FinancialDataVisualiser:
     def __init__(self) -> None:
         pass
 
-    def plot_close_prices(self, data: pd.DataFrame) -> None:
+    def plot_close_prices(
+        self, data: pd.DataFrame, directory: str, filename: str
+    ) -> None:
 
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data.Ticker.nunique() > 10:
