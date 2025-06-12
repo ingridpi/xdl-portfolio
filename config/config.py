@@ -14,3 +14,5 @@ COMMODITY_NAME = "futures"
 
 EXCHANGE_NYSE = "XNYS"  # New York Stock Exchange
 EXCHANGE_LSE = "XLON"  # London Stock Exchange
+EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
+
