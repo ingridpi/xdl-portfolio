@@ -76,8 +76,8 @@ class FinancialDataPreprocessor:
         if "Date" not in data.columns:
             raise ValueError("Data must contain a 'Date' column for splitting.")
         if (
-            data["Date"].max() < train_end_date
-            and data["Date"].min() > train_end_date
+            train_end_date < data["Date"].min()
+            or train_end_date > data["Date"].max()
         ):
             raise ValueError(
                 f"The train end date is outside of the 'Date' column values."
