@@ -18,5 +18,7 @@ class FinancialDataVisualiser:
         sns.lineplot(data=data, x="Date", y="Close", hue="Ticker")
         plt.title("Closing Prices of Tickers")
         plt.ylabel("Closing Price")
+        plt.tight_layout()
+        plt.savefig(f"{directory}/{filename}_close_prices.png")
         plt.show()
 
