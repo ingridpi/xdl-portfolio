@@ -705,18 +705,17 @@ SP_500_TICKERS = [
     "ZTS",
 ]
 
-# https://www.ig.com/uk/trading-strategies/top-10-most-traded-currency-pairs-191206
 FX_TICKERS = [
     "EURUSD=X",
-    "USDGBP=X",
-    "USDJPY=X",
+    "GBPUSD=X",
+    "JPYUSD=X",
     "AUDUSD=X",
-    "USDCAD=X",
-    "USDCNY=X",
-    "USDCHF=X",
-    "USDHKD=X",
-    "USDKRW=X",
-    "USDINR=X",
+    "CADUSD=X",
+    "CNYUSD=X",
+    "CHFUSD=X",
+    "HKDUSD=X",
+    "KRWUSD=X",
+    "INRUSD=X",
 ]
 
 # https://www.linkedin.com/pulse/top-10-most-traded-commodities-worldwide-focuseconomics-ts18f/
