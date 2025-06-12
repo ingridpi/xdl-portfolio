@@ -64,3 +64,27 @@ class FinancialDataPreprocessor:
         # Convert to datetime objects
         return [d.to_pydatetime() for d in dates]
 
+    def split_train_test(
+        self, data: pd.DataFrame, train_end_date: pd.Timestamp | str
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Split the data into training and testing sets based on the given train end date.
+        """
+
+        # Ensure train end date is part of the DataFrame
+        train_end_date = pd.to_datetime(train_end_date)
+        if "Date" not in data.columns:
+            raise ValueError("Data must contain a 'Date' column for splitting.")
+        if (
+            data["Date"].max() < train_end_date
+            and data["Date"].min() > train_end_date
+        ):
+            raise ValueError(
+                f"The train end date is outside of the 'Date' column values."
+            )
+
+        # Split the data into training and testing sets
+        train_data = data[data["Date"] <= train_end_date].copy()
+        test_data = data[data["Date"] > train_end_date].copy()
+
+        return train_data, test_data

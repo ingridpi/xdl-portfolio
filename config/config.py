@@ -16,3 +16,7 @@ EXCHANGE_NYSE = "XNYS"  # New York Stock Exchange
 EXCHANGE_LSE = "XLON"  # London Stock Exchange
 EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
 
+TRAIN_START_DATE = "2016-01-01"
+TRAIN_END_DATE = "2023-12-31"
+TEST_START_DATE = "2024-01-01"
+TEST_END_DATE = "2024-12-31"
