@@ -22,6 +22,7 @@ class FinancialDataDownloader:
                 end=self.end_date,
                 group_by="Ticker",
                 auto_adjust=True,
+                progress=False,
             )
         except Exception as e:
             raise Exception(f"An error occurred while downloading data: {e}")

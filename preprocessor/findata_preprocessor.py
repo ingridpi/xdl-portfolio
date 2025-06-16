@@ -5,6 +5,8 @@ from typing import List
 import exchange_calendars as ecals
 from stockstats import StockDataFrame
 
+from preprocessor.findata_downloader import FinancialDataDownloader
+
 
 class FinancialDataPreprocessor:
     def __init__(self, start_date: str, end_date: str) -> None:
@@ -32,6 +34,9 @@ class FinancialDataPreprocessor:
 
         if use_tech_indicators:
             df = self.__add_technical_indicators(df, tech_indicators)
+
+        if use_macro_indicators:
+            df = self.__add_macroeconomic_indicators(df, macro_indicators)
 
         return df.reset_index(drop=True)
 
@@ -139,5 +144,27 @@ class FinancialDataPreprocessor:
             data = data.merge(indicator_df, on=["Ticker", "Date"], how="left")
 
         data.fillna(0, inplace=True)  # Fill NaN values with 0
+
+        return data
+
+    def __add_macroeconomic_indicators(
+        self, data: pd.DataFrame, indicators: List[str]
+    ) -> pd.DataFrame:
+        """
+        Add macroeconomic indicators to the DataFrame based on the specified indicators.
+        """
+        # Placeholder for macroeconomic indicators
+        # In a real implementation, this would fetch and merge actual macroeconomic data
+
+        findownloader = FinancialDataDownloader(self.start_date, self.end_date)
+
+        for indicator in indicators:
+            if indicator == "^VIX":
+                vix = findownloader.download_data([indicator])
+                indicator_df = vix[["Date", "Close"]].rename(
+                    columns={"Close": "Volatility"}
+                )
+
+                data = data.merge(indicator_df, on=["Date"])
 
         return data
