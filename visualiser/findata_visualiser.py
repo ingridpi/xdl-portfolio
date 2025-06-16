@@ -16,7 +16,7 @@ class FinancialDataVisualiser:
             sample_tickers = data["Ticker"].unique()[:10]
             data = data[data["Ticker"].isin(sample_tickers)]
 
-        plt.figure(figsize=(12, 6))
+        plt.figure(figsize=(12, 5))
         sns.lineplot(data=data, x="Date", y="Close", hue="Ticker")
         plt.title("Closing Prices of Tickers")
         plt.ylabel("Closing Price")
@@ -32,7 +32,7 @@ class FinancialDataVisualiser:
         filename: str,
     ) -> None:
 
-        _, ax = plt.subplots(2, 1, figsize=(14, 8), sharex=True, sharey=True)
+        _, ax = plt.subplots(2, 1, figsize=(12, 10), sharex=True, sharey=True)
 
         sns.lineplot(
             data=train_data, x="Date", y="Close", hue="Ticker", ax=ax[0]
