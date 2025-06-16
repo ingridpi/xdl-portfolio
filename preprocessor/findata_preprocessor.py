@@ -162,7 +162,7 @@ class FinancialDataPreprocessor:
             if indicator == "^VIX":
                 vix = findownloader.download_data([indicator])
                 indicator_df = vix[["Date", "Close"]].rename(
-                    columns={"Close": "Volatility"}
+                    columns={"Close": indicator}
                 )
 
                 data = data.merge(indicator_df, on=["Date"])
