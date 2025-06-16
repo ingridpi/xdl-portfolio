@@ -10,7 +10,15 @@ class FinancialDataPreprocessor:
         self.start_date = start_date
         self.end_date = end_date
 
-    def preprocess(self, data: pd.DataFrame, exchange: str) -> pd.DataFrame:
+    def preprocess(
+        self,
+        data: pd.DataFrame,
+        exchange: str,
+        use_tech_indicators: bool = False,
+        tech_indicators: List[str] = [],
+        use_macro_indicators: bool = False,
+        macro_indicators: List[str] = [],
+    ) -> pd.DataFrame:
         """
         Preprocess financial data by cleaning it and adding additional features.
         """
