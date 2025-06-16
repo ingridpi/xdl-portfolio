@@ -1,7 +1,7 @@
 from datetime import datetime
 import itertools
 import pandas as pd
-from typing import List
+from typing import List, Optional
 import exchange_calendars as ecals
 from stockstats import StockDataFrame
 
@@ -18,9 +18,9 @@ class FinancialDataPreprocessor:
         data: pd.DataFrame,
         exchange: str,
         use_tech_indicators: bool = False,
-        tech_indicators: List[str] = [],
+        tech_indicators: Optional[List[str]] = None,
         use_macro_indicators: bool = False,
-        macro_indicators: List[str] = [],
+        macro_indicators: Optional[List[str]] = None,
     ) -> pd.DataFrame:
         """
         Preprocess financial data by cleaning it and adding additional features.
@@ -32,10 +32,10 @@ class FinancialDataPreprocessor:
         # Add day of the week column
         df["DayOfWeek"] = df["Date"].dt.dayofweek
 
-        if use_tech_indicators:
+        if use_tech_indicators and tech_indicators:
             df = self.__add_technical_indicators(df, tech_indicators)
 
-        if use_macro_indicators:
+        if use_macro_indicators and macro_indicators:
             df = self.__add_macroeconomic_indicators(df, macro_indicators)
 
         return df.reset_index(drop=True)
