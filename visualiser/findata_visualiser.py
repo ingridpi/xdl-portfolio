@@ -91,10 +91,10 @@ class FinancialDataVisualiser:
             indicator, name = list(indicators.items())[0]
             if indicator in data.columns:
                 # Take the date and the indicator column
-                data = data[["Date", indicator]]
+                ind_df = data[["Date", indicator]]
                 # Remove duplicate dates
-                data = data.drop_duplicates(subset="Date")
-                sns.lineplot(data=data, x="Date", y=indicator)
+                ind_df = ind_df.drop_duplicates(subset="Date")
+                sns.lineplot(data=ind_df, x="Date", y=indicator)
                 plt.title(name)
                 plt.ylabel(indicator.strip("^"))
                 plt.savefig(f"{directory}/{filename}_macroeconomic.png")
@@ -114,10 +114,10 @@ class FinancialDataVisualiser:
             ):
                 if indicator in data.columns:
                     # Take the date and the indicator column
-                    data = data[["Date", indicator]]
+                    ind_df = data[["Date", indicator]]
                     # Remove duplicate dates
-                    data = data.drop_duplicates(subset="Date")
-                    sns.lineplot(data=data, x="Date", y=indicator, ax=ax[i])
+                    ind_df = ind_df.drop_duplicates(subset="Date")
+                    sns.lineplot(data=ind_df, x="Date", y=indicator, ax=ax[i])
                     ax[i].set_title(name)
                     ax[i].set_ylabel(indicator)
                     ax[i].tick_params(labelbottom=True)
