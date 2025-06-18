@@ -38,7 +38,11 @@ class FinancialDataPreprocessor:
         if use_macro_indicators and macro_indicators:
             df = self.__add_macroeconomic_indicators(df, macro_indicators)
 
-        return df.reset_index(drop=True)
+        df = self.__rename_columns(df)
+
+        df = self.__set_index(df)
+
+        return df
 
     def __clean_data(self, data: pd.DataFrame, exchange: str) -> pd.DataFrame:
         """
@@ -166,3 +170,29 @@ class FinancialDataPreprocessor:
                 data = data.merge(indicator_df, on=["date"])
 
         return data
+
+    def __rename_columns(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Rename columns to a consistent format to work with FinRL library.
+        """
+
+        # Convert column names to lowercase and remove non alphanumeric characters
+        data.columns = data.columns.str.lower().str.replace(
+            r"[^a-z0-9_]", "", regex=True
+        )
+
+        return data
+
+    def __set_index(self, data: pd.DataFrame) -> pd.DataFrame:
+        """
+        Set the index of the DataFrame to a number from 0 to the number of distinct dates in the dataset.
+        This is useful for ensuring that the index is consistent with the FinRL library's expectations.
+        """
+
+        data.sort_values(by=["date", "tic"], inplace=True)
+
+        # Set the index to a number from 0 to number of distinct dates in the dataset
+        data.set_index(data["date"].astype("category").cat.codes, inplace=True)
+
+        return data
+
