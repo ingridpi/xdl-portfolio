@@ -45,6 +45,12 @@ class FinancialDataDownloader:
         # Rename index columns
         data.columns.rename("", inplace=True)
 
+        # Convert column names to lowercase
+        data.columns = [col.lower() for col in data.columns]
+
+        # Rename ticker column to 'tic'
+        data.rename(columns={"ticker": "tic"}, inplace=True)
+
         self.data = data
         print(
             f"Data downloaded for {len(tickers)} tickers from {self.start_date} to {self.end_date}."
@@ -66,10 +72,10 @@ class FinancialDataDownloader:
             data = pd.read_csv(file_path)
 
             # Convert date columns to datetime format if they exist
-            data["Date"] = pd.to_datetime(data["Date"])
+            data["date"] = pd.to_datetime(data["date"])
 
-            # Sort the data by date, ticker
-            data.sort_values(by=["Date", "Ticker"], inplace=True)
+            # Sort the data by date, tic
+            data.sort_values(by=["date", "tic"], inplace=True)
             # Reset index after sorting
             data.reset_index(drop=True, inplace=True)
 
