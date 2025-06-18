@@ -30,7 +30,7 @@ class FinancialDataPreprocessor:
         df = self.__clean_data(df, exchange)
 
         # Add day of the week column
-        df["DayOfWeek"] = df["Date"].dt.dayofweek
+        df["day"] = df["date"].dt.dayofweek
 
         if use_tech_indicators and tech_indicators:
             df = self.__add_technical_indicators(df, tech_indicators)
@@ -46,24 +46,24 @@ class FinancialDataPreprocessor:
         and filling missing values appropriately.
         """
         trading_days = self.__get_trading_dates(exchange)
-        tickers = data["Ticker"].unique()
+        tickers = data["tic"].unique()
 
         # Create a DataFrame with all combinations of trading dates and tickers
         index = list(itertools.product(trading_days, tickers))
-        df = pd.DataFrame(index, columns=["Date", "Ticker"]).merge(
-            data, on=["Date", "Ticker"], how="left"
+        df = pd.DataFrame(index, columns=["date", "tic"]).merge(
+            data, on=["date", "tic"], how="left"
         )
 
-        df = df.sort_values(by=["Ticker", "Date"])
+        df = df.sort_values(by=["tic", "date"])
 
         # Fill missing values with forward fill method and then backward fill
-        df["Open"] = df.groupby("Ticker")["Open"].ffill().bfill()
-        df["Close"] = df.groupby("Ticker")["Close"].ffill().bfill()
-        df["High"] = df.groupby("Ticker")["High"].ffill().bfill()
-        df["Low"] = df.groupby("Ticker")["Low"].ffill().bfill()
+        df["open"] = df.groupby("tic")["open"].ffill().bfill()
+        df["close"] = df.groupby("tic")["close"].ffill().bfill()
+        df["high"] = df.groupby("tic")["high"].ffill().bfill()
+        df["low"] = df.groupby("tic")["low"].ffill().bfill()
 
         # Fill missing volumes with 0 to indicate no trading activity
-        df["Volume"] = df["Volume"].fillna(0)
+        df["volume"] = df["volume"].fillna(0)
 
         return df
 
@@ -115,7 +115,7 @@ class FinancialDataPreprocessor:
 
         # Convert the dataframe to StockDataFrame
         stock_df = StockDataFrame.retype(data.copy())
-        tickers = data["Ticker"].unique()
+        tickers = data["tic"].unique()
 
         # Iterate over the indicators
         for indicator in indicators:
@@ -126,12 +126,10 @@ class FinancialDataPreprocessor:
 
                 # Extract the indicator data for the ticker
                 try:
-                    ind_df = stock_df[stock_df["ticker"] == ticker][indicator]
+                    ind_df = stock_df[stock_df["tic"] == ticker][indicator]
                     ind_df = pd.DataFrame(ind_df)
-                    ind_df["Ticker"] = ticker
-                    ind_df["Date"] = data[data["Ticker"] == ticker][
-                        "Date"
-                    ].values
+                    ind_df["tic"] = ticker
+                    ind_df["date"] = data[data["tic"] == ticker]["date"].values
 
                     indicator_df = pd.concat(
                         [indicator_df, ind_df], ignore_index=True
@@ -141,7 +139,7 @@ class FinancialDataPreprocessor:
                         f"Error processing indicator '{indicator}' for ticker '{ticker}': {e}"
                     )
 
-            data = data.merge(indicator_df, on=["Ticker", "Date"], how="left")
+            data = data.merge(indicator_df, on=["tic", "date"], how="left")
 
         data.fillna(0, inplace=True)  # Fill NaN values with 0
 
@@ -161,10 +159,10 @@ class FinancialDataPreprocessor:
         for indicator in indicators:
             if indicator == "^VIX":
                 vix = findownloader.download_data([indicator])
-                indicator_df = vix[["Date", "Close"]].rename(
-                    columns={"Close": indicator}
+                indicator_df = vix[["date", "close"]].rename(
+                    columns={"close": indicator}
                 )
 
-                data = data.merge(indicator_df, on=["Date"])
+                data = data.merge(indicator_df, on=["date"])
 
         return data
