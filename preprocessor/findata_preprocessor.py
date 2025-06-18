@@ -196,3 +196,21 @@ class FinancialDataPreprocessor:
 
         return train_data, test_data
 
+    def save_train_test_data(
+        self,
+        train_data: pd.DataFrame,
+        test_data: pd.DataFrame,
+        directory: str,
+        filename: str,
+    ) -> None:
+        """
+        Save the training and testing data to CSV files.
+        """
+        train_file_path = f"{directory}/{filename}_train.csv"
+        test_file_path = f"{directory}/{filename}_test.csv"
+
+        train_data.to_csv(train_file_path, index=False)
+        test_data.to_csv(test_file_path, index=False)
+
+        print(f"Train data saved to {train_file_path}")
+        print(f"Test data saved to {test_file_path}")
