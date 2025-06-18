@@ -208,10 +208,44 @@ class FinancialDataPreprocessor:
         Save the training and testing data to CSV files.
         """
         train_file_path = f"{directory}/{filename}_train.csv"
-        test_file_path = f"{directory}/{filename}_test.csv"
+        test_file_path = f"{directory}/{filename}_trade.csv"
 
         train_data.to_csv(train_file_path, index=False)
         test_data.to_csv(test_file_path, index=False)
 
         print(f"Train data saved to {train_file_path}")
         print(f"Test data saved to {test_file_path}")
+
+    def __load_file(self, filepath: str) -> pd.DataFrame:
+        """
+        Load a CSV file into a DataFrame.
+        """
+        try:
+            data = pd.read_csv(filepath)
+            # Convert date columns to datetime format if they exist
+            if "date" in data.columns:
+                data["date"] = pd.to_datetime(data["date"])
+
+            # Ensure the 'tic' column exists
+            if "tic" not in data.columns:
+                raise ValueError("The 'tic' column is missing from the data.")
+
+            # Set the index
+            data = self.__set_index(data)
+
+            return data
+
+        except FileNotFoundError:
+            raise FileNotFoundError(f"No file found at {filepath}")
+
+    def load_train_test_data(
+        self, directory: str, filename: str
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Load the training and testing data from CSV files.
+        """
+
+        train_data = self.__load_file(f"{directory}/{filename}_train.csv")
+        test_data = self.__load_file(f"{directory}/{filename}_trade.csv")
+
+        return train_data, test_data
