@@ -85,31 +85,6 @@ class FinancialDataPreprocessor:
         # Convert to datetime objects
         return [d.to_pydatetime() for d in dates]
 
-    def split_train_test(
-        self, data: pd.DataFrame, train_end_date: pd.Timestamp | str
-    ) -> tuple[pd.DataFrame, pd.DataFrame]:
-        """
-        Split the data into training and testing sets based on the given train end date.
-        """
-
-        # Ensure train end date is part of the DataFrame
-        train_end_date = pd.to_datetime(train_end_date)
-        if "Date" not in data.columns:
-            raise ValueError("Data must contain a 'Date' column for splitting.")
-        if (
-            train_end_date < data["Date"].min()
-            or train_end_date > data["Date"].max()
-        ):
-            raise ValueError(
-                f"The train end date is outside of the 'Date' column values."
-            )
-
-        # Split the data into training and testing sets
-        train_data = data[data["Date"] <= train_end_date].copy()
-        test_data = data[data["Date"] > train_end_date].copy()
-
-        return train_data, test_data
-
     def __add_technical_indicators(
         self, data: pd.DataFrame, indicators: List[str]
     ) -> pd.DataFrame:
@@ -195,4 +170,29 @@ class FinancialDataPreprocessor:
         data.set_index(data["date"].astype("category").cat.codes, inplace=True)
 
         return data
+
+    def split_train_test(
+        self, data: pd.DataFrame, train_end_date: pd.Timestamp | str
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """
+        Split the data into training and testing sets based on the given train end date.
+        """
+
+        # Ensure train end date is part of the DataFrame
+        train_end_date = pd.to_datetime(train_end_date)
+        if "date" not in data.columns:
+            raise ValueError("Data must contain a 'Date' column for splitting.")
+        if (
+            train_end_date < data["date"].min()
+            or train_end_date > data["date"].max()
+        ):
+            raise ValueError(
+                f"The train end date is outside of the 'date' column values."
+            )
+
+        # Split the data into training and testing sets
+        train_data = data[data["date"] <= train_end_date].copy()
+        test_data = data[data["date"] > train_end_date].copy()
+
+        return train_data, test_data
 
