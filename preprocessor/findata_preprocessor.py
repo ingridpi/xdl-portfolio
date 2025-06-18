@@ -40,8 +40,6 @@ class FinancialDataPreprocessor:
 
         df = self.__rename_columns(df)
 
-        df = self.__set_index(df)
-
         return df
 
     def __clean_data(self, data: pd.DataFrame, exchange: str) -> pd.DataFrame:
@@ -193,6 +191,9 @@ class FinancialDataPreprocessor:
         # Split the data into training and testing sets
         train_data = data[data["date"] <= train_end_date].copy()
         test_data = data[data["date"] > train_end_date].copy()
+
+        train_data = self.__set_index(train_data)
+        test_data = self.__set_index(test_data)
 
         return train_data, test_data
 
