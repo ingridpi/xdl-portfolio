@@ -1,8 +1,11 @@
 from datetime import datetime
 import itertools
 import pandas as pd
-from typing import List
+from typing import List, Optional
 import exchange_calendars as ecals
+from stockstats import StockDataFrame
+
+from preprocessor.findata_downloader import FinancialDataDownloader
 
 
 class FinancialDataPreprocessor:
@@ -10,7 +13,15 @@ class FinancialDataPreprocessor:
         self.start_date = start_date
         self.end_date = end_date
 
-    def preprocess(self, data: pd.DataFrame, exchange: str) -> pd.DataFrame:
+    def preprocess(
+        self,
+        data: pd.DataFrame,
+        exchange: str,
+        use_tech_indicators: bool = False,
+        tech_indicators: Optional[List[str]] = None,
+        use_macro_indicators: bool = False,
+        macro_indicators: Optional[List[str]] = None,
+    ) -> pd.DataFrame:
         """
         Preprocess financial data by cleaning it and adding additional features.
         """
@@ -20,6 +31,12 @@ class FinancialDataPreprocessor:
 
         # Add day of the week column
         df["DayOfWeek"] = df["Date"].dt.dayofweek
+
+        if use_tech_indicators and tech_indicators:
+            df = self.__add_technical_indicators(df, tech_indicators)
+
+        if use_macro_indicators and macro_indicators:
+            df = self.__add_macroeconomic_indicators(df, macro_indicators)
 
         return df.reset_index(drop=True)
 
@@ -88,3 +105,66 @@ class FinancialDataPreprocessor:
         test_data = data[data["Date"] > train_end_date].copy()
 
         return train_data, test_data
+
+    def __add_technical_indicators(
+        self, data: pd.DataFrame, indicators: List[str]
+    ) -> pd.DataFrame:
+        """
+        Add technical indicators to the DataFrame based on the specified indicators.
+        """
+
+        # Convert the dataframe to StockDataFrame
+        stock_df = StockDataFrame.retype(data.copy())
+        tickers = data["Ticker"].unique()
+
+        # Iterate over the indicators
+        for indicator in indicators:
+            indicator_df = pd.DataFrame()
+
+            # Iterate over each ticker
+            for ticker in tickers:
+
+                # Extract the indicator data for the ticker
+                try:
+                    ind_df = stock_df[stock_df["ticker"] == ticker][indicator]
+                    ind_df = pd.DataFrame(ind_df)
+                    ind_df["Ticker"] = ticker
+                    ind_df["Date"] = data[data["Ticker"] == ticker][
+                        "Date"
+                    ].values
+
+                    indicator_df = pd.concat(
+                        [indicator_df, ind_df], ignore_index=True
+                    )
+                except Exception as e:
+                    print(
+                        f"Error processing indicator '{indicator}' for ticker '{ticker}': {e}"
+                    )
+
+            data = data.merge(indicator_df, on=["Ticker", "Date"], how="left")
+
+        data.fillna(0, inplace=True)  # Fill NaN values with 0
+
+        return data
+
+    def __add_macroeconomic_indicators(
+        self, data: pd.DataFrame, indicators: List[str]
+    ) -> pd.DataFrame:
+        """
+        Add macroeconomic indicators to the DataFrame based on the specified indicators.
+        """
+        # Placeholder for macroeconomic indicators
+        # In a real implementation, this would fetch and merge actual macroeconomic data
+
+        findownloader = FinancialDataDownloader(self.start_date, self.end_date)
+
+        for indicator in indicators:
+            if indicator == "^VIX":
+                vix = findownloader.download_data([indicator])
+                indicator_df = vix[["Date", "Close"]].rename(
+                    columns={"Close": indicator}
+                )
+
+                data = data.merge(indicator_df, on=["Date"])
+
+        return data
