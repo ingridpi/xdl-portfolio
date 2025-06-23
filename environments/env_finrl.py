@@ -13,6 +13,16 @@ class FinRLTradingEnv:
         max_shares: int = 100,
         reward_scaling: float = 1e-4,
     ):
+        """
+        Initialises the FinRL trading environment.
+        :param train_data: DataFrame containing training data.
+        :param trade_data: DataFrame containing trading data.
+        :param indicators: List of technical indicators to be used in the environment.
+        :param transaction_cost: Transaction cost per trade.
+        :param initial_cash: Initial cash available for trading.
+        :param max_shares: Maximum number of shares that can be held.
+        :param reward_scaling: Scaling factor for the reward.
+        """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = (
             1 + 2 * self.stock_dim + len(indicators) * self.stock_dim
@@ -45,9 +55,17 @@ class FinRLTradingEnv:
         )
 
     def get_train_env(self):
+        """
+        Creates and returns the training environment.
+        :return: Training environment instance.
+        """
         self.train_env = StockTradingEnv(df=self.train_data, **self.env_args)
         return self.train_env.get_sb_env()[0]
 
     def get_trade_env(self):
+        """
+        Creates and returns the trading environment.
+        :return: Trading environment instance and its stable-baselines environment.
+        """
         self.trade_env = StockTradingEnv(df=self.trade_data, **self.env_args)
         return self.trade_env, self.trade_env.get_sb_env()

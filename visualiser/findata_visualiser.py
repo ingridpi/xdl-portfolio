@@ -5,12 +5,20 @@ import pandas as pd
 
 class FinancialDataVisualiser:
     def __init__(self) -> None:
+        """
+        Initialise the FinancialDataVisualiser.
+        """
         pass
 
     def plot_close_prices(
         self, data: pd.DataFrame, directory: str, filename: str
     ) -> None:
-
+        """
+        Plot closing prices of tickers in the data.
+        :param data: DataFrame containing financial data with 'date', 'tic', and 'close' columns.
+        :param directory: Directory where the plot will be saved.
+        :param filename: Name of the file to save the plot (without extension).
+        """
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
@@ -35,6 +43,10 @@ class FinancialDataVisualiser:
     ) -> None:
         """
         Plot technical indicators for each ticker in the data.
+        :param data: DataFrame containing financial data with 'date', 'tic', and technical indicators.
+        :param indicators: Dictionary mapping technical indicator names to their descriptions.
+        :param directory: Directory where the plot will be saved.
+        :param filename: Name of the file to save the plot (without extension).
         """
 
         ind_size = n if (n := len(indicators)) < 5 else 5
@@ -88,6 +100,10 @@ class FinancialDataVisualiser:
     ) -> None:
         """
         Plot macroeconomic indicators.
+        :param data: DataFrame containing financial data with 'date' and macroeconomic indicators.
+        :param indicators: Dictionary mapping macroeconomic indicator names to their descriptions.
+        :param directory: Directory where the plot will be saved.
+        :param filename: Name of the file to save the plot (without extension).
         """
 
         ind_size = n if (n := len(indicators)) < 5 else 5
@@ -149,6 +165,13 @@ class FinancialDataVisualiser:
         directory: str,
         filename: str,
     ) -> None:
+        """
+        Plot closing prices for train and test datasets.
+        :param train_data: DataFrame containing training data with 'date', 'tic', and 'close' columns.
+        :param test_data: DataFrame containing testing data with 'date', 'tic', and 'close' columns.
+        :param directory: Directory where the plot will be saved.
+        :param filename: Name of the file to save the plot (without extension).
+        """
 
         _, ax = plt.subplots(2, 1, figsize=(12, 10), sharex=True, sharey=True)
 

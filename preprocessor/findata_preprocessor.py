@@ -10,6 +10,11 @@ from preprocessor.findata_downloader import FinancialDataDownloader
 
 class FinancialDataPreprocessor:
     def __init__(self, start_date: str, end_date: str) -> None:
+        """
+        Initialses the FinancialDataPreprocessor with a date range.
+        :param start_date: Start date for the data processing in 'YYYY-MM-DD' format.
+        :param end_date: End date for the data processing in 'YYYY-MM-DD' format.
+        """
         self.start_date = start_date
         self.end_date = end_date
 
@@ -24,6 +29,13 @@ class FinancialDataPreprocessor:
     ) -> pd.DataFrame:
         """
         Preprocess financial data by cleaning it and adding additional features.
+        :param data: DataFrame containing financial data with columns ['date', 'tic', 'open', 'high', 'low', 'close', 'volume'].
+        :param exchange: The stock exchange for which the data is being processed (e.g., 'NYSE', 'LSE').
+        :param use_tech_indicators: Whether to add technical indicators (Default is False).
+        :param tech_indicators: List of technical indicators to add.
+        :param use_macro_indicators: Whether to add macroeconomic indicators (Default is False).
+        :param macro_indicators: List of macroeconomic indicators to add.
+        :return: Processed DataFrame with additional features.
         """
         df = data.copy()
 
@@ -46,6 +58,9 @@ class FinancialDataPreprocessor:
         """
         Clean the financial data by ensuring all trading days are represented
         and filling missing values appropriately.
+        :param data: DataFrame containing financial data with columns ['date', 'tic', 'open', 'high', 'low', 'close', 'volume'].
+        :param exchange: The stock exchange for which the data is being processed (e.g., 'NYSE', 'LSE').
+        :return: Cleaned DataFrame with all trading days represented and missing values filled.
         """
         trading_days = self.__get_trading_dates(exchange)
         tickers = data["tic"].unique()
@@ -72,8 +87,9 @@ class FinancialDataPreprocessor:
     def __get_trading_dates(self, exchange: str) -> List[datetime]:
         """
         Get trading dates for a given exchange within a specified date range.
+        :param exchange: The stock exchange for which the trading dates are needed (e.g., 'NYSE', 'LSE').
+        :return: List of trading dates as datetime objects.
         """
-
         dates = (
             ecals.get_calendar(exchange)
             .sessions_in_range(start=self.start_date, end=self.end_date)
@@ -88,8 +104,11 @@ class FinancialDataPreprocessor:
     ) -> pd.DataFrame:
         """
         Add technical indicators to the DataFrame based on the specified indicators.
+        :param data: DataFrame containing financial data with columns ['date', 'tic', 'open', 'high', 'low', 'close', 'volume'].
+        :param indicators: List of technical indicators to add (e.g., ['macd', 'rsi', 'cci']).
+        :return: DataFrame with additional technical indicators.
+        :raises Exception: If there is an error processing a specific indicator for a ticker.
         """
-
         # Convert the dataframe to StockDataFrame
         stock_df = StockDataFrame.retype(data.copy())
         tickers = data["tic"].unique()
@@ -127,13 +146,15 @@ class FinancialDataPreprocessor:
     ) -> pd.DataFrame:
         """
         Add macroeconomic indicators to the DataFrame based on the specified indicators.
+        :param data: DataFrame containing financial data with columns ['date', 'tic', 'open', 'high', 'low', 'close', 'volume'].
+        :param indicators: List of macroeconomic indicators to add (e.g., ['^VIX']).
+        :return: DataFrame with additional macroeconomic indicators.
         """
-        # Placeholder for macroeconomic indicators
-        # In a real implementation, this would fetch and merge actual macroeconomic data
 
         findownloader = FinancialDataDownloader(self.start_date, self.end_date)
 
         for indicator in indicators:
+            # Add volatility index (VIX) data by downloading it from the financial data downloader
             if indicator == "^VIX":
                 vix = findownloader.download_data([indicator])
                 indicator_df = vix[["date", "close"]].rename(
@@ -147,6 +168,8 @@ class FinancialDataPreprocessor:
     def __rename_columns(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Rename columns to a consistent format to work with FinRL library.
+        :param data: DataFrame containing financial data with columns ['date', 'tic', 'open', 'high', 'low', 'close', 'volume'].
+        :return: DataFrame with renamed columns.
         """
 
         # Convert column names to lowercase and remove non alphanumeric characters
@@ -160,6 +183,8 @@ class FinancialDataPreprocessor:
         """
         Set the index of the DataFrame to a number from 0 to the number of distinct dates in the dataset.
         This is useful for ensuring that the index is consistent with the FinRL library's expectations.
+        :param data: DataFrame containing financial data.
+        :return: DataFrame with the index set to a number from 0 to the number of distinct dates.
         """
 
         data.sort_values(by=["date", "tic"], inplace=True)
@@ -174,6 +199,9 @@ class FinancialDataPreprocessor:
     ) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         Split the data into training and testing sets based on the given train end date.
+        :param data: DataFrame containing financial data.
+        :param train_end_date: The end date for the training set. Data before and including this date will be used for training, and data after this date will be used for testing.
+        :return: A tuple containing the training DataFrame and the testing DataFrame.
         """
 
         # Ensure train end date is part of the DataFrame
@@ -206,6 +234,10 @@ class FinancialDataPreprocessor:
     ) -> None:
         """
         Save the training and testing data to CSV files.
+        :param train_data: DataFrame containing training data.
+        :param test_data: DataFrame containing testing data.
+        :param directory: Directory where the CSV files will be saved.
+        :param filename: Base filename for the CSV files (without extension).
         """
         train_file_path = f"{directory}/{filename}_train.csv"
         test_file_path = f"{directory}/{filename}_trade.csv"
@@ -219,6 +251,10 @@ class FinancialDataPreprocessor:
     def __load_file(self, filepath: str) -> pd.DataFrame:
         """
         Load a CSV file into a DataFrame.
+        :param filepath: Path to the CSV file.
+        :return: DataFrame containing the data from the CSV file.
+        :raises FileNotFoundError: If the file does not exist.
+        :raises ValueError: If the 'tic' column is missing from the data.
         """
         try:
             data = pd.read_csv(filepath)
@@ -243,6 +279,9 @@ class FinancialDataPreprocessor:
     ) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         Load the training and testing data from CSV files.
+        :param directory: Directory where the CSV files are located.
+        :param filename: Base filename for the CSV files (without extension).
+        :return: A tuple containing the training DataFrame and the testing DataFrame.
         """
 
         train_data = self.__load_file(f"{directory}/{filename}_train.csv")
