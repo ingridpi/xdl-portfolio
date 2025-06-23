@@ -179,7 +179,7 @@ class FinancialDataPreprocessor:
         # Ensure train end date is part of the DataFrame
         train_end_date = pd.to_datetime(train_end_date)
         if "date" not in data.columns:
-            raise ValueError("Data must contain a 'Date' column for splitting.")
+            raise ValueError("Data must contain a 'date' column for splitting.")
         if (
             train_end_date < data["date"].min()
             or train_end_date > data["date"].max()
