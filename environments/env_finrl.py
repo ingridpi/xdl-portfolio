@@ -41,7 +41,7 @@ class FinRLTradingEnv:
         }
 
         print(
-            f"Environment sucessfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
+            f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
         )
 
     def get_train_env(self):
