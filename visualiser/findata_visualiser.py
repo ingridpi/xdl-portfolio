@@ -24,6 +24,9 @@ class FinancialDataVisualiser:
             sample_tickers = data["tic"].unique()[:10]
             data = data[data["tic"].isin(sample_tickers)]
 
+        # Sort the data by 'tic' to ensure consistent plotting
+        data.sort_values(by="tic", inplace=True)
+
         plt.figure(figsize=(12, 5))
         sns.lineplot(data=data, x="date", y="close", hue="tic")
         plt.title("Closing Prices of Tickers")
@@ -49,6 +52,15 @@ class FinancialDataVisualiser:
         :param filename: Name of the file to save the plot (without extension).
         """
 
+        # Sample the first 10 tickers if there are more than 10 unique tickers
+        if data["tic"].nunique() > 10:
+            sample_tickers = data["tic"].unique()[:10]
+            data = data[data["tic"].isin(sample_tickers)]
+
+        # Sort the data by 'tic' to ensure consistent plotting
+        data.sort_values(by="tic", inplace=True)
+
+        # Sample the first 5 indicators if there are more than 5 unique indicators
         ind_size = n if (n := len(indicators)) < 5 else 5
 
         if ind_size == 1:
@@ -106,6 +118,15 @@ class FinancialDataVisualiser:
         :param filename: Name of the file to save the plot (without extension).
         """
 
+        # Sample the first 10 tickers if there are more than 10 unique tickers
+        if data["tic"].nunique() > 10:
+            sample_tickers = data["tic"].unique()[:10]
+            data = data[data["tic"].isin(sample_tickers)]
+
+        # Sort the data by 'tic' to ensure consistent plotting
+        data.sort_values(by="tic", inplace=True)
+
+        # Sample the first 5 indicators if there are more than 5 unique indicators
         ind_size = n if (n := len(indicators)) < 5 else 5
 
         if ind_size == 1:
@@ -172,6 +193,10 @@ class FinancialDataVisualiser:
         :param directory: Directory where the plot will be saved.
         :param filename: Name of the file to save the plot (without extension).
         """
+
+        # Sort the data by 'tic' to ensure consistent plotting
+        train_data.sort_values(by="tic", inplace=True)
+        test_data.sort_values(by="tic", inplace=True)
 
         _, ax = plt.subplots(2, 1, figsize=(12, 10), sharex=True, sharey=True)
 
