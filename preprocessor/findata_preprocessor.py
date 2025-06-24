@@ -1,8 +1,9 @@
-from datetime import datetime
 import itertools
-import pandas as pd
+from datetime import datetime
 from typing import List, Optional
+
 import exchange_calendars as ecals
+import pandas as pd
 from stockstats import StockDataFrame
 
 from preprocessor.findata_downloader import FinancialDataDownloader
