@@ -1,5 +1,3 @@
-from typing import Literal
-
 START_DATE = "2016-01-01"
 END_DATE = "2025-01-01"
 
@@ -28,4 +26,4 @@ TEST_END_DATE = "2024-12-31"
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
 
-MODELS = Literal["a2c", "ppo", "ddpg", "td3", "sac"]
+MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]

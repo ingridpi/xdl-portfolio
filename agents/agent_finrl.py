@@ -14,13 +14,14 @@ class FinRLAgent:
     def __init__(self, train_env: DummyVecEnv):
         """
         Initialises the FinRL agent.
+        :param train_env: The training environment for the agent.
         """
         self.train_env = train_env
         self.agent = DRLAgent(env=train_env)
 
     def get_model(
         self,
-        model_name: config.MODELS,
+        model_name: str,
         model_kwargs: Optional[dict] = None,
     ) -> A2C | PPO | DDPG | TD3 | SAC:
         """
@@ -29,13 +30,18 @@ class FinRLAgent:
         :param model_kwargs: Additional keyword arguments for the model.
         :return: A DRL model instance.
         """
+        if model_name not in config.MODELS:
+            raise ValueError(
+                f"Model {model_name} is not supported. Choose from {config.MODELS}."
+            )
+
         return self.agent.get_model(
             model_name=model_name, model_kwargs=model_kwargs, verbose=0
         )
 
     def train_model(
         self,
-        model_name: config.MODELS,
+        model_name: str,
         model_kwargs: Optional[dict] = None,
         total_timesteps: int = 100000,
         logger_dir: Optional[str] = config.RESULTS_DIR,
@@ -48,6 +54,11 @@ class FinRLAgent:
         :param total_timesteps: Total number of timesteps for training.
         :return: The trained DRL model.
         """
+        if model_name not in config.MODELS:
+            raise ValueError(
+                f"Model {model_name} is not supported. Choose from {config.MODELS}."
+            )
+
         model = self.get_model(model_name, model_kwargs)
 
         # Create a new logger
@@ -66,16 +77,19 @@ class FinRLAgent:
         self.trained_model = trained_model
         return trained_model
 
-    def save_model(self, directory: str, filename: str):
+    def save_model(self, model_name: str, directory: str, filename: str):
         """
         Saves the trained DRL model.
         :param directory: Directory where the model will be saved.
         :param filename: Name of the file to save the model.
         """
-        self.trained_model.save(f"{directory}/{filename}")
+        self.trained_model.save(f"{directory}/{filename}_{model_name}")
 
     def load_model(
-        self, model_name: config.MODELS, directory: str, filename: str
+        self,
+        model_name: str,
+        directory: str,
+        filename: str,
     ) -> A2C | PPO | DDPG | TD3 | SAC:
         """
         Loads a trained DRL model.
@@ -86,15 +100,15 @@ class FinRLAgent:
         :raises ValueError: If the model name is not supported.
         """
         if model_name == "a2c":
-            model = A2C.load(f"{directory}/{filename}")
+            model = A2C.load(f"{directory}/{filename}_{model_name}")
         elif model_name == "ppo":
-            model = PPO.load(f"{directory}/{filename}")
+            model = PPO.load(f"{directory}/{filename}_{model_name}")
         elif model_name == "ddpg":
-            model = DDPG.load(f"{directory}/{filename}")
+            model = DDPG.load(f"{directory}/{filename}_{model_name}")
         elif model_name == "td3":
-            model = TD3.load(f"{directory}/{filename}")
+            model = TD3.load(f"{directory}/{filename}_{model_name}")
         elif model_name == "sac":
-            model = SAC.load(f"{directory}/{filename}")
+            model = SAC.load(f"{directory}/{filename}_{model_name}")
         else:
             raise ValueError(f"Model {model_name} is not supported.")
         self.trained_model = model
