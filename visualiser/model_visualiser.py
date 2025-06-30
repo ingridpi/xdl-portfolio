@@ -56,7 +56,7 @@ class ModelVisualiser:
                 )
                 ax[i].tick_params(labelbottom=True)
 
-        plt.title(f"Training Progress of {model_name.capitalize()} Agent")
+        plt.suptitle(f"Training Progress of {model_name.upper()} Agent", y=1)
         plt.tight_layout()
         plt.savefig(f"{directory}/{filename}_{model_name}_train_evaluation.png")
         plt.show()
@@ -121,7 +121,7 @@ class ModelVisualiser:
         ax[1].set_ylabel("Actions")
         ax[1].legend(title="Ticker")
 
-        plt.suptitle(f"Testing Results of {model_name.upper()} Agent")
+        plt.suptitle(f"Testing Results of {model_name.upper()} Agent", y=1)
         plt.tight_layout()
         plt.savefig(f"{directory}/{filename}_{model_name}_test_evaluation.png")
         plt.show()
