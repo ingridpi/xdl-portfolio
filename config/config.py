@@ -3,6 +3,8 @@ END_DATE = "2025-01-01"
 
 DATA_DIR = "data"
 PLOT_DIR = "figures"
+RESULTS_DIR = "results"
+MODELS_DIR = "models"
 
 TEST_NAME = "test"
 DOW_30_NAME = "dow30"
@@ -23,3 +25,5 @@ TEST_END_DATE = "2024-12-31"
 
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
+
+MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]

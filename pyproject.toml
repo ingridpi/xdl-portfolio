@@ -22,3 +22,7 @@ line-length = 80
 skip-string-normalization = false
 skip-magic-trailing-comma = false
 target-version = ['py313']
+
+[tool.isort]
+profile = "black"
+line_length = 80

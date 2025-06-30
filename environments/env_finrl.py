@@ -1,5 +1,7 @@
-from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 import pandas as pd
+from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
+from stable_baselines3.common.vec_env import DummyVecEnv
+from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs
 
 
 class FinRLTradingEnv:
@@ -54,7 +56,7 @@ class FinRLTradingEnv:
             f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
         )
 
-    def get_train_env(self):
+    def get_train_env(self) -> DummyVecEnv:
         """
         Creates and returns the training environment.
         :return: Training environment instance.
@@ -62,7 +64,9 @@ class FinRLTradingEnv:
         self.train_env = StockTradingEnv(df=self.train_data, **self.env_args)
         return self.train_env.get_sb_env()[0]
 
-    def get_trade_env(self):
+    def get_trade_env(
+        self,
+    ) -> tuple[StockTradingEnv, tuple[DummyVecEnv, VecEnvObs]]:
         """
         Creates and returns the trading environment.
         :return: Trading environment instance and its stable-baselines environment.

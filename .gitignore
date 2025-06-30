@@ -180,3 +180,10 @@ cython_debug/
 
 # Ignore data files
 data/*.csv
+
+# Ignore trained models
+models/*
+
+# Ignore logs
+results/*/progress.csv
+results/*/*.tfevents.*
