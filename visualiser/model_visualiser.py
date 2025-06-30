@@ -23,7 +23,7 @@ class ModelVisualiser:
         filename: str,
     ) -> None:
         """
-        Visualizes the training progress of an A2C agent by plotting specified variables against a common
+        Visualises the training progress of an agent by plotting specified variables against a common
         x-axis variable.
         :param model_name: Name of the model being evaluated (e.g., 'a2c').
         :param x: The name of the x-axis variable (e.g., 'step').
@@ -70,7 +70,7 @@ class ModelVisualiser:
         filename: str,
     ) -> None:
         """
-        Visualizes the testing results of an agent by plotting account value and actions over time.
+        Visualises the testing results of an agent by plotting account value and actions over time.
         :param model_name: Name of the model being evaluated (e.g., 'a2c').
         :param account_data: DataFrame containing account values with a 'date' column.
         :param actions_data: DataFrame containing actions with a 'date' column.
