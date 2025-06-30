@@ -91,6 +91,7 @@ class ModelVisualiser:
         ax[0].set_title("Account Value Over Time")
         ax[0].set_xlabel("Date")
         ax[0].set_ylabel("Account Value")
+        ax[0].tick_params(labelbottom=True)
 
         # Format the actions_data
         actions_data = actions_data.reset_index().melt(
@@ -120,7 +121,7 @@ class ModelVisualiser:
         ax[1].set_ylabel("Actions")
         ax[1].legend(title="Ticker")
 
-        plt.title(f"Testing Results of {model_name.capitalize()} Agent")
+        plt.suptitle(f"Testing Results of {model_name.upper()} Agent")
         plt.tight_layout()
         plt.savefig(f"{directory}/{filename}_{model_name}_test_evaluation.png")
         plt.show()
