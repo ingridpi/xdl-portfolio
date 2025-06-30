@@ -186,3 +186,4 @@ models/*
 
 # Ignore logs
 results/*/progress.csv
+results/*/*.tfevents.*
