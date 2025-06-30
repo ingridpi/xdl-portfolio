@@ -50,9 +50,9 @@ class ModelVisualiser:
                     data=data, x=x, y=variable, ax=ax[i], color=colors[i]
                 )
                 ax[i].set_title(title[i])
-                ax[i].set_xlabel(x.split("/")[1].capitalize())
+                ax[i].set_xlabel(x.split("/")[-1].capitalize())
                 ax[i].set_ylabel(
-                    " ".join(variable.split("/")[1].split("_")).capitalize()
+                    " ".join(variable.split("/")[-1].split("_")).capitalize()
                 )
                 ax[i].tick_params(labelbottom=True)
 
