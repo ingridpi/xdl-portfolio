@@ -94,7 +94,7 @@ class ModelVisualiser:
         ax[0].tick_params(labelbottom=True)
 
         # Format the actions_data
-        actions_data = actions_data.reset_index().melt(
+        actions_data = actions_data.reset_index(drop=True).melt(
             id_vars="date", var_name="tic", value_name="action"
         )
         actions_data.sort_values(by=["date", "tic"]).reset_index(

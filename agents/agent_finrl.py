@@ -8,6 +8,9 @@ from stable_baselines3.common.logger import configure
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from config import config
+from environments.env_stock_trading import (
+    StockTradingEnv as StockTradingEnvCustom,
+)
 
 
 class FinRLAgent:
@@ -116,7 +119,7 @@ class FinRLAgent:
 
     def test_model(
         self,
-        test_env: StockTradingEnv,
+        test_env: StockTradingEnv | StockTradingEnvCustom,
     ) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         Tests the trained DRL model.
