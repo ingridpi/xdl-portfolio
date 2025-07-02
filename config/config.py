@@ -5,6 +5,7 @@ DATA_DIR = "data"
 PLOT_DIR = "figures"
 RESULTS_DIR = "results"
 MODELS_DIR = "models"
+LOGS_DIR = "logs"
 
 TEST_NAME = "test"
 DOW_30_NAME = "dow30"

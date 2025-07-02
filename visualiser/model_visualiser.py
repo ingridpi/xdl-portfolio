@@ -19,6 +19,7 @@ class ModelVisualiser:
         x: str,
         y: List[str],
         title: List[str],
+        logs_dir: str,
         directory: str,
         filename: str,
     ) -> None:
@@ -39,7 +40,7 @@ class ModelVisualiser:
             num_variables, 1, figsize=(12, 5 * num_variables), sharex=True
         )
 
-        data = pd.read_csv(f"../{config.RESULTS_DIR}/{model_name}/progress.csv")
+        data = pd.read_csv(f"{logs_dir}/{model_name}/progress.csv")
 
         colors = sns.color_palette("husl", num_variables)
 
