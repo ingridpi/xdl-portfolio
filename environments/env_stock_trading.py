@@ -30,7 +30,28 @@ class StockTradingEnv(gym.Env):
         model_name: str = "",
         mode: str = "",
         iteration: int = 0,
+        seed: Optional[int] = None,
     ):
+        """
+        Initialises the stock trading environment.
+        :param data: DataFrame containing stock data.
+        :param stock_dimension: Number of stocks in the environment.
+        :param max_holding: Maximum number of shares that can be held for each stock.
+        :param initial_amount: Initial cash available for trading.
+        :param stock_shares: Initial shares held for each stock.
+        :param cost_pct: Transaction cost percentage per trade.
+        :param reward_scaling: Scaling factor for the reward.
+        :param state_space: Dimension of the state space.
+        :param action_space: Dimension of the action space.
+        :param tech_indicators: List of technical indicators to be used in the environment.
+        :param verbose: Verbosity level for logging.
+        :param day: Current day in the trading data.
+        :param initial: Whether the environment is being initialised for the first time.
+        :param prev_state: Previous state of the environment, if any.
+        :param model_name: Name of the model being used.
+        :param mode: Mode of the environment (e.g., training, testing).
+        :param iteration: Current iteration of the environment, if any.
+        """
         self.df = data
         self.day = day
         self.data = self.df.loc[self.day, :]
@@ -73,10 +94,19 @@ class StockTradingEnv(gym.Env):
         self.date_memory = [self.__get_date()]
 
         # Set the random seed for reproducibility
-        self._seed()
+        self._seed(seed)
 
     def __initialise_state(self) -> List[float]:
+        """
+        Initialise the state of the environment.
+        :return: State representation either initial or from previous state.
 
+        The state consists of:
+        - Index 0: Balance (initial amount)
+        - Indices 1 to stock_dimension: Close prices of all stocks
+        - Indices stock_dimension + 1 to 2 * stock_dimension + 1: Number of shares held for each stock
+        - Additional indices for technical indicators (if any)
+        """
         if self.initial:
             # State:
             # - Balance: Initial amount
@@ -89,14 +119,6 @@ class StockTradingEnv(gym.Env):
                 + self.data.close.values.tolist()
                 + self.stock_shares
             )
-            if self.tech_indicators:
-                state += sum(
-                    (
-                        self.data[indicator].values.tolist()
-                        for indicator in self.tech_indicators
-                    ),
-                    [],
-                )
         else:
             # If not initial, update from previous state
             state = (
@@ -106,14 +128,9 @@ class StockTradingEnv(gym.Env):
                     (self.stock_dimension + 1) : (2 * self.stock_dimension + 1)
                 ]
             )
-            if self.tech_indicators:
-                state += sum(
-                    (
-                        self.data[indicator].values.tolist()
-                        for indicator in self.tech_indicators
-                    ),
-                    [],
-                )
+        if self.tech_indicators:
+            for indicator in self.tech_indicators:
+                state += self.data[indicator].values.tolist()
 
         return state
 
@@ -122,7 +139,7 @@ class StockTradingEnv(gym.Env):
         Get the current date from the data.
         """
 
-        return self.data["date"].unique()[0]
+        return self.data.date.unique()[0]
 
     def __compute_asset_value(self, state: List[float]) -> float:
         """
@@ -157,15 +174,11 @@ class StockTradingEnv(gym.Env):
 
             # Compute the total reward
             total_reward = end_asset_value - self.asset_memory[0]
+            self.reward = total_reward * self.reward_scaling
+            self.rewards_memory.append(self.reward)
 
             # Store the asset values in a dataframe
-            asset_df = pd.DataFrame(
-                self.asset_memory, columns=["account_value"]
-            )
-            asset_df["date"] = self.date_memory
-            asset_df["daily_return"] = (
-                asset_df["account_value"].pct_change().fillna(0)
-            )
+            asset_df = self.save_asset_memory()
 
             # Compute the Sharpe ratio
             if asset_df["daily_return"].std() != 0:
@@ -177,7 +190,7 @@ class StockTradingEnv(gym.Env):
 
             # Compute rewards dataframe
             rewards_df = pd.DataFrame(self.rewards_memory, columns=["reward"])
-            rewards_df["date"] = self.date_memory[:-1]
+            rewards_df["date"] = self.date_memory
 
             # Print information if verbose
             if self.episode % self.verbose == 0:
@@ -247,7 +260,7 @@ class StockTradingEnv(gym.Env):
 
     def __sell_stock(self, index: int, action: int) -> float:
         """
-        Perform the sell actions for a specific stock.
+        Perform the sell actions for a specific stock, ensuring that the stock price is positive and shares are held.
         :param index: Index of the stock to sell.
         :param action: Number of shares to sell.
         :return: Number of shares sold.
@@ -292,7 +305,7 @@ class StockTradingEnv(gym.Env):
 
     def __buy_stock(self, index: int, action: int) -> float:
         """
-        Perform the buy actions for a specific stock.
+        Perform the buy actions for a specific stock, ensuring that the stock price is positive and sufficient cash is available.
         :param index: Index of the stock to buy.
         :param action: Number of shares to buy.
         :return: Number of shares bought.
@@ -345,19 +358,17 @@ class StockTradingEnv(gym.Env):
             ]
         )
         if self.tech_indicators:
-            state += sum(
-                (
-                    self.data[indicator].values.tolist()
-                    for indicator in self.tech_indicators
-                ),
-                [],
-            )
+            for indicator in self.tech_indicators:
+                state += self.data[indicator].values.tolist()
 
         return state
 
     def reset(self, *, seed=None, options=None) -> Tuple[List[float], dict]:
         """
         Resets the environment and returns a new state representation.
+        :param seed: Random seed for reproducibility.
+        :param options: Options for resetting the environment.
+        :return: Tuple containing the initial state and an empty dictionary for additional info.
         """
         self.day = 0
         self.data = self.df.loc[self.day, :]
@@ -381,12 +392,14 @@ class StockTradingEnv(gym.Env):
     def render(self, mode="human", close=False) -> List[float]:
         """
         Render the current state of the environment.
+        :param mode: The rendering mode (default is "human").
+        :param close: Whether to close the rendering window (not used in this environment).
         :return: Current state.
         """
 
         return self.state
 
-    def get_sb_env(self) -> Tuple[DummyVecEnv, VecEnvObs]:
+    def get_sb_env(self) -> Tuple[DummyVecEnv, np.ndarray | VecEnvObs]:
         """
         Get the stable-baselines environment.
         :return: Stable-baselines environment and observation space.
@@ -426,6 +439,11 @@ class StockTradingEnv(gym.Env):
         return df_actions
 
     def _seed(self, seed=None):
+        """
+        Set the random seed for the environment.
+        :param seed: Random seed for reproducibility.
+        :return: List containing the seed used.
+        """
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
