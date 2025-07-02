@@ -174,8 +174,6 @@ class StockTradingEnv(gym.Env):
 
             # Compute the total reward
             total_reward = end_asset_value - self.asset_memory[0]
-            self.reward = total_reward * self.reward_scaling
-            self.rewards_memory.append(self.reward)
 
             # Store the asset values in a dataframe
             asset_df = self.save_asset_memory()
@@ -190,7 +188,7 @@ class StockTradingEnv(gym.Env):
 
             # Compute rewards dataframe
             rewards_df = pd.DataFrame(self.rewards_memory, columns=["reward"])
-            rewards_df["date"] = self.date_memory
+            rewards_df["date"] = self.date_memory[:-1]
 
             # Print information if verbose
             if self.episode % self.verbose == 0:
