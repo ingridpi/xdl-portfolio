@@ -187,3 +187,27 @@ models/*
 # Ignore logs
 results/*/progress.csv
 results/*/*.tfevents.*
+
+# LaTeX intermediate and output files
+*.aux
+*.log
+*.out
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.blg
+*.idx
+*.nlo
+*.toc
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
+*.nls
