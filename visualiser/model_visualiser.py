@@ -30,6 +30,7 @@ class ModelVisualiser:
         :param x: The name of the x-axis variable (e.g., 'step').
         :param y: List of variable names to be plotted on the y-axis.
         :param title: List of titles for each subplot corresponding to the y variables.
+        :param logs_dir: Directory where the training logs are stored.
         :param directory: Directory where the plot will be saved.
         :param filename: Name of the file to save the plot (without extension).
         :return: None
