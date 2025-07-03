@@ -185,8 +185,7 @@ data/*.csv
 models/*
 
 # Ignore logs
-results/*/progress.csv
-results/*/*.tfevents.*
+logs/*
 
 # LaTeX intermediate and output files
 *.aux
