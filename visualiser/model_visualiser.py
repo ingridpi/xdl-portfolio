@@ -96,7 +96,7 @@ class ModelVisualiser:
         ax[0].tick_params(labelbottom=True)
 
         # Format the actions_data
-        if "data" in actions_data.columns:
+        if "date" in actions_data.columns:
             actions_data = actions_data.reset_index(drop=True).melt(
                 id_vars="date", var_name="tic", value_name="action"
             )
