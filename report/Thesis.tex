@@ -1,0 +1,123 @@
+\documentclass[]{kclthesis}
+
+\modulecode{7CCSMPRJ} 
+\submissiontitle{Individual Project Submission 2024-2025}
+\studentnumber{K24087939}
+\programme{Computational Finance M.Sc.}
+\supervisor{Riaz Ahmad}
+\wordcount{\red{Word count goes here}}
+\title{Explainable Deep Learning for Portfolio Optimisation}
+\author{Ingrid Pérez Aguilera}
+\ReleaseProject{1} 
+\department{Informatics} 
+
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{graphbox}
+\usepackage{pgfgantt}
+\usepackage{nomencl}
+\usepackage[acronym]{glossaries}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{exa}{Example}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\ind}{1\hspace{-2.1mm}{1}} %Indicator Function
+\newcommand{\I}{\mathtt{i}}
+\newcommand{\D}{\mathrm{d}}
+\newcommand{\E}{\mathrm{e}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\sgn}{\mathrm{sgn}}
+\newcommand{\atanh}{\mathrm{arctanh}}
+\def\blue#1{\textcolor{blue}{#1}}
+\def\red#1{\textcolor{red}{#1}}
+
+\setcounter{secnumdepth}{5}
+\setlength{\marginparwidth}{2cm} % Adjust marginparwidth to avoid todonotes issues
+
+\makeglossaries
+\makenomenclature
+\begin{document}
+\pagenumbering{gobble}
+
+%%%%% Cover page
+\maketitle 
+
+%%%%% Empty page
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+
+%%%%% Abstract and acknowledgements
+\include{contents/abstract}
+\include{contents/acknowledgements}
+
+%%%%% Table of contents
+\pagenumbering{roman}
+\setcounter{tocdepth}{4}
+\doublespacing
+\tableofcontents
+\newpage
+
+%%%%% List of figures
+\listoffigures
+\newpage
+
+%%%%% List of tables
+\listoftables
+\newpage
+
+%%%%% Nomenclature
+\include{contents/nomenclature}
+\printnomenclature
+\newpage
+
+%%%%% List of acronyms
+\include{contents/glossary}
+\printglossary
+\printglossary[type=\acronymtype]
+\newpage
+
+%%%%% Main content
+\pagenumbering{arabic}
+\onehalfspacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+
+%%%%%% Chapters
+
+\section{Glossaries and Acronyms Sample use}
+The \Gls{latex} typesetting markup language is specially suitable for documents that include \gls{maths}. 
+
+Given a set of numbers, there are elementary methods to compute its \acrlong{gcd}, which is abbreviated \acrshort{gcd}. This  process is similar to that used for the \acrfull{lcm} \cite{Doe11}.
+
+\include{contents/introduction}
+\include{contents/background}
+\include{contents/methodology}
+\include{contents/results}
+\include{contents/conclusion}
+
+\pagenumbering{roman}
+
+%%%%%% Bibliography
+\renewcommand{\bibname}{References}
+\bibliographystyle{ieeetr}
+\bibliography{bibliography} 
+
+%%%%%% Appendices
+\include{contents/appendix}
+
+
+\end{document}
