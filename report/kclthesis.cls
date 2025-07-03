@@ -10,7 +10,7 @@
 \DeclareOption{undreleaseproject}{\kclthesis@releaseprojectfalse\kclthesis@notreleaseprojectfalse\kclthesis@undreleaseprojecttrue}
 \ExecuteOptions{undreleaseproject}
 
-\ProcessOptions*% process options it the order the user provides them
+\ProcessOptions*% process options in the order the user provides them
 
 \LoadClass[11pt, a4paper]{report}
 
