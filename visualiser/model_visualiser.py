@@ -19,6 +19,7 @@ class ModelVisualiser:
         x: str,
         y: List[str],
         title: List[str],
+        logs_dir: str,
         directory: str,
         filename: str,
     ) -> None:
@@ -29,6 +30,7 @@ class ModelVisualiser:
         :param x: The name of the x-axis variable (e.g., 'step').
         :param y: List of variable names to be plotted on the y-axis.
         :param title: List of titles for each subplot corresponding to the y variables.
+        :param logs_dir: Directory where the training logs are stored.
         :param directory: Directory where the plot will be saved.
         :param filename: Name of the file to save the plot (without extension).
         :return: None
@@ -39,7 +41,7 @@ class ModelVisualiser:
             num_variables, 1, figsize=(12, 5 * num_variables), sharex=True
         )
 
-        data = pd.read_csv(f"../{config.RESULTS_DIR}/{model_name}/progress.csv")
+        data = pd.read_csv(f"{logs_dir}/{model_name}/progress.csv")
 
         colors = sns.color_palette("husl", num_variables)
 
@@ -94,9 +96,14 @@ class ModelVisualiser:
         ax[0].tick_params(labelbottom=True)
 
         # Format the actions_data
-        actions_data = actions_data.reset_index(drop=True).melt(
-            id_vars="date", var_name="tic", value_name="action"
-        )
+        if "date" in actions_data.columns:
+            actions_data = actions_data.reset_index(drop=True).melt(
+                id_vars="date", var_name="tic", value_name="action"
+            )
+        else:
+            actions_data = actions_data.reset_index().melt(
+                id_vars="date", var_name="tic", value_name="action"
+            )
         actions_data.sort_values(by=["date", "tic"]).reset_index(
             drop=True, inplace=True
         )

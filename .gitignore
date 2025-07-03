@@ -185,5 +185,4 @@ data/*.csv
 models/*
 
 # Ignore logs
-results/*/progress.csv
-results/*/*.tfevents.*
+logs/*
