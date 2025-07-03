@@ -14,8 +14,10 @@ class TensorboardCallback(BaseCallback):
             self.logger.record(
                 key="train/reward", value=self.locals["rewards"][0]
             )
-        except BaseException:
+        except KeyError:
             self.logger.record(
                 key="train/reward", value=self.locals["reward"][0]
             )
+        except Exception as e:
+            print(f"Error recording reward: {e}")
         return True
