@@ -6,22 +6,19 @@ from stable_baselines3.common.logger import configure
 from stable_baselines3.common.vec_env import DummyVecEnv
 
 from agents.tb_callback import TensorboardCallback
-from config import config, config_models
-from environments.env_portfolio_optimisation import PortfolioOptimisationEnv
-from environments.env_stock_trading import StockTradingEnv
+from config import config_models
 
 
 class DRLAgent:
-    def __init__(self, env: DummyVecEnv):
+    def __init__(self):
         """
-        Initialises the DRL agent with the given environment.
-        :param env: The environment for the agent.
+        Initialises the DRL agent.
         """
-        self.env = env
 
     def get_model(
         self,
         model_name: str,
+        environment: DummyVecEnv,
         directory: str,
         model_kwargs: Optional[dict] = None,
         policy: str = "MlpPolicy",
@@ -31,20 +28,27 @@ class DRLAgent:
     ) -> BaseAlgorithm:
         """
         Returns a DRL model based on the specified model name and parameters.
-        :param model_name: The name of the DRL model to be used.
-        :param directory: Directory where the tensorboard logs will be saved.
+        :param model_name: The name of the DRL model to create.
+        :param environment: The environment in which the model will be trained.
+        :param directory: The directory where the tensorboard logs will be saved.
         :param model_kwargs: Additional keyword arguments for the model.
-        :param policy: The policy to be used by the model.
+        :param policy: The policy to use for the model.
         :param policy_kwargs: Additional keyword arguments for the policy.
-        :return: A DRL model instance.
+        :param seed: Random seed for reproducibility.
+        :param verbose: Verbosity level for the model.
+        :return: An instance of the specified DRL model.
+        :raises ValueError: If the model name is not supported.
         """
+
         if model_name not in config_models.MODELS:
             raise ValueError(
-                f"Model {model_name} is not supported. Choose from {config.MODELS}."
+                f"Model {model_name} is not supported. Choose from {config_models.MODELS.keys()}."
             )
 
         if model_kwargs is None:
             model_kwargs = config_models.MODEL_KWARGS[model_name]
+
+        print(f"Model arguments: {model_kwargs}")
 
         tensorboard_log = f"{directory}/{model_name}"
 
@@ -52,7 +56,7 @@ class DRLAgent:
 
         model = config_models.MODELS[model_name](
             policy=policy,
-            env=self.env,
+            env=environment,
             verbose=verbose,
             tensorboard_log=tensorboard_log,
             seed=seed,
@@ -66,14 +70,19 @@ class DRLAgent:
 
     def train(
         self,
-        model_name: str,
-        directory: str,
+        model: BaseAlgorithm,
         tb_log_name: str,
         log_interval: int = 20,
-        total_timesteps: int = 100000,
+        total_timesteps: int = 5000,
     ) -> BaseAlgorithm:
-
-        model = self.get_model(model_name=model_name, directory=directory)
+        """
+        Trains the DRL model with the specified parameters.
+        :param model: The DRL model to train.
+        :param tb_log_name: The name for the tensorboard log.
+        :param log_interval: The interval for logging training progress.
+        :param total_timesteps: The total number of timesteps for training.
+        :return: The trained DRL model.
+        """
 
         model = model.learn(
             total_timesteps=total_timesteps,
@@ -82,63 +91,65 @@ class DRLAgent:
             callback=TensorboardCallback(),
         )
 
-        self.model = model
-
         return model
 
     def predict(
         self,
         model: BaseAlgorithm,
-        test_env: StockTradingEnv | PortfolioOptimisationEnv,
+        environment,
         deterministic: bool = True,
     ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        # Obtain state observation
-        test_env_gym, test_obs = test_env.get_sb_env()
-
-        # Outputs
+        """
+        Makes a prediction given the provided model and environment.
+        :param model: The trained DRL model.
+        :param environment: The environment in which to run the prediction.
+        :param deterministic: Whether to use deterministic actions.
+        :return: The account memory and actions memory after the prediction.
+        """
+        test_env, test_obs = environment.get_sb_env()
         account_memory = []
         actions_memory = []
 
-        test_env_gym.reset()
+        test_env.reset()
+        max_steps = len(environment.df.index.unique()) - 1
 
-        # Iterations
-        max_steps = test_env.df.index.nunique() - 1
+        for i in range(len(environment.df.index.unique())):
+            action, _ = model.predict(test_obs, deterministic=deterministic)
 
-        # Iterate over testing data
-        for i in range(max_steps):
-            # Predict action to take
-            action, _ = model.predict(test_obs, deterministic=deterministic)  # type: ignore
+            test_obs, _, dones, _ = test_env.step(action)
 
-            # Perform the predicted action
-            test_obs, _, done, _ = test_env_gym.step(action)
-
-            # Save the predictions
+            # Last step: Save account and actions memory
             if i == max_steps - 1:
-                account_memory = test_env_gym.env_method(
+                account_memory = test_env.env_method(
                     method_name="save_asset_memory"
                 )
-                actions_memory = test_env_gym.env_method(
+                actions_memory = test_env.env_method(
                     method_name="save_action_memory"
                 )
 
-            if done[0]:
+            # If the environment is done, break the loop
+            if dones[0]:
                 break
 
         return account_memory[0], actions_memory[0]
 
     def save_model(
         self,
+        model: BaseAlgorithm,
         model_name: str,
         directory: str,
         filename: str,
     ):
         """
-        Saves the trained DRL model.
-        :param model: The DRL model to be saved.
-        :param directory: Directory where the model will be saved.
-        :param filename: Name of the file to save the model.
+        Saves the trained model to a specified directory.
+        :param model: The trained DRL model.
+        :param model_name: The name of the model.
+        :param directory: The directory where the model will be saved.
+        :param filename: The filename for the saved model.
         """
-        self.model.save(f"{directory}/{filename}_{model_name}")
+        model_path = f"{directory}/{filename}_{model_name}"
+        model.save(model_path)
+        print(f"Model saved to {model_path}")
 
     def load_model(
         self,
@@ -147,18 +158,22 @@ class DRLAgent:
         filename: str,
     ) -> BaseAlgorithm:
         """
-        Loads a trained DRL model.
-        :param model_name: The name of the DRL model to be loaded.
-        :param directory: Directory where the model is saved.
-        :param filename: Name of the file to load the model from.
+        Loads a trained model from a specified directory.
+        :param model_name: The name of the model to load.
+        :param directory: The directory where the model is saved.
+        :param filename: The filename of the saved model.
         :return: The loaded DRL model.
         :raises ValueError: If the model name is not supported.
         """
-        if model_name not in config_models.MODELS:
-            raise ValueError(f"Model {model_name} is not supported.")
+        model_path = f"{directory}/{filename}_{model_name}"
 
-        model = config_models.MODELS[model_name].load(
-            f"{directory}/{filename}_{model_name}"
-        )
-        self.model = model
+        if model_name not in config_models.MODELS:
+            raise ValueError(
+                f"Model {model_name} is not supported. Choose from {config_models.MODELS.keys()}."
+            )
+
+        model = config_models.MODELS[model_name].load(model_path)
+
+        print(f"Model successfully loaded from {model_path}")
+
         return model
