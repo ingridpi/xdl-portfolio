@@ -51,6 +51,7 @@ class StockTradingEnv(gym.Env):
         :param model_name: Name of the model being used.
         :param mode: Mode of the environment (e.g., training, testing).
         :param iteration: Current iteration of the environment, if any.
+        :param seed: Random seed for reproducibility.
         """
         self.df = data
         self.day = day
