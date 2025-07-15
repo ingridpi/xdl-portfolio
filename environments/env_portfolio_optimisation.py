@@ -19,7 +19,7 @@ class PortfolioOptimisationEnv(gym.Env):
         reward_scaling: float,
         state_space: int,
         action_space: int,
-        tech_indicator_list: Optional[List[str]] = None,
+        tech_indicators: Optional[List[str]] = None,
         verbose: int = 10,
         day: int = 0,
         seed: Optional[int] = None,
@@ -32,7 +32,7 @@ class PortfolioOptimisationEnv(gym.Env):
         :param reward_scaling: Scaling factor for the reward.
         :param state_space: Dimension of the state space.
         :param action_space: Dimension of the action space.
-        :param tech_indicator_list: List of technical indicators to be used in the environment.
+        :param tech_indicators: List of technical indicators to be used in the environment.
         :param verbose: Verbosity level for logging.
         :param day: Current day in the trading data.
         :param seed: Random seed for reproducibility.
@@ -53,15 +53,13 @@ class PortfolioOptimisationEnv(gym.Env):
                 self.stock_dimension,
             ),
         )
-        self.tech_indicator_list = (
-            tech_indicator_list if tech_indicator_list else []
-        )
+        self.tech_indicators = tech_indicators if tech_indicators else []
         self.terminal = False
         self.verbose = verbose
 
         # Initialise state
         self.state = [
-            self.data[tech].values.tolist() for tech in self.tech_indicator_list
+            self.data[tech].values.tolist() for tech in self.tech_indicators
         ]
         self.portfolio_value = self.initial_amount
         self.weights = [1 / self.stock_dimension] * self.stock_dimension
@@ -129,8 +127,7 @@ class PortfolioOptimisationEnv(gym.Env):
             self.day += 1
             self.data = self.df.loc[self.day, :]
             self.state = [
-                self.data[tech].values.tolist()
-                for tech in self.tech_indicator_list
+                self.data[tech].values.tolist() for tech in self.tech_indicators
             ]
 
             # Retrieve current day's prices
@@ -174,7 +171,7 @@ class PortfolioOptimisationEnv(gym.Env):
         self.day = 0
         self.data = self.df.loc[self.day, :]
         self.state = [
-            self.data[tech].values.tolist() for tech in self.tech_indicator_list
+            self.data[tech].values.tolist() for tech in self.tech_indicators
         ]
         self.portfolio_value = self.initial_amount
 
