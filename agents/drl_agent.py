@@ -73,7 +73,7 @@ class DRLAgent:
         model: BaseAlgorithm,
         tb_log_name: str,
         log_interval: int = 20,
-        total_timesteps: int = 5000,
+        total_timesteps: int = 100000,
     ) -> BaseAlgorithm:
         """
         Trains the DRL model with the specified parameters.
