@@ -138,6 +138,7 @@ class StockTradingEnv(gym.Env):
     def __get_date(self) -> datetime:
         """
         Get the current date from the data.
+        :return: Current date.
         """
 
         return self.data.date.unique()[0]
