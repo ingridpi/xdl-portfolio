@@ -7,6 +7,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 
 from agents.tb_callback import TensorboardCallback
 from config import config, config_models
+from environments.env_portfolio_optimisation import PortfolioOptimisationEnv
 from environments.env_stock_trading import StockTradingEnv
 
 
@@ -31,6 +32,7 @@ class DRLAgent:
         """
         Returns a DRL model based on the specified model name and parameters.
         :param model_name: The name of the DRL model to be used.
+        :param directory: Directory where the tensorboard logs will be saved.
         :param model_kwargs: Additional keyword arguments for the model.
         :param policy: The policy to be used by the model.
         :param policy_kwargs: Additional keyword arguments for the policy.
@@ -87,7 +89,7 @@ class DRLAgent:
     def predict(
         self,
         model: BaseAlgorithm,
-        test_env: StockTradingEnv,
+        test_env: StockTradingEnv | PortfolioOptimisationEnv,
         deterministic: bool = True,
     ) -> Tuple[pd.DataFrame, pd.DataFrame]:
         # Obtain state observation
@@ -99,22 +101,25 @@ class DRLAgent:
 
         test_env_gym.reset()
 
+        # Iterations
+        max_steps = test_env.df.index.nunique() - 1
+
         # Iterate over testing data
-        for i in range(test_env.df.index.nunique()):
+        for i in range(max_steps):
             # Predict action to take
             action, _ = model.predict(test_obs, deterministic=deterministic)  # type: ignore
 
+            # Perform the predicted action
+            test_obs, _, done, _ = test_env_gym.step(action)
+
             # Save the predictions
-            if i == test_env.df.index.nunique() - 1:
+            if i == max_steps - 1:
                 account_memory = test_env_gym.env_method(
                     method_name="save_asset_memory"
                 )
                 actions_memory = test_env_gym.env_method(
                     method_name="save_action_memory"
                 )
-
-            # Perform the predicted action
-            test_obs, _, done, _ = test_env_gym.step(action)
 
             if done[0]:
                 break
