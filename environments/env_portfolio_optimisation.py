@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import List, Optional, Tuple
+
 import gymnasium as gym
 import numpy as np
 import pandas as pd
@@ -10,118 +13,150 @@ from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs
 class PortfolioOptimisationEnv(gym.Env):
     def __init__(
         self,
-        df,
-        stock_dimension,
-        initial_amount,
-        reward_scaling,
-        state_space,
-        action_space,
-        tech_indicator_list,
-        day=0,
+        data: pd.DataFrame,
+        stock_dimension: int,
+        initial_amount: float,
+        reward_scaling: float,
+        state_space: int,
+        action_space: int,
+        tech_indicator_list: Optional[List[str]] = None,
+        verbose: int = 10,
+        day: int = 0,
+        seed: Optional[int] = None,
     ):
-        self.df = df
+        """
+        Initialise the portfolio optimisation environment.
+        :param data: DataFrame containing stock data.
+        :param stock_dimension: Number of stocks in the environment.
+        :param initial_amount: Initial cash available for portfolio allocation.
+        :param reward_scaling: Scaling factor for the reward.
+        :param state_space: Dimension of the state space.
+        :param action_space: Dimension of the action space.
+        :param tech_indicator_list: List of technical indicators to be used in the environment.
+        :param verbose: Verbosity level for logging.
+        :param day: Current day in the trading data.
+        :param seed: Random seed for reproducibility.
+        """
+        self.df = data
         self.day = day
         self.data = self.df.loc[self.day, :]
-        self.stock_dim = stock_dimension
+        self.stock_dimension = stock_dimension
         self.initial_amount = initial_amount
         self.reward_scaling = reward_scaling
-
         self.state_space = state_space
-        # action_space normalization and shape is self.stock_dim
         self.action_space = spaces.Box(low=0, high=1, shape=(action_space,))
-
         self.observation_space = spaces.Box(
             low=-np.inf,
             high=np.inf,
             shape=(
                 self.state_space,
-                self.stock_dim,
+                self.stock_dimension,
             ),
         )
-        self.tech_indicator_list = tech_indicator_list
+        self.tech_indicator_list = (
+            tech_indicator_list if tech_indicator_list else []
+        )
+        self.terminal = False
+        self.verbose = verbose
 
-        # load data from a pandas dataframe
+        # Initialise state
         self.state = [
             self.data[tech].values.tolist() for tech in self.tech_indicator_list
         ]
-        self.terminal = False
-        # initalize state: inital portfolio return + individual stock return + individual weights
         self.portfolio_value = self.initial_amount
+        self.weights = [1 / self.stock_dimension] * self.stock_dimension
 
-        # memorize portfolio value each step
-        self.asset_memory = [self.initial_amount]
-        # memorize portfolio return each step
-        self.portfolio_return_memory = [0]
-        self.actions_memory = [[1 / self.stock_dim] * self.stock_dim]
-        self.date_memory = [self.data.date.unique()[0]]
+        # Initialise reward
+        self.reward = 0.0
+
+        # Initialise counter variables
         self.episode = 0
 
-    def step(self, actions):
-        # print(self.day)
+        # Initialise memory variables
+        self.asset_memory = [self.initial_amount]
+        self.rewards_memory = [self.reward]
+        self.return_memory = [0]
+        self.actions_memory = [self.weights]
+        self.date_memory = [self.__get_date()]
+
+        # Set the random seed for reproducibility
+        self._seed(seed)
+
+    def __get_date(self) -> datetime:
+        """
+        Get the current date from the data.
+        :return: Current date.
+        """
+
+        return self.data.date.unique()[0]
+
+    def step(self, actions: np.ndarray) -> Tuple[List, float, bool, bool, dict]:
+        """
+        Execute one time step within the environment.
+        :param actions: List of actions to take for each stock.
+        :return: Tuple containing the next state, reward, done flag, truncated flag, and additional info.
+        """
         self.terminal = self.day >= len(self.df.index.unique()) - 1
-        # print(actions)
 
         if self.terminal:
-            print("=================================")
-            print(f"begin_total_asset:{self.asset_memory[0]}")
-            print(f"end_total_asset:{self.portfolio_value}")
+            df_return = pd.DataFrame(self.return_memory)
+            df_return.columns = ["daily_return"]
 
-            df_daily_return = pd.DataFrame(self.portfolio_return_memory)
-            df_daily_return.columns = ["daily_return"]
-            if df_daily_return["daily_return"].std() != 0:
-                sharpe = (
-                    (252**0.5)
-                    * df_daily_return["daily_return"].mean()
-                    / df_daily_return["daily_return"].std()
-                )
-                print("Sharpe: ", sharpe)
-            print("=================================")
-
-            return self.state, self.reward, self.terminal, False, {}
+            # Print information if verbose
+            if self.episode % self.verbose == 0:
+                print("=================================")
+                print(f"day: {self.day}, episode: {self.episode}")
+                print(f"begin_total_asset:{self.asset_memory[0]:.2f}")
+                print(f"end_total_asset:{self.portfolio_value:.2f}")
+                if df_return["daily_return"].std() != 0:
+                    sharpe = (
+                        (252**0.5)
+                        * df_return["daily_return"].mean()
+                        / df_return["daily_return"].std()
+                    )
+                    print(f"sharpe_ratio: {sharpe:.2f}")
+                print("=================================")
 
         else:
-            # print("Model actions: ",actions)
-            # actions are the portfolio weight
-            # normalize to sum of 1
-            # if (np.array(actions) - np.array(actions).min()).sum() != 0:
-            #  norm_actions = (np.array(actions) - np.array(actions).min()) /
-            #                   (np.array(actions) - np.array(actions).min()).sum()
-            # else:
-            #  norm_actions = actions
-            weights = self.softmax_normalization(actions)
-            # print("Normalized actions: ", weights)
-            self.actions_memory.append(weights)
-            last_day_memory = self.data.close.values
+            # Normalise actions
+            weights = self.__normalise_actions(actions)
+            self.actions_memory.append(weights.tolist())
 
-            # load next state
+            # Retrieve previous day's prices
+            prev_prices = np.array(self.data.close.values)
+
+            # Update the state with the new actions
             self.day += 1
             self.data = self.df.loc[self.day, :]
-            current_day_memory = self.data.close.values
             self.state = [
                 self.data[tech].values.tolist()
                 for tech in self.tech_indicator_list
             ]
-            # print(self.state)
-            # calcualte portfolio return
-            # individual stocks' return * weight
 
+            # Retrieve current day's prices
+            curr_prices = np.array(self.data.close.values)
+
+            # Compute the portfolio returns
             portfolio_return = np.dot(
-                ((current_day_memory / last_day_memory) - 1), weights
+                ((curr_prices / prev_prices) - 1), weights
             )
-            # update portfolio value
+
+            # Update portfolio value
             new_portfolio_value = self.portfolio_value * (1 + portfolio_return)
             self.portfolio_value = new_portfolio_value
 
-            # save into memory
-            self.portfolio_return_memory.append(portfolio_return)
-            self.date_memory.append(self.data.date.unique()[0])
+            # Update the reward
+            self.reward = new_portfolio_value
+            self.rewards_memory.append(self.reward)
+            self.reward *= self.reward_scaling
+
+            # Update the memory
+            self.return_memory.append(portfolio_return)
+            self.date_memory.append(self.__get_date())
             self.asset_memory.append(new_portfolio_value)
 
-            # the reward is the new portfolio value or end portfolo value
-            self.reward = new_portfolio_value
-            # print("Step reward: ", self.reward)
-            # self.reward = self.reward * self.reward_scaling
-
+        # The fourth element in the tuple is always False for this environment
+        # Corresponds to whether the environment is truncated or not
         return self.state, self.reward, self.terminal, False, {}
 
     def reset(
@@ -129,7 +164,13 @@ class PortfolioOptimisationEnv(gym.Env):
         *,
         seed=None,
         options=None,
-    ):
+    ) -> Tuple[List, dict]:
+        """
+        Resets the environment and returns a new state representation.
+        :param seed: Random seed for reproducibility.
+        :param options: Options for resetting the environment.
+        :return: Tuple containing the initial state and an empty dictionary for additional info.
+        """
         self.day = 0
         self.data = self.df.loc[self.day, :]
         self.state = [
@@ -138,47 +179,76 @@ class PortfolioOptimisationEnv(gym.Env):
         self.portfolio_value = self.initial_amount
 
         self.terminal = False
+
+        self.weights = [1 / self.stock_dimension] * self.stock_dimension
         self.asset_memory = [self.initial_amount]
-        self.portfolio_return_memory = [0]
-        self.actions_memory = [[1 / self.stock_dim] * self.stock_dim]
-        self.date_memory = [self.data.date.unique()[0]]
+        self.return_memory = [0]
+        self.rewards_memory = [0.0]
+        self.actions_memory = [self.weights]
+        self.date_memory = [self.__get_date()]
+
         self.episode += 1
+
         return self.state, {}
 
-    def render(self, mode="human"):
+    def render(self, mode: str = "human", close=False) -> List:
+        """
+        Render the current state of the environment.
+        :param mode: The rendering mode (default is "human").
+        :param close: Whether to close the rendering window (not used in this environment).
+        :return: Current state.
+        """
         return self.state
 
-    def softmax_normalization(self, actions):
-        numerator = np.exp(actions)
-        denominator = np.sum(np.exp(actions))
-        softmax_output = numerator / denominator
-        return softmax_output
+    def __normalise_actions(self, actions: np.ndarray) -> np.ndarray:
+        """
+        Apply softmax normalisation to the actions.
+        :param actions: Actions to be normalised.
+        :return: Normalised actions using softmax.
+        """
+        return np.exp(actions) / np.sum(np.exp(actions))
 
-    def save_asset_memory(self):
-        date_list = self.date_memory
-        portfolio_return = self.portfolio_return_memory
-        df_account_value = pd.DataFrame(
-            {"date": date_list, "daily_return": portfolio_return}
+    def save_asset_memory(self) -> pd.DataFrame:
+        """
+        Returns a DataFrame containing the asset memory.
+        :return: DataFrame with asset memory.
+        """
+        df_asset = pd.DataFrame(
+            {"date": self.date_memory, "account_value": self.asset_memory}
         )
-        return df_account_value
+        df_asset["daily_return"] = (
+            df_asset["account_value"].pct_change().fillna(0)
+        )
 
-    def save_action_memory(self):
-        # date and close price length must match actions length
-        date_list = self.date_memory
-        df_date = pd.DataFrame(date_list)
-        df_date.columns = ["date"]
+        return df_asset
 
-        action_list = self.actions_memory
-        df_actions = pd.DataFrame(action_list)
-        df_actions.columns = self.data.tic.values
-        df_actions.index = df_date.date  # type: ignore
+    def save_action_memory(self) -> pd.DataFrame:
+        """
+        Returns a DataFrame containing the action memory.
+        :return: DataFrame with actions memory.
+        """
+        df_actions = pd.DataFrame(
+            self.actions_memory,
+            columns=self.data.tic.values,
+        )
+        df_actions["date"] = self.date_memory
+
         return df_actions
 
-    def _seed(self, seed=None):
+    def _seed(self, seed: Optional[int] = None) -> List[int]:
+        """
+        Set the random seed for the environment.
+        :param seed: Random seed for reproducibility.
+        :return: List containing the seed used.
+        """
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def get_sb_env(self):
+    def get_sb_env(self) -> Tuple[DummyVecEnv, VecEnvObs]:
+        """
+        Get the stable-baselines environment.
+        :return: Stable-baselines environment and observation space.
+        """
         e = DummyVecEnv([lambda: self])
         obs = e.reset()
         return e, obs
