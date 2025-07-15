@@ -249,3 +249,68 @@ class PortfolioOptimisationEnv(gym.Env):
         e = DummyVecEnv([lambda: self])
         obs = e.reset()
         return e, obs
+
+
+class PortfolioOptimisationEnvWrapper:
+    def __init__(
+        self,
+        train_data: pd.DataFrame,
+        trade_data: pd.DataFrame,
+        indicators: Optional[List[str]] = None,
+        initial_cash: float = 1000000,
+        reward_scaling: float = 1e-1,
+    ):
+        """
+        Initialises the trading environment.
+        :param train_data: DataFrame containing training data.
+        :param trade_data: DataFrame containing trading data.
+        :param indicators: List of technical indicators to be used in the environment.
+        :param transaction_cost: Transaction cost per trade.
+        :param initial_cash: Initial cash available for trading.
+        :param max_shares: Maximum number of shares that can be held.
+        :param reward_scaling: Scaling factor for the reward.
+        """
+        self.stock_dim = train_data.tic.nunique()
+        self.state_space = 0
+        if indicators:
+            self.state_space += len(indicators)
+        else:
+            indicators = []
+
+        self.train_data = train_data
+        self.trade_data = trade_data
+
+        self.env_args = {
+            "initial_amount": initial_cash,
+            "state_space": self.state_space,
+            "stock_dimension": self.stock_dim,
+            "action_space": self.stock_dim,
+            "reward_scaling": reward_scaling,
+            "tech_indicators": indicators,
+        }
+
+        print(
+            f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
+        )
+
+    def get_train_env(self) -> DummyVecEnv:
+        """
+        Creates and returns the training environment.
+        :return: Training environment instance.
+        """
+        self.train_env = PortfolioOptimisationEnv(
+            data=self.train_data, **self.env_args
+        )
+        return self.train_env.get_sb_env()[0]
+
+    def get_trade_env(
+        self,
+    ) -> tuple[PortfolioOptimisationEnv, tuple[DummyVecEnv, VecEnvObs]]:
+        """
+        Creates and returns the trading environment.
+        :return: Trading environment instance and its stable-baselines environment.
+        """
+        self.trade_env = PortfolioOptimisationEnv(
+            data=self.trade_data, **self.env_args
+        )
+        return self.trade_env, self.trade_env.get_sb_env()
