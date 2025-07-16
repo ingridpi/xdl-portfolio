@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Literal, Optional, Tuple
 
 import pandas as pd
 from stable_baselines3.common.base_class import BaseAlgorithm
@@ -20,6 +20,7 @@ class DRLAgent:
         model_name: str,
         environment: DummyVecEnv,
         directory: str,
+        use_case: Literal["stock_trading", "portfolio_optimisation"],
         model_kwargs: Optional[dict] = None,
         policy: str = "MlpPolicy",
         policy_kwargs: Optional[dict] = None,
@@ -46,7 +47,10 @@ class DRLAgent:
             )
 
         if model_kwargs is None:
-            model_kwargs = config_models.MODEL_KWARGS[model_name]
+            if use_case == "stock_trading":
+                model_kwargs = config_models.MODEL_KWARGS_STOCK[model_name]
+            elif use_case == "portfolio_optimisation":
+                model_kwargs = config_models.MODEL_KWARGS_PORTFOLIO[model_name]
 
         print(f"Model arguments: {model_kwargs}")
 
