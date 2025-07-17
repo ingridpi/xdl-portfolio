@@ -438,7 +438,7 @@ class StockTradingEnv(gym.Env):
 
         return df_actions
 
-    def _seed(self, seed=None):
+    def _seed(self, seed: Optional[int] = None) -> List[int]:
         """
         Set the random seed for the environment.
         :param seed: Random seed for reproducibility.

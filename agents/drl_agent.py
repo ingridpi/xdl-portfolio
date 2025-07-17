@@ -169,13 +169,13 @@ class DRLAgent:
         :return: The loaded DRL model.
         :raises ValueError: If the model name is not supported.
         """
-        model_path = f"{directory}/{filename}_{model_name}"
 
         if model_name not in config_models.MODELS:
             raise ValueError(
                 f"Model {model_name} is not supported. Choose from {config_models.MODELS.keys()}."
             )
 
+        model_path = f"{directory}/{filename}_{model_name}"
         model = config_models.MODELS[model_name].load(model_path)
 
         print(f"Model successfully loaded from {model_path}")
