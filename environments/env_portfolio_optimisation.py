@@ -9,6 +9,8 @@ from gymnasium.utils import seeding
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs
 
+from config import config
+
 
 class PortfolioOptimisationEnv(gym.Env):
     def __init__(
@@ -258,7 +260,7 @@ class PortfolioOptimisationEnvWrapper:
         train_data: pd.DataFrame,
         trade_data: pd.DataFrame,
         indicators: Optional[List[str]] = None,
-        initial_cash: float = 1000000,
+        initial_amount: float = config.INITIAL_AMOUNT,
         reward_scaling: float = 1e-1,
     ):
         """
@@ -266,7 +268,7 @@ class PortfolioOptimisationEnvWrapper:
         :param train_data: DataFrame containing training data.
         :param trade_data: DataFrame containing trading data.
         :param indicators: List of technical indicators to be used in the environment.
-        :param initial_cash: Initial cash available for trading.
+        :param initial_amount: Initial cash available for trading.
         :param reward_scaling: Scaling factor for the reward.
         """
         self.stock_dim = train_data.tic.nunique()
@@ -280,7 +282,7 @@ class PortfolioOptimisationEnvWrapper:
         self.trade_data = trade_data
 
         self.env_args = {
-            "initial_amount": initial_cash,
+            "initial_amount": initial_amount,
             "state_space": self.state_space,
             "stock_dimension": self.stock_dim,
             "action_space": self.stock_dim,

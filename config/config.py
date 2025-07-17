@@ -7,6 +7,8 @@ RESULTS_DIR = "results"
 MODELS_DIR = "models"
 LOGS_DIR = "logs"
 
+INITIAL_AMOUNT = 1000000  # Initial capital for the portfolio
+
 TEST_NAME = "test"
 DOW_30_NAME = "dow30"
 EURO_STOXX_50_NAME = "eurostoxx50"

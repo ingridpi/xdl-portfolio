@@ -62,7 +62,7 @@ class PortfolioBenchmark:
     def optimise_portfolio(
         self,
         strategy: Literal["mean", "min", "momentum", "equal"],
-        initial_capital: int = 100000,
+        initial_amount: int = config.INITIAL_AMOUNT,
     ) -> pd.DataFrame:
         """
         Optimises the portfolio depending on the specified strategy:
@@ -71,7 +71,7 @@ class PortfolioBenchmark:
         - 'momentum': Momentum-based strategy
         - 'equal': Equal weight strategy
         :param strategy: Type of optimisation
-        :param initial_capital: Initial capital for the portfolio, default is 100000.
+        :param initial_amount: Initial capital for the portfolio, default is 100000.
         :return: DataFrame with date, account_value, and daily_return columns.
         """
         # Pivot data: date as index, tics as columns
@@ -85,8 +85,8 @@ class PortfolioBenchmark:
         # Initialise memory
         weights_record = {}
         portfolio_returns = [0.0]
-        portfolio_values = [initial_capital]
-        portfolio_value = initial_capital
+        portfolio_values = [initial_amount]
+        portfolio_value = initial_amount
 
         dates = returns_df.index
 
