@@ -191,6 +191,11 @@ class PortfolioBenchmark:
         return ef.clean_weights()
 
     def compute_perf_stats(self, df_account: pd.DataFrame) -> pd.Series:
+        """
+        Computes performance statistics for the portfolio using PyFolio.
+        :param df_account: DataFrame containing account values with 'date', 'account_value', and 'daily_return' columns.
+        :return: Series containing performance statistics.
+        """
         pf_returns = convert_daily_return_to_pyfolio_ts(df_account)
         perf_stats_alg = timeseries.perf_stats(
             returns=pf_returns,
