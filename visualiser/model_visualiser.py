@@ -4,8 +4,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from config import config
-
 
 class ModelVisualiser:
     def __init__(

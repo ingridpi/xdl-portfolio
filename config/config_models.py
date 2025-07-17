@@ -9,8 +9,8 @@ MODELS = {
     "sac": SAC,
 }
 
-# Training parameters for each model
-MODEL_KWARGS = {
+# Training parameters for stock trading task
+MODEL_KWARGS_STOCK = {
     "a2c": {
         "n_steps": 5,
         "ent_coef": 0.01,
@@ -40,6 +40,39 @@ MODEL_KWARGS = {
         "ent_coef": "auto_0.1",
     },
 }
+
+# Training parameters for portfolio optimisation task
+MODEL_KWARGS_PORTFOLIO = {
+    "a2c": {
+        "n_steps": 10,
+        "ent_coef": 0.005,
+        "learning_rate": 0.0004,
+    },
+    "ppo": {
+        "n_steps": 2048,
+        "ent_coef": 0.005,
+        "learning_rate": 0.001,
+        "batch_size": 128,
+    },
+    "ddpg": {
+        "batch_size": 128,
+        "buffer_size": 50000,
+        "learning_rate": 0.001,
+    },
+    "td3": {
+        "batch_size": 100,
+        "buffer_size": 1000000,
+        "learning_rate": 0.001,
+    },
+    "sac": {
+        "batch_size": 128,
+        "buffer_size": 1000000,
+        "learning_rate": 0.0003,
+        "learning_starts": 100,
+        "ent_coef": "auto_0.1",
+    },
+}
+
 
 # Training visualisation config
 train_visualisation_config = {

@@ -51,6 +51,7 @@ class StockTradingEnv(gym.Env):
         :param model_name: Name of the model being used.
         :param mode: Mode of the environment (e.g., training, testing).
         :param iteration: Current iteration of the environment, if any.
+        :param seed: Random seed for reproducibility.
         """
         self.df = data
         self.day = day
@@ -137,6 +138,7 @@ class StockTradingEnv(gym.Env):
     def __get_date(self) -> datetime:
         """
         Get the current date from the data.
+        :return: Current date.
         """
 
         return self.data.date.unique()[0]
@@ -436,7 +438,7 @@ class StockTradingEnv(gym.Env):
 
         return df_actions
 
-    def _seed(self, seed=None):
+    def _seed(self, seed: Optional[int] = None) -> List[int]:
         """
         Set the random seed for the environment.
         :param seed: Random seed for reproducibility.
