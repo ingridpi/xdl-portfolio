@@ -3,6 +3,8 @@ from finrl.meta.env_stock_trading.env_stocktrading import StockTradingEnv
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs
 
+from config import config
+
 
 class FinRLTradingEnv:
     def __init__(
@@ -11,7 +13,7 @@ class FinRLTradingEnv:
         trade_data: pd.DataFrame,
         indicators: list,
         transaction_cost: float = 0.001,
-        initial_cash: float = 1000000,
+        initial_amount: float = config.INITIAL_AMOUNT,
         max_shares: int = 100,
         reward_scaling: float = 1e-4,
     ):
@@ -21,7 +23,7 @@ class FinRLTradingEnv:
         :param trade_data: DataFrame containing trading data.
         :param indicators: List of technical indicators to be used in the environment.
         :param transaction_cost: Transaction cost per trade.
-        :param initial_cash: Initial cash available for trading.
+        :param initial_amount: Initial amount available for trading.
         :param max_shares: Maximum number of shares that can be held.
         :param reward_scaling: Scaling factor for the reward.
         """
@@ -41,7 +43,7 @@ class FinRLTradingEnv:
 
         self.env_args = {
             "hmax": max_shares,
-            "initial_amount": initial_cash,
+            "initial_amount": initial_amount,
             "num_stock_shares": init_shares,
             "buy_cost_pct": cost_list,
             "sell_cost_pct": cost_list,
