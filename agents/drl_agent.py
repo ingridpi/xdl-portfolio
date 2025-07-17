@@ -115,12 +115,10 @@ class DRLAgent:
         actions_memory = []
 
         test_env.reset()
-        max_steps = len(environment.df.index.unique()) - 1
+        max_steps = environment.df.index.nunique()
 
-        for i in range(len(environment.df.index.unique())):
+        for i in range(max_steps):
             action, _ = model.predict(test_obs, deterministic=deterministic)
-
-            test_obs, _, dones, _ = test_env.step(action)
 
             # Last step: Save account and actions memory
             if i == max_steps - 1:
@@ -130,6 +128,8 @@ class DRLAgent:
                 actions_memory = test_env.env_method(
                     method_name="save_action_memory"
                 )
+
+            test_obs, _, dones, _ = test_env.step(action)
 
             # If the environment is done, break the loop
             if dones[0]:
