@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import gymnasium as gym
 import numpy as np
@@ -88,7 +88,7 @@ class PortfolioOptimisationEnv(gym.Env):
 
         return self.data.date.unique()[0]
 
-    def step(self, actions: np.ndarray) -> Tuple[List, float, bool, bool, dict]:
+    def step(self, actions: np.ndarray) -> Tuple[List, float, bool, bool, Dict]:
         """
         Execute one time step within the environment.
         :param actions: List of actions to take for each stock.
@@ -161,7 +161,7 @@ class PortfolioOptimisationEnv(gym.Env):
         *,
         seed=None,
         options=None,
-    ) -> Tuple[List, dict]:
+    ) -> Tuple[List, Dict]:
         """
         Resets the environment and returns a new state representation.
         :param seed: Random seed for reproducibility.
@@ -203,7 +203,8 @@ class PortfolioOptimisationEnv(gym.Env):
         :param actions: Actions to be normalised.
         :return: Normalised actions using softmax.
         """
-        return np.exp(actions) / np.sum(np.exp(actions))
+        exp_actions = np.exp(actions)
+        return exp_actions / np.sum(exp_actions)
 
     def save_asset_memory(self) -> pd.DataFrame:
         """
@@ -265,9 +266,7 @@ class PortfolioOptimisationEnvWrapper:
         :param train_data: DataFrame containing training data.
         :param trade_data: DataFrame containing trading data.
         :param indicators: List of technical indicators to be used in the environment.
-        :param transaction_cost: Transaction cost per trade.
         :param initial_cash: Initial cash available for trading.
-        :param max_shares: Maximum number of shares that can be held.
         :param reward_scaling: Scaling factor for the reward.
         """
         self.stock_dim = train_data.tic.nunique()
@@ -305,7 +304,7 @@ class PortfolioOptimisationEnvWrapper:
 
     def get_trade_env(
         self,
-    ) -> tuple[PortfolioOptimisationEnv, tuple[DummyVecEnv, VecEnvObs]]:
+    ) -> Tuple[PortfolioOptimisationEnv, Tuple[DummyVecEnv, VecEnvObs]]:
         """
         Creates and returns the trading environment.
         :return: Trading environment instance and its stable-baselines environment.
