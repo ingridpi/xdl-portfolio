@@ -35,9 +35,7 @@ class PortfolioBenchmark:
         if test_start not in data["date"].values:
             print("Test start date is not a trading date in the dataset.")
             next_date = test_start
-            max_lookahead = 5  # Maximum number of days to look ahead
-            lookahead = 1
-            while lookahead <= max_lookahead:
+            for lookahead in range(1, 6):
                 next_date = test_start + pd.Timedelta(days=lookahead)
                 if next_date in data["date"].values:
                     print(
@@ -45,7 +43,6 @@ class PortfolioBenchmark:
                     )
                     test_start = next_date
                     break
-                lookahead += 1
             else:
                 raise ValueError(
                     "No available trading date found after the test start date."
