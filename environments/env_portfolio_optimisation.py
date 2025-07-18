@@ -216,8 +216,13 @@ class PortfolioOptimisationEnv(gym.Env):
         :param strategy: Normalisation strategy to use.
         :return: Normalised actions.
         """
-        if strategy == "sum" and np.sum(actions) != 0:
-            return actions / np.sum(actions)
+        if strategy == "sum":
+            total_sum = np.sum(actions)
+            if total_sum != 0:
+                return actions / total_sum
+            else:
+                # Explicitly handle zero-sum case by returning uniform distribution
+                return np.ones_like(actions) / len(actions)
         else:
             exp_actions = np.exp(actions)
             return exp_actions / np.sum(exp_actions)
