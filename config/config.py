@@ -1,3 +1,5 @@
+from config import config_indicators
+
 START_DATE = "2016-01-01"
 END_DATE = "2025-07-01"
 
@@ -30,3 +32,17 @@ USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
 
 MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]
+
+# Environment representation columns
+ENVIRONMENT_COLUMNS = [
+    "open",
+    "high",
+    "low",
+    "close",
+]
+
+if USE_TECHNICAL_INDICATORS:
+    ENVIRONMENT_COLUMNS += list(config_indicators.TECHNICAL_INDICATORS.keys())
+
+if USE_MACROECONOMIC_INDICATORS:
+    ENVIRONMENT_COLUMNS += ["vix"]  # Volatility Index (VIX)
