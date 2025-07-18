@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple
 
 import gymnasium as gym
 import numpy as np
@@ -22,6 +22,7 @@ class PortfolioOptimisationEnv(gym.Env):
         state_space: int,
         action_space: int,
         state_columns: List[str],
+        normalisation_strategy: Literal["sum", "softmax"],
         verbose: int = 10,
         day: int = 0,
         seed: Optional[int] = None,
@@ -35,6 +36,7 @@ class PortfolioOptimisationEnv(gym.Env):
         :param state_space: Dimension of the state space.
         :param action_space: Dimension of the action space.
         :param state_columns: List of columns in the dataframe to represent the state space.
+        :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
         :param verbose: Verbosity level for logging.
         :param day: Current day in the trading data.
         :param seed: Random seed for reproducibility.
@@ -58,6 +60,7 @@ class PortfolioOptimisationEnv(gym.Env):
         self.state_columns = state_columns
         self.terminal = False
         self.verbose = verbose
+        self.normalisation_strategy = normalisation_strategy
 
         # Initialise state
         self.state = self.__get_state()
@@ -124,7 +127,9 @@ class PortfolioOptimisationEnv(gym.Env):
 
         else:
             # Normalise actions
-            weights = self.__normalise_actions(actions)
+            weights = self.__normalise_actions(
+                actions, self.normalisation_strategy  # type: ignore
+            )
             self.actions_memory.append(weights.tolist())
 
             # Retrieve previous day's prices
@@ -200,14 +205,22 @@ class PortfolioOptimisationEnv(gym.Env):
         """
         return self.state
 
-    def __normalise_actions(self, actions: np.ndarray) -> np.ndarray:
+    def __normalise_actions(
+        self,
+        actions: np.ndarray,
+        strategy: Literal["sum", "softmax"],
+    ) -> np.ndarray:
         """
-        Apply softmax normalisation to the actions.
+        Apply normalisation to the actions.
         :param actions: Actions to be normalised.
-        :return: Normalised actions using softmax.
+        :param strategy: Normalisation strategy to use.
+        :return: Normalised actions.
         """
-        exp_actions = np.exp(actions)
-        return exp_actions / np.sum(exp_actions)
+        if strategy == "sum" and np.sum(actions) != 0:
+            return actions / np.sum(actions)
+        else:
+            exp_actions = np.exp(actions)
+            return exp_actions / np.sum(exp_actions)
 
     def save_asset_memory(self) -> pd.DataFrame:
         """
@@ -263,6 +276,7 @@ class PortfolioOptimisationEnvWrapper:
         state_columns: List[str] = ["close"],
         initial_amount: float = config.INITIAL_AMOUNT,
         reward_scaling: float = 1e-1,
+        normalisation_strategy: Literal["sum", "softmax"] = "softmax",
     ):
         """
         Initialises the trading environment.
@@ -271,6 +285,7 @@ class PortfolioOptimisationEnvWrapper:
         :param state_columns: List of columns to represent the state space.
         :param initial_amount: Initial cash available for trading.
         :param reward_scaling: Scaling factor for the reward.
+        :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
         """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = len(state_columns)
@@ -284,6 +299,7 @@ class PortfolioOptimisationEnvWrapper:
             "action_space": self.stock_dim,
             "reward_scaling": reward_scaling,
             "state_columns": state_columns,
+            "normalisation_strategy": normalisation_strategy,
         }
 
         print(
