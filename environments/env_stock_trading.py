@@ -17,19 +17,13 @@ class StockTradingEnv(gym.Env):
         stock_dimension: int,
         max_holding: int,
         initial_amount: float,
-        stock_shares: List[int],
         cost_pct: float,
         reward_scaling: float,
         state_space: int,
         action_space: int,
-        tech_indicators: Optional[List[str]],
+        state_columns: List[str],
         verbose: int = 10,
         day: int = 0,
-        initial: bool = True,
-        prev_state: Optional[List[float]] = None,
-        model_name: str = "",
-        mode: str = "",
-        iteration: int = 0,
         seed: Optional[int] = None,
     ):
         """
@@ -38,19 +32,13 @@ class StockTradingEnv(gym.Env):
         :param stock_dimension: Number of stocks in the environment.
         :param max_holding: Maximum number of shares that can be held for each stock.
         :param initial_amount: Initial cash available for trading.
-        :param stock_shares: Initial shares held for each stock.
         :param cost_pct: Transaction cost percentage per trade.
         :param reward_scaling: Scaling factor for the reward.
         :param state_space: Dimension of the state space.
         :param action_space: Dimension of the action space.
-        :param tech_indicators: List of technical indicators to be used in the environment.
+        :param state_columns: List of columns in the dataframe to represent the state space.
         :param verbose: Verbosity level for logging.
         :param day: Current day in the trading data.
-        :param initial: Whether the environment is being initialised for the first time.
-        :param prev_state: Previous state of the environment, if any.
-        :param model_name: Name of the model being used.
-        :param mode: Mode of the environment (e.g., training, testing).
-        :param iteration: Current iteration of the environment, if any.
         :param seed: Random seed for reproducibility.
         """
         self.df = data
@@ -59,7 +47,6 @@ class StockTradingEnv(gym.Env):
         self.stock_dimension = stock_dimension
         self.max_holding = max_holding
         self.initial_amount = initial_amount
-        self.stock_shares = stock_shares
         self.cost_pct = cost_pct
         self.reward_scaling = reward_scaling
         self.state_space = state_space
@@ -67,17 +54,13 @@ class StockTradingEnv(gym.Env):
         self.observation_space = spaces.Box(
             low=-float("inf"), high=float("inf"), shape=(state_space,)
         )
-        self.tech_indicators = tech_indicators if tech_indicators else []
-        self.initial = initial
+        self.state_columns = state_columns
+
         self.terminal = False
         self.verbose = verbose
-        self.prev_state = prev_state if prev_state is not None else []
-        self.model_name = model_name
-        self.mode = mode
-        self.iteration = iteration
 
-        # Initialise state
-        self.state = self.__initialise_state()
+        self.balance = initial_amount
+        self.state = self.__get_state()
 
         # Initialise reward
         self.reward = 0.0
@@ -97,41 +80,23 @@ class StockTradingEnv(gym.Env):
         # Set the random seed for reproducibility
         self._seed(seed)
 
-    def __initialise_state(self) -> List[float]:
+    def __get_state(self) -> List[float]:
         """
-        Initialise the state of the environment.
-        :return: State representation either initial or from previous state.
-
-        The state consists of:
-        - Index 0: Balance (initial amount)
-        - Indices 1 to stock_dimension: Close prices of all stocks
-        - Indices stock_dimension + 1 to 2 * stock_dimension + 1: Number of shares held for each stock
-        - Additional indices for technical indicators (if any)
+        Retrieve the current state representation from the data.
+        :return: Current state as a list of values for each column in state_columns.
         """
-        if self.initial:
-            # State:
-            # - Balance: Initial amount
-            # - Close prices of all stocks
-            # - Number of shares held for each stock
-            # - Technical indicators (if any)
 
-            state = (
-                [self.initial_amount]
-                + self.data.close.values.tolist()
-                + self.stock_shares
-            )
+        state = [self.balance] + self.data.close.values.tolist()
+
+        if self.balance == self.initial_amount:
+            state += [0] * self.stock_dimension
         else:
-            # If not initial, update from previous state
-            state = (
-                [self.prev_state[0]]
-                + self.data.close.values.tolist()
-                + self.prev_state[
-                    (self.stock_dimension + 1) : (2 * self.stock_dimension + 1)
-                ]
-            )
-        if self.tech_indicators:
-            for indicator in self.tech_indicators:
-                state += self.data[indicator].values.tolist()
+            state += self.state[
+                (self.stock_dimension + 1) : (2 * self.stock_dimension + 1)
+            ]
+
+        for column in self.state_columns:
+            state += self.data[column].values.tolist()
 
         return state
 
@@ -239,7 +204,7 @@ class StockTradingEnv(gym.Env):
             self.day += 1
             self.data = self.df.loc[self.day, :]
 
-            self.state = self.__update_state()
+            self.state = self.__get_state()
 
             # Compute the new asset value
             end_asset_value = self.__compute_asset_value(self.state)
@@ -282,7 +247,7 @@ class StockTradingEnv(gym.Env):
                 )
 
                 # Update balance
-                self.state[0] += sell_revenue
+                self.balance += sell_revenue
 
                 # Update the number of shares held
                 self.state[index + self.stock_dimension + 1] -= shares_to_sell
@@ -318,7 +283,7 @@ class StockTradingEnv(gym.Env):
             share_buy_cost = self.state[index + 1] * (1 + self.cost_pct)
 
             # Compute the maximum number of shares that can be bought
-            max_shares = self.state[0] // share_buy_cost
+            max_shares = self.balance // share_buy_cost
 
             # Number of shares to buy: Minimum between the predicted action and the maximum shares that can be bought
             shares_to_buy = min(abs(action), max_shares)
@@ -329,7 +294,7 @@ class StockTradingEnv(gym.Env):
             )
 
             # Update balance
-            self.state[0] -= buy_cost
+            self.balance -= buy_cost
 
             # Update the number of shares held
             self.state[index + self.stock_dimension + 1] += shares_to_buy
@@ -344,25 +309,6 @@ class StockTradingEnv(gym.Env):
 
         return shares_to_buy
 
-    def __update_state(self) -> List[float]:
-        """
-        Update the state of the environment after taking actions.
-        :return: Updated state.
-        """
-
-        state = (
-            [self.state[0]]
-            + self.data.close.values.tolist()
-            + self.state[
-                (self.stock_dimension + 1) : (2 * self.stock_dimension + 1)
-            ]
-        )
-        if self.tech_indicators:
-            for indicator in self.tech_indicators:
-                state += self.data[indicator].values.tolist()
-
-        return state
-
     def reset(self, *, seed=None, options=None) -> Tuple[List[float], dict]:
         """
         Resets the environment and returns a new state representation.
@@ -372,7 +318,8 @@ class StockTradingEnv(gym.Env):
         """
         self.day = 0
         self.data = self.df.loc[self.day, :]
-        self.state = self.__initialise_state()
+        self.balance = self.initial_amount
+        self.state = self.__get_state()
 
         self.asset_memory = [self.__compute_asset_value(self.state)]
 
@@ -453,7 +400,7 @@ class StockTradingEnvWrapper:
         self,
         train_data: pd.DataFrame,
         trade_data: pd.DataFrame,
-        indicators: Optional[List[str]] = None,
+        state_columns: List[str],
         transaction_cost: float = 0.001,
         initial_cash: float = 1000000,
         max_shares: int = 100,
@@ -463,7 +410,7 @@ class StockTradingEnvWrapper:
         Initialises the trading environment.
         :param train_data: DataFrame containing training data.
         :param trade_data: DataFrame containing trading data.
-        :param indicators: List of technical indicators to be used in the environment.
+        :param state_columns: List of columns to be used as state representation.
         :param transaction_cost: Transaction cost per trade.
         :param initial_cash: Initial cash available for trading.
         :param max_shares: Maximum number of shares that can be held.
@@ -471,28 +418,24 @@ class StockTradingEnvWrapper:
         """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = 1 + 2 * self.stock_dim
-        if indicators:
-            self.state_space += len(indicators) * self.stock_dim
-        else:
-            indicators = []
+        try:
+            state_columns.remove("close")
+        except ValueError:
+            pass
+        self.state_space += len(state_columns) * self.stock_dim
 
         self.train_data = train_data
         self.trade_data = trade_data
 
-        # Initial shares
-        init_shares = [0] * self.stock_dim
-
         self.env_args = {
             "max_holding": max_shares,
             "initial_amount": initial_cash,
-            "stock_shares": init_shares,
             "cost_pct": transaction_cost,
             "state_space": self.state_space,
             "stock_dimension": self.stock_dim,
             "action_space": self.stock_dim,
             "reward_scaling": reward_scaling,
-            "tech_indicators": indicators,
-            "initial": True,
+            "state_columns": state_columns,
         }
 
         print(
