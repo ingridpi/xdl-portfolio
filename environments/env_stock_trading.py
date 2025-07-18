@@ -418,10 +418,9 @@ class StockTradingEnvWrapper:
         """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = 1 + 2 * self.stock_dim
-        try:
+        # Remove "close" from state_columns if it exists, as it is not needed for state representation.
+        if "close" in state_columns:
             state_columns.remove("close")
-        except ValueError:
-            pass
         self.state_space += len(state_columns) * self.stock_dim
 
         self.train_data = train_data
