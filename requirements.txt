@@ -1,0 +1,10 @@
+exchange_calendars==4.11
+gymnasium==1.1.1
+matplotlib==3.10.3
+numpy==2.3.1
+pandas==2.3.1
+seaborn==0.13.2
+stable-baselines3==2.6.0 
+stockstats==0.6.5
+tensorboard==2.20.0
+yfinance==0.2.65
