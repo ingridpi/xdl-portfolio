@@ -1,5 +1,7 @@
+from config import config_indicators
+
 START_DATE = "2016-01-01"
-END_DATE = "2025-01-01"
+END_DATE = "2025-07-01"
 
 DATA_DIR = "data"
 PLOT_DIR = "figures"
@@ -21,12 +23,26 @@ EXCHANGE_NYSE = "XNYS"  # New York Stock Exchange
 EXCHANGE_LSE = "XLON"  # London Stock Exchange
 EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
 
-TRAIN_START_DATE = "2016-01-01"
+TRAIN_START_DATE = START_DATE
 TRAIN_END_DATE = "2023-12-31"
 TEST_START_DATE = "2024-01-01"
-TEST_END_DATE = "2024-12-31"
+TEST_END_DATE = END_DATE
 
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
 
 MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]
+
+# Environment representation columns
+ENVIRONMENT_COLUMNS = [
+    "open",
+    "high",
+    "low",
+    "close",
+]
+
+if USE_TECHNICAL_INDICATORS:
+    ENVIRONMENT_COLUMNS += list(config_indicators.TECHNICAL_INDICATORS.keys())
+
+if USE_MACROECONOMIC_INDICATORS:
+    ENVIRONMENT_COLUMNS += ["vix"]  # Volatility Index (VIX)

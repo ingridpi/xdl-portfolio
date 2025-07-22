@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple
 
 import gymnasium as gym
 import numpy as np
@@ -21,7 +21,8 @@ class PortfolioOptimisationEnv(gym.Env):
         reward_scaling: float,
         state_space: int,
         action_space: int,
-        tech_indicators: Optional[List[str]] = None,
+        state_columns: List[str],
+        normalisation_strategy: Literal["sum", "softmax"],
         verbose: int = 10,
         day: int = 0,
         seed: Optional[int] = None,
@@ -34,7 +35,8 @@ class PortfolioOptimisationEnv(gym.Env):
         :param reward_scaling: Scaling factor for the reward.
         :param state_space: Dimension of the state space.
         :param action_space: Dimension of the action space.
-        :param tech_indicators: List of technical indicators to be used in the environment.
+        :param state_columns: List of columns in the dataframe to represent the state space.
+        :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
         :param verbose: Verbosity level for logging.
         :param day: Current day in the trading data.
         :param seed: Random seed for reproducibility.
@@ -55,14 +57,13 @@ class PortfolioOptimisationEnv(gym.Env):
                 self.stock_dimension,
             ),
         )
-        self.tech_indicators = tech_indicators if tech_indicators else []
+        self.state_columns = state_columns
         self.terminal = False
         self.verbose = verbose
+        self.normalisation_strategy = normalisation_strategy
 
         # Initialise state
-        self.state = [
-            self.data[tech].values.tolist() for tech in self.tech_indicators
-        ]
+        self.state = self.__get_state()
         self.portfolio_value = self.initial_amount
         self.weights = [1 / self.stock_dimension] * self.stock_dimension
 
@@ -81,6 +82,13 @@ class PortfolioOptimisationEnv(gym.Env):
 
         # Set the random seed for reproducibility
         self._seed(seed)
+
+    def __get_state(self) -> List:
+        """
+        Get the current state representation from the data.
+        :return: Current state as a list of values for each column in state_columns.
+        """
+        return [self.data[col].values.tolist() for col in self.state_columns]
 
     def __get_date(self) -> datetime:
         """
@@ -119,7 +127,9 @@ class PortfolioOptimisationEnv(gym.Env):
 
         else:
             # Normalise actions
-            weights = self.__normalise_actions(actions)
+            weights = self.__normalise_actions(
+                actions, self.normalisation_strategy  # type: ignore
+            )
             self.actions_memory.append(weights.tolist())
 
             # Retrieve previous day's prices
@@ -128,9 +138,7 @@ class PortfolioOptimisationEnv(gym.Env):
             # Update the state with the new actions
             self.day += 1
             self.data = self.df.loc[self.day, :]
-            self.state = [
-                self.data[tech].values.tolist() for tech in self.tech_indicators
-            ]
+            self.state = self.__get_state()
 
             # Retrieve current day's prices
             curr_prices = np.array(self.data.close.values)
@@ -172,9 +180,7 @@ class PortfolioOptimisationEnv(gym.Env):
         """
         self.day = 0
         self.data = self.df.loc[self.day, :]
-        self.state = [
-            self.data[tech].values.tolist() for tech in self.tech_indicators
-        ]
+        self.state = self.__get_state()
         self.portfolio_value = self.initial_amount
 
         self.terminal = False
@@ -199,14 +205,27 @@ class PortfolioOptimisationEnv(gym.Env):
         """
         return self.state
 
-    def __normalise_actions(self, actions: np.ndarray) -> np.ndarray:
+    def __normalise_actions(
+        self,
+        actions: np.ndarray,
+        strategy: Literal["sum", "softmax"],
+    ) -> np.ndarray:
         """
-        Apply softmax normalisation to the actions.
+        Apply normalisation to the actions.
         :param actions: Actions to be normalised.
-        :return: Normalised actions using softmax.
+        :param strategy: Normalisation strategy to use.
+        :return: Normalised actions.
         """
-        exp_actions = np.exp(actions)
-        return exp_actions / np.sum(exp_actions)
+        if strategy == "sum":
+            total_sum = np.sum(actions)
+            if total_sum != 0:
+                return actions / total_sum
+            else:
+                # Explicitly handle zero-sum case by returning uniform distribution
+                return np.ones_like(actions) / len(actions)
+        else:
+            exp_actions = np.exp(actions)
+            return exp_actions / np.sum(exp_actions)
 
     def save_asset_memory(self) -> pd.DataFrame:
         """
@@ -259,25 +278,22 @@ class PortfolioOptimisationEnvWrapper:
         self,
         train_data: pd.DataFrame,
         trade_data: pd.DataFrame,
-        indicators: Optional[List[str]] = None,
+        state_columns: List[str] = ["close"],
         initial_amount: float = config.INITIAL_AMOUNT,
         reward_scaling: float = 1e-1,
+        normalisation_strategy: Literal["sum", "softmax"] = "softmax",
     ):
         """
         Initialises the trading environment.
         :param train_data: DataFrame containing training data.
         :param trade_data: DataFrame containing trading data.
-        :param indicators: List of technical indicators to be used in the environment.
+        :param state_columns: List of columns to represent the state space.
         :param initial_amount: Initial cash available for trading.
         :param reward_scaling: Scaling factor for the reward.
+        :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
         """
         self.stock_dim = train_data.tic.nunique()
-        self.state_space = 0
-        if indicators:
-            self.state_space += len(indicators)
-        else:
-            indicators = []
-
+        self.state_space = len(state_columns)
         self.train_data = train_data
         self.trade_data = trade_data
 
@@ -287,7 +303,8 @@ class PortfolioOptimisationEnvWrapper:
             "stock_dimension": self.stock_dim,
             "action_space": self.stock_dim,
             "reward_scaling": reward_scaling,
-            "tech_indicators": indicators,
+            "state_columns": state_columns,
+            "normalisation_strategy": normalisation_strategy,
         }
 
         print(
