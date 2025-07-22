@@ -1,7 +1,7 @@
 [project]
 name = "xdl-portfolio"
 version = "0.1.0"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 
 description = "Explainable Deep Learning for Portfolio Optimisation"
 authors = [
@@ -21,7 +21,7 @@ license-files = ["LICENSE"]
 line-length = 80
 skip-string-normalization = false
 skip-magic-trailing-comma = false
-target-version = ['py313']
+target-version = ['py312']
 
 [tool.isort]
 profile = "black"
