@@ -98,10 +98,10 @@ class PortfolioOptimisationEnv(gym.Env):
 
         return self.data.date.unique()[0]
 
-    def step(self, actions: np.ndarray) -> Tuple[List, float, bool, bool, Dict]:
+    def step(self, action: np.ndarray) -> Tuple[List, float, bool, bool, Dict]:
         """
         Execute one time step within the environment.
-        :param actions: List of actions to take for each stock.
+        :param action: List of actions to take for each stock.
         :return: Tuple containing the next state, reward, done flag, truncated flag, and additional info.
         """
         self.terminal = self.day >= len(self.df.index.unique()) - 1
@@ -128,7 +128,7 @@ class PortfolioOptimisationEnv(gym.Env):
         else:
             # Normalise actions
             weights = self.__normalise_actions(
-                actions, self.normalisation_strategy  # type: ignore
+                action, self.normalisation_strategy  # type: ignore
             )
             self.actions_memory.append(weights.tolist())
 
