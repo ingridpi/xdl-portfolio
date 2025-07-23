@@ -22,9 +22,8 @@ class PortfolioBenchmark:
         df_returns = df_account.copy()
 
         df_returns["date"] = pd.to_datetime(df_returns["date"])
-        df_returns.set_index("date", drop=False, inplace=True)
+        df_returns.set_index("date", drop=True, inplace=True)
         df_returns.index = df_returns.index.tz_localize("UTC")  # type: ignore
-        df_returns.drop(columns=["date"], inplace=True)
         return pd.Series(
             df_returns["daily_return"].values, index=df_returns.index
         )
