@@ -3,7 +3,7 @@
 ## Metadata
 
 - **University**: [King's College London](https://www.kcl.ac.uk)
-- **Master's Programme**: [MSc in Computational Finance](https://www.kcl.ac.uk/study/postgraduate-taught/courses/computational-finance-msc)
+- **Master's Programme**: [M.Sc. in Computational Finance](https://www.kcl.ac.uk/study/postgraduate-taught/courses/computational-finance-msc)
 - **Student**: Ingrid Pérez Aguilera
 - **Supervisor**: [Riaz Ahmad](https://www.cqf.com/why-cqf/lecturers/our-faculty/dr-riaz-ahmad)
 
