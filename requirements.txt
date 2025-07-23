@@ -1,11 +1,13 @@
 exchange_calendars==4.11
 gymnasium==1.1.1
+ipywidgets==8.1.7
 matplotlib==3.10.3
-numpy==2.3.1
+numpy==2.2.6
 pandas==2.3.1
 pyfolio-reloaded==0.9.9
 pyportfolioopt==1.5.6
 seaborn==0.13.2
+shap==0.48.0
 stable-baselines3==2.6.0 
 stockstats==0.6.5
 tensorboard==2.20.0
