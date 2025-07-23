@@ -1,4 +1,4 @@
-from config import config_indicators
+from config import config_indicators, config_tickers
 
 START_DATE = "2016-01-01"
 END_DATE = "2025-07-01"
@@ -46,3 +46,8 @@ if USE_TECHNICAL_INDICATORS:
 
 if USE_MACROECONOMIC_INDICATORS:
     ENVIRONMENT_COLUMNS += ["vix"]  # Volatility Index (VIX)
+
+# Tickers configurations
+TICKERS = config_tickers.TEST_TICKERS
+TICKERS_NAME = TEST_NAME
+EXCHANGE = EXCHANGE_NYSE

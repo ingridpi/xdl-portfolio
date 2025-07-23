@@ -1,7 +1,6 @@
 from typing import Dict, Literal
 
 import pandas as pd
-from finrl.plot import convert_daily_return_to_pyfolio_ts
 from pyfolio import timeseries
 from pypfopt import EfficientFrontier, expected_returns, risk_models
 
@@ -14,6 +13,20 @@ class PortfolioBenchmark:
         Initialise the PortfolioBenchmark class.
         """
         pass
+
+    def convert_daily_return(
+        self,
+        df_account: pd.DataFrame,
+    ) -> pd.Series:
+
+        df_returns = df_account.copy()
+
+        df_returns["date"] = pd.to_datetime(df_returns["date"])
+        df_returns.set_index("date", drop=True, inplace=True)
+        df_returns.index = df_returns.index.tz_localize("UTC")  # type: ignore
+        return pd.Series(
+            df_returns["daily_return"].values, index=df_returns.index
+        )
 
     def set_data(
         self,
@@ -196,7 +209,7 @@ class PortfolioBenchmark:
         :param df_account: DataFrame containing account values with 'date', 'account_value', and 'daily_return' columns.
         :return: Series containing performance statistics.
         """
-        pf_returns = convert_daily_return_to_pyfolio_ts(df_account)
+        pf_returns = self.convert_daily_return(df_account)
         perf_stats_alg = timeseries.perf_stats(
             returns=pf_returns,
             factor_returns=pf_returns,
