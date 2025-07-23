@@ -101,10 +101,10 @@ class ShapExplainer:
             best_model = grid_search.best_estimator_
         else:
             best_model = RandomForestRegressor(
-                n_estimators=100,
-                max_depth=20,
+                n_estimators=200,
+                max_depth=0,
                 min_samples_split=5,
-                min_samples_leaf=2,
+                min_samples_leaf=4,
             )
             best_model.fit(X_train, y_train)
 
