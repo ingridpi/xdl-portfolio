@@ -102,7 +102,7 @@ class ShapExplainer:
         else:
             best_model = RandomForestRegressor(
                 n_estimators=200,
-                max_depth=0,
+                max_depth=10,
                 min_samples_split=5,
                 min_samples_leaf=4,
             )
