@@ -1,14 +1,111 @@
-\newglossaryentry{latex}
+\newglossaryentry{financialmarkets}
 {
-    name=latex,
-    description={Is a markup language specially suited 
-    for scientific documents}
+    name=Financial Markets,
+    text={financial markets},
+    description={Marketplaces where people trade financial securities, commodities, and other fungible items of value at low transaction costs and at prices that reflect supply and demand}
+}
+\newglossaryentry{algorithmictrading}
+{
+    name=Algorithmic Trading,
+    text={algorithmic trading},
+    description={Use of computer algorithms to automate trading decisions and execute trades in financial markets}
+}
+\newglossaryentry{machinelearning}
+{
+    name=Machine Learning,
+    description={Subset of artificial intelligence that enables systems to learn from data and improve their performance over time without being explicitly programmed}
+}
+\newglossaryentry{deeplearning}
+{
+    name=Deep Learning,
+    description={Subset of machine learning that uses neural networks with many layers to learn from large amounts of data, enabling the model to automatically learn complex patterns and representations}
+}
+\newglossaryentry{reinforcementlearning}
+{
+    name=Reinforcement Learning,
+    description={Subset of machine learning where an agent learns to make decisions by taking actions in an environment to maximise cumulative reward}
+}
+\newglossaryentry{deepreinforcementlearning}
+{
+    name=Deep Reinforcement Learning,
+    description={Combination of deep learning and reinforcement learning, where deep neural networks are used to approximate the value function or policy in reinforcement learning tasks}
+}
+\newglossaryentry{artificialintelligence}
+{
+    name=Artificial Intelligence,
+    description={Simulation of human intelligence processes by machines, especially computer systems, enabling them to perform tasks that typically require human intelligence, such as visual perception, speech recognition, decision-making, and language translation}
+}
+\newglossaryentry{explainableai}
+{
+    name=Explainable Artificial Intelligence,
+    description={Methods and techniques in the application of artificial intelligence that make the results of the models understandable by humans, providing insights into how decisions are made}
+}
+\newglossaryentry{portfoliooptimisation}
+{
+    name=Portfolio Optimisation,
+    text={portfolio optimisation},
+    description={Process of selecting the best distribution of assets in a portfolio to achieve specific investment goals, such as maximising returns or minimising risk, while considering constraints and preferences}
+}
+\newglossaryentry{advantageactorcritic}
+{
+    name=Advantage Actor-Critic,
+    description={Algorithm that uses both an actor (policy) and a critic (value function) to learn optimal policies by estimating the advantage of actions taken}
+}
+\newglossaryentry{proximalpolicyoptimization}
+{
+    name=Proximal Policy Optimization,
+    description={Algorithm that optimises policies by ensuring that updates to the policy are not too large, maintaining a balance between exploration and exploitation}
+}
+\newglossaryentry{deepdeterministicpolicygradient}
+{
+    name=Deep Deterministic Policy Gradient,
+    description={Algorithm that uses deep neural networks to learn policies for continuous action spaces, combining the benefits of deep learning and policy gradient methods}
+}
+\newglossaryentry{twindelayeddeepdeterministicpolicygradient}
+{
+    name=Twin Delayed Deep Deterministic Policy Gradient,
+    description={Extension of DDPG that addresses the overestimation bias in value function estimation by using two critic networks and delaying policy updates}
+}
+\newglossaryentry{softactorcritic}
+{
+    name=Soft Actor-Critic,
+    description={Algorithm that combines the benefits of off-policy learning and entropy regularisation, allowing for more exploration and better stability in learning policies for continuous action spaces}
+}
+\newglossaryentry{shapleyadditiveexplanations}
+{
+    name=SHapley Additive exPlanations,
+    description={Method for interpreting machine learning models by assigning each feature an importance value for a particular prediction, based on cooperative game theory}
+}
+\newglossaryentry{localinterpretablemodelagnosticexplanations}
+{
+    name=Local Interpretable Model-agnostic Explanations,
+    description={Technique for explaining the predictions of any machine learning model by approximating it with a locally interpretable model, allowing users to understand the model's behaviour in a specific instance}
+}
+\newglossaryentry{featureimportance}{
+    name=Feature Importance,
+    description={Technique for determining the contribution of each feature in a machine learning model to its predictions, helping to identify which features are most influential}
+}
+\newglossaryentry{rewardfunction}{
+    name=Reward Function,
+    text={reward function},
+    description={Function that defines the feedback signal received by an agent in reinforcement learning, guiding the agent's learning process by providing rewards or penalties based on its actions}
+}
+\newglossaryentry{hyperparameters}{
+    name=Hyper-parameter,
+    text={hyper-parameter},
+    description={Parameter that is set before the learning process begins and control the learning process of a machine learning model, such as learning rate, batch size, and number of layers in a neural network}
 }
 
-\newglossaryentry{maths}
-{
-    name=mathematics,
-    description={Mathematics is what mathematicians do}
-}
-\newacronym{gcd}{GCD}{Greatest Common Divisor}
-\newacronym{lcm}{LCM}{Least Common Multiple}
+\newacronym{dl}{DL}{\Gls{deeplearning}}
+\newacronym{ml}{ML}{\Gls{machinelearning}}
+\newacronym{rl}{RL}{\Gls{reinforcementlearning}}
+\newacronym{drl}{DRL}{\Gls{deepreinforcementlearning}}
+\newacronym{a2c}{A2C}{\Gls{advantageactorcritic}}
+\newacronym{ppo}{PPO}{\Gls{proximalpolicyoptimization}}
+\newacronym{ddpg}{DDPG}{\Gls{deepdeterministicpolicygradient}}
+\newacronym{td3}{TD3}{\Gls{twindelayeddeepdeterministicpolicygradient}}
+\newacronym{sac}{SAC}{\Gls{softactorcritic}}
+\newacronym{shap}{SHAP}{\Gls{shapleyadditiveexplanations}}
+\newacronym{lime}{LIME}{\Gls{localinterpretablemodelagnosticexplanations}}
+\newacronym{ai}{AI}{\Gls{artificialintelligence}}
+\newacronym{xai}{XAI}{\Gls{explainableai}}
