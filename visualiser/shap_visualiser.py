@@ -1,4 +1,4 @@
-from re import S
+from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -12,21 +12,21 @@ class ShapVisualiser:
     def __init__(
         self,
         shap_values: shap.Explanation,
-        shap_interaction_values: np.ndarray,
         action_space: pd.DataFrame,
         X_test: pd.DataFrame,
+        shap_interaction_values: Optional[np.ndarray] = None,
     ) -> None:
         """
         Initializes the SHAP visualiser with SHAP values and action space.
         :param shap_values: SHAP explanation object containing the SHAP values.
-        :param shap_interaction_values: SHAP interaction values for the features.
         :param action_space: DataFrame containing the action space columns.
         :param X_test: DataFrame containing the test state space data.
+        :param shap_interaction_values: SHAP interaction values for the features.
         """
         self.shap_values = shap_values
-        self.shap_interaction_values = shap_interaction_values
         self.action_space = action_space
         self.X_test = X_test
+        self.shap_interaction_values = shap_interaction_values
 
     def beeswarm_plot(
         self,
@@ -41,7 +41,12 @@ class ShapVisualiser:
         :param filename: Base filename for the saved plot.
         :return: None
         """
-        ax = shap.plots.beeswarm(self.shap_values[..., index], show=False)
+        ax = shap.plots.beeswarm(
+            self.shap_values[..., index],
+            show=False,
+            max_display=10,
+            group_remaining_features=False,
+        )
         asset = self.action_space.columns[index]
         ax.set_title(f"SHAP Beeswarm Plot for {asset}")
         plt.savefig(f"{directory}/{filename}_shap_beeswarm_{asset}.png")
@@ -60,21 +65,15 @@ class ShapVisualiser:
         :param filename: Base filename for the saved plot.
         :return: None
         """
-        shap.plots.force(
+        force_plot = shap.plots.force(
             self.shap_values[..., index],
             feature_names=self.X_test.columns,
             link="logit",
-            show=False,
         )
-        plt.show()
 
         shap.save_html(
             f"{directory}/{filename}_shap_force_{self.action_space.columns[index]}.html",
-            shap.plots.force(
-                self.shap_values[..., index],
-                feature_names=self.X_test.columns,
-                link="logit",
-            ),
+            force_plot,
         )
 
     def force_plot_single_obs(
@@ -141,8 +140,7 @@ class ShapVisualiser:
         :return: None
         """
         shap.plots.waterfall(
-            self.shap_values[obs, ..., index],
-            show=False,
+            self.shap_values[obs, ..., index], show=False, max_display=10
         )
 
         asset = self.action_space.columns[index]
@@ -165,9 +163,7 @@ class ShapVisualiser:
         :return: None
         """
         shap.plots.heatmap(
-            self.shap_values[..., index],
-            max_display=10,
-            show=False,
+            self.shap_values[..., index], max_display=10, show=False
         )
         asset = self.action_space.columns[index]
         plt.title(f"SHAP Heatmap for {asset}")
@@ -187,6 +183,9 @@ class ShapVisualiser:
         :param filename: Base filename for the saved plot.
         :return: None
         """
+        if self.shap_interaction_values is None:
+            raise ValueError("SHAP interaction values are not provided.")
+
         shap.summary_plot(
             self.shap_interaction_values[..., index], self.X_test, show=False
         )
