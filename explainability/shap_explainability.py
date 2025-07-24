@@ -1,6 +1,5 @@
-from typing import Tuple
+from typing import Callable, Tuple
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import shap
@@ -120,6 +119,18 @@ class ShapExplainer:
         :return: SHAP explainer object.
         """
         explainer = shap.TreeExplainer(model)
+        return explainer
+
+    def build_kernel_explainer(
+        self, predict_fn: Callable, X_train: pd.DataFrame
+    ) -> shap.KernelExplainer:
+        """
+        Build a Kernel SHAP explainer for the given prediction function and training data.
+        :param predict_fn: Function to predict actions based on states.
+        :param X_train: DataFrame containing the training data.
+        :return: SHAP KernelExplainer object.
+        """
+        explainer = shap.KernelExplainer(predict_fn, X_train)
         return explainer
 
     def compute_shap_values(
