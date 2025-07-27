@@ -100,7 +100,7 @@ United Kingdom
 {Name: \bf \@author}\\
 Student Number: \@studentnumber\\
 Course: \@programme \\ 
-\textbf{Supervisor}: \@supervisor
+Supervisor: \bf \@supervisor
 \end{center}
 
 \vspace{1.2cm}

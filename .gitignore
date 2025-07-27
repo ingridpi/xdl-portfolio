@@ -209,4 +209,8 @@ logs/*
 *.gls
 *.glsdefs
 *.ist
+*.ilg
 *.nls
+
+# VS Code settings
+.vscode/settings.json

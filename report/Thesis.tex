@@ -44,6 +44,7 @@
 
 \setcounter{secnumdepth}{5}
 \setlength{\marginparwidth}{2cm} % Adjust marginparwidth to avoid todonotes issues
+\renewcommand{\contentsname}{Table of Contents}
 
 \makeglossaries
 \makenomenclature
@@ -97,16 +98,13 @@
 
 
 %%%%%% Chapters
-
-\section{Glossaries and Acronyms Sample use}
-The \Gls{latex} typesetting markup language is specially suitable for documents that include \gls{maths}. 
-
-Given a set of numbers, there are elementary methods to compute its \acrlong{gcd}, which is abbreviated \acrshort{gcd}. This  process is similar to that used for the \acrfull{lcm} \cite{Doe11}.
+\doublespacing
 
 \include{contents/introduction}
 \include{contents/background}
 \include{contents/methodology}
 \include{contents/results}
+\include{contents/issues}
 \include{contents/conclusion}
 
 \pagenumbering{roman}
