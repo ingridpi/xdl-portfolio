@@ -124,6 +124,23 @@ class ShapVisualiser:
         )
         plt.show()
 
+    def force_plot_assets(
+        self,
+        obs: int,
+        directory: str,
+        filename: str,
+    ) -> None:
+        """
+        Create force plots for each asset in the portfolio.
+        :param obs: Index of the observation to plot in time.
+        :param columns: List of asset columns to plot.
+        :param directory: Directory where the plots will be saved.
+        :param filename: Base filename for the saved plots.
+        :return: None
+        """
+        for index, _ in enumerate(self.action_space.columns):
+            self.force_plot_single_obs(index, obs, directory, filename)
+
     def waterfall_plot_single_obs(
         self,
         index: int,
