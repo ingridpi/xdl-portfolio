@@ -9,12 +9,12 @@ class LimeExplainer:
         pass
 
     def build_lime_explainer(
-        self, X_train: pd.DataFrame, feature_names: list
+        self,
+        X_train: pd.DataFrame,
     ) -> LimeTabularExplainer:
         """
         Build a LIME explainer for the given training data.
         :param X_train: DataFrame containing the training data.
-        :param feature_names: List of feature names.
         :return: LIME explainer object.
         """
         explainer = LimeTabularExplainer(
@@ -30,10 +30,11 @@ class LimeExplainer:
     ) -> List:
         """
         Explain a single instance using the LIME explainer.
+        Output the explanation in a notebook and return it as a list.
         :param explainer: LIME explainer object.
         :param instance: Series representing the instance to explain.
         :param predict_fn: Function to predict actions based on states.
-        :return: Dictionary containing the explanation.
+        :return: List containing the explanation.
         """
         explanation = explainer.explain_instance(instance.values, predict_fn)
         explanation.show_in_notebook(show_table=True, show_all=False)
@@ -48,13 +49,26 @@ class LimeExplainer:
         directory: str,
         filename: str,
     ) -> None:
+        """
+        Explain the portfolio using the LIME explainer and save the explanations as HTML files.
+        :param explainer: LIME explainer object.
+        :param instance: Series representing the instance to explain.
+        :param columns: List of asset names to explain.
+        :param predict_fn: Function to predict actions based on states.
+        :param directory: Directory to save the HTML files.
+        :param filename: Base filename for the HTML files.
+        """
         # Explain each output separately
         for index, column in enumerate(columns):
             print(f"Explaining output for asset: {column}")
 
+            # Define a predict function for the specific asset
+            def predict(x):
+                return predict_fn(x)[:, index]
+
             # Explain the instance for the specific output
             exp = explainer.explain_instance(
-                instance.values, predict_fn, num_features=10
+                instance.values, predict, num_features=10
             )
 
             # Save the explanation as HTML
