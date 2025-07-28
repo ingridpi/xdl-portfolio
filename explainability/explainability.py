@@ -2,6 +2,8 @@ from typing import Tuple
 
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
+
+# https://scikit-learn.org/stable/modules/generated/sklearn.experimental.enable_halving_search_cv.html
 from sklearn.experimental import enable_halving_search_cv
 from sklearn.model_selection import HalvingGridSearchCV  # type: ignore
 from sklearn.model_selection import train_test_split
@@ -60,6 +62,10 @@ class Explainer:
     ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
         Split the state and action space data into training and testing sets.
+        :param state_space: DataFrame representing the state space.
+        :param action_space: DataFrame representing the action space.
+        :param test_size: Proportion of the dataset to include in the test split.
+        :return: Tuple containing training and testing sets for state and action spaces.
         """
         X_train, X_test, y_train, y_test = train_test_split(
             state_space, action_space, test_size=test_size, shuffle=False
