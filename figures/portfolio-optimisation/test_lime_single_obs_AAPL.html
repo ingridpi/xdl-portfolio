@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_div2GOI56JAKSBSRQV"></div>
+        <div class="lime top_div" id="top_div1AW18NU5W3V4XN1"></div>
         
         <script>
-        var top_div = d3.select('#top_div2GOI56JAKSBSRQV').classed('lime top_div', true);
+        var top_div = d3.select('#top_div1AW18NU5W3V4XN1').classed('lime top_div', true);
         
         
                     var pp_div = top_div.append('div')
                                         .classed('lime predicted_value', true);
                     var pp_svg = pp_div.append('svg').style('width', '100%');
-                    var pp = new lime.PredictedValue(pp_svg, 1.0, 0.0, 1.0);
+                    var pp = new lime.PredictedValue(pp_svg, 0.7078483700752258, 0.0, 1.0);
                     
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
             exp_div = top_div.append('div').classed('lime explanation', true);
-            exp.show([["rsi_V <= 47.05", 0.03304643983264832], ["cci_V <= -48.04", 0.02710061718534873], ["low_V > 306.55", -0.024323936755586008], ["close_5_sma_V > 308.83", -0.0233736902762612], ["atr_CSCO > 0.87", -0.023123145600179126], ["close_5_ema_MSFT <= 405.50", -0.021145481529857443], ["open_CSCO > 56.83", 0.01986513927327987], ["high_CSCO > 57.47", -0.019370281339909527], ["rsi_AAPL <= 42.25", -0.017862021046635198], ["vwma_MSFT <= 406.31", -0.017728071176702026]], 1, exp_div);
+            exp.show([["rsi_HON <= 45.18", 0.05612477563407679], ["atr_CSCO > 0.87", -0.03899201195058665], ["rsi_MSFT <= 43.38", -0.03257190799530774], ["macd_AAPL <= -1.36", 0.031952782237469474], ["cci_V <= -48.04", 0.028695541697081883], ["202.37 < open_HON <= 212.57", 0.02646510882999038], ["vwma_V > 303.40", 0.02359017623861112], ["open_MSFT <= 405.91", -0.021135787027889968], ["cci_AAPL <= -79.27", 0.020308501672894257], ["high_V > 310.15", -0.01836343745457314]], 1, exp_div);
             
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["rsi_V", "33.77", 0.03304643983264832], ["cci_V", "-135.08", 0.02710061718534873], ["low_V", "327.16", -0.024323936755586008], ["close_5_sma_V", "335.51", -0.0233736902762612], ["atr_CSCO", "1.38", -0.023123145600179126], ["close_5_ema_MSFT", "382.70", -0.021145481529857443], ["open_CSCO", "59.65", 0.01986513927327987], ["high_CSCO", "59.73", -0.019370281339909527], ["rsi_AAPL", "25.85", -0.017862021046635198], ["vwma_MSFT", "390.58", -0.017728071176702026]], 1, raw_div);
+            exp.show_raw_tabular([["rsi_HON", "41.59", 0.05612477563407679], ["atr_CSCO", "1.38", -0.03899201195058665], ["rsi_MSFT", "33.52", -0.03257190799530774], ["macd_AAPL", "-4.71", 0.031952782237469474], ["cci_V", "-135.08", 0.028695541697081883], ["open_HON", "204.61", 0.02646510882999038], ["vwma_V", "347.63", 0.02359017623861112], ["open_MSFT", "382.46", -0.021135787027889968], ["cci_AAPL", "-185.94", 0.020308501672894257], ["high_V", "335.64", -0.01836343745457314]], 1, raw_div);
         
         </script>
         </body></html>
