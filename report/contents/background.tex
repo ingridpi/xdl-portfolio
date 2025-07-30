@@ -68,9 +68,9 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 
 \section{Deep Reinforcement Learning} \label{sec:deepreinforcementlearning}
 
-\acrfull{drl} is a sub-field of \acrfull{dl} that combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics, game playing, and finance. \insertref{ADD CITATION}
+\acrfull{drl} is a sub-field of \acrfull{dl} that combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Silver2016, Shao2019}.
 
-\acrlong{ml} is a branch of \acrfull{ai} that focuses on the use of data an algorithms to imitate the way humans learn, gradually improving their accuracy over time \insertref{15}. There are three main tasks in \acrshort{ml}\insertref{16}:
+\acrlong{ml} is a branch of \acrfull{ai} that focuses on the use of data an algorithms to imitate the way humans learn, gradually improving their accuracy over time \cite{IBM2021}. There are three main tasks in \acrshort{ml} \cite{Francois-Lavet2018}:
 
 \begin{itemize}
     \item \textbf{\Gls{supervisedlearning}}: Task of inferring a classification or regression from labelled training data, where the model learns to map inputs to outputs based on examples.
@@ -80,13 +80,13 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 
 Consequently, \acrshort{rl} emerges as a framework for solving complex decision-making problems, where an agent continuously interacts with an environment, receiving observations about its states and rewards based on the actions taken. The agent's objective is to learn a policy that maximises the expected cumulative reward over time.
 
-Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning. \acrshort{dl} focuses on the use of \acrfull{dnn} \insertref{17}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
+Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning. \acrshort{dl} focuses on the use of \acrfull{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
 
 \subsection{Reinforcement Learning} \label{sec:reinforcementlearning}
 
 As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem of sequential decision-making through continuous interaction with an environment. The agent learns to take actions given a representation of the environment's state with the goal of optimising a pre-defined notion of reward. The agent learns by successively adjusting its policy based on its observations and interactions with the environment. 
 
-The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
+The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space \cite{Francois-Lavet2018}. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
 
 \begin{figure}[ht]
     \label{fig:agent_environment_interaction}
@@ -106,7 +106,7 @@ A discrete time stochastic control process can be formalised as a \acrfull{mdp},
     where $P(s_{t+1} | s_t, a_t)$ is the transition probability of moving to state $s_{t+1}$ given the current state $s_t$ and action $a_t$, and $P(r_t | s_t, a_t)$ is the reward function that defines the expected reward received at time $t$ given the current state and action.
 \end{definition}
 
-This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends on the current state $s_t$ and action $a_t$. Similarly, the reward $r_t$ at time step $t$ only depends on the current state and action and not on the history of previous states and actions. Consequently, a \acrlong{mdp} is a discrete time stochastic control process defined as:
+This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends on the current state $s_t$ and action $a_t$. Similarly, the reward $r_t$ at time step $t$ only depends on the current state and action and not on the history of previous states and actions. Consequently, a \acrlong{mdp} \cite{Bellman1957} is a discrete time stochastic control process defined as:
 
 \begin{definition}[Markov Decision Process]
     An \acrshort{mdp} is a tuple $\mathcal{M} = \left(\mathcal{S}, \mathcal{A}, T, R, \gamma\right)$, where:
@@ -167,7 +167,7 @@ The optimal policy $\pi^*$ is:
 
 As a result, the optimal policy is the greedy policy that performs the optimal actions at each time step as determined by the optimal value functions. This enables the agent to determine optimal actions that maximise long-term returns by evaluating immediate information, without requiring knowledge of the values of future states and actions.
 
-The \Gls{bellmanequations} \insertref{Bellman 1957} provide a recursive relation between the value functions in terms of the future state/action values. There are four main Bellman equations, classified in two groups: the Bellman expectation equations and the Bellman optimality equations. The Bellman expectation equations are defined as follows:
+The \Gls{bellmanequations} \cite{Bellman1957book} provide a recursive relation between the value functions in terms of the future state/action values. There are four main Bellman equations, classified in two groups: the Bellman expectation equations and the Bellman optimality equations. The Bellman expectation equations are defined as follows:
 \begin{eqnarray}
     V^\pi(s) = \sum_{a \in \mathcal{A}} \pi\left(a \mid s\right) \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma V^\pi(s')\right] \\ 
     Q^\pi(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma \sum_{a' \in \mathcal{A}} \pi\left(a' \mid s'\right) Q^\pi(s', a')\right]
