@@ -70,7 +70,7 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 
 \acrfull{drl} is a sub-field of \acrfull{dl} that combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Silver2016, Shao2019}.
 
-\acrlong{ml} is a branch of \acrfull{ai} that focuses on the use of data an algorithms to imitate the way humans learn, gradually improving their accuracy over time \cite{IBM2021}. There are three main tasks in \acrshort{ml} \cite{Francois-Lavet2018}:
+\acrlong{ml} is a branch of \acrfull{ai} that focuses on the use of data and algorithms to imitate the way humans learn, gradually improving their accuracy over time \cite{IBM2021}. There are three main tasks in \acrshort{ml} \cite{Francois-Lavet2018}:
 
 \begin{itemize}
     \item \textbf{\Gls{supervisedlearning}}: Task of inferring a classification or regression from labelled training data, where the model learns to map inputs to outputs based on examples.
@@ -80,13 +80,13 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 
 Consequently, \acrshort{rl} emerges as a framework for solving complex decision-making problems, where an agent continuously interacts with an environment, receiving observations about its states and rewards based on the actions taken. The agent's objective is to learn a policy that maximises the expected cumulative reward over time.
 
-Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning. \acrshort{dl} focuses on the use of \acrfull{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
+Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning tasks. \acrshort{dl} focuses on the use of \acrfull{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
 
 \subsection{Reinforcement Learning} \label{sec:reinforcementlearning}
 
 As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem of sequential decision-making through continuous interaction with an environment. The agent learns to take actions given a representation of the environment's state with the goal of optimising a pre-defined notion of reward. The agent learns by successively adjusting its policy based on its observations and interactions with the environment. 
 
-The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space \cite{Francois-Lavet2018}. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
+The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space \cite{Francois-Lavet2018}. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
 
 \begin{figure}[ht]
     \label{fig:agent_environment_interaction}
@@ -129,11 +129,15 @@ At each time step, the probability of advancing to the next state $s_{t+1}$ is g
     \caption{Markov Decision Process with policy, transition, and reward functions}
 \end{figure}
 
-The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions, in order to maximise the expected cumulative reward over time. In the case of a stochastic policy, it describes the probability that action $a_t$ is taken in state $s_t$. 
+The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions, in order to maximise the expected cumulative reward over time. Policies can be categorised as:
+\begin{itemize}
+    \item deterministic: $\pi(s) : \mathcal{S} \to \mathcal{A}$, at a given state $s$, the policy specifies the only available action to take, or
+    \item stochastic: $\pi(s, a) : \mathcal{S} \times \mathcal{A} \to [0, 1]$, at a given state $s$, the policy specifies the probability of taking action $a$.
+\end{itemize}
 
 \acrlong{mdp} are based on the idea that the current state is fully representative of the environment. However, in most real world scenarios, the agent does not have access to the complete state. In such cases, \acrfull{pomdp} can be used to model the uncertainty in the agent's observations and actions.
 
-The goal of the agent is maximise the cumulative long-term reward $G_t$, which is defined as the sum of discounted rewards over time:
+The goal of the agent is to maximise the cumulative long-term reward $G_t$, which is defined as the sum of discounted rewards over time:
 \begin{equation}
     G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = r_{t+1} + \gamma G_{t+1}
 \end{equation}
@@ -179,6 +183,5 @@ and the Bellman optimality equations are defined as:
     Q^*(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma \max_{a' \in \mathcal{A}} Q^*(s', a')\right]
 \end{eqnarray}
 
-Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation. Theoretically, following the greedy action yields the optimal policy, but this is only true if the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting the current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
-
+Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting the current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
 
