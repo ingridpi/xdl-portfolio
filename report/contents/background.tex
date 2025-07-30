@@ -36,7 +36,6 @@ and the portfolio risk is quantified by the variance of returns:
     \sigma_p^2 = \mathbf{w}^T \Sigma \mathbf{w}.
 \end{equation}
 
-
 This formulation provides the foundation for solving the mean-variance optimisation problem, by either:
 \begin{itemize}
     \item minimising portfolio variance $\sigma_p^2$ subject to a target expected return $R_p$, or
@@ -58,7 +57,7 @@ The Markowitz mean-variance optimisation problem can be expressed as:
 
 Solving the mean-variance optimisation problem for varying levels of target return leads to a set of optimal portfolios that form the \gls{efficientfrontier}. It is typically visualised in a risk-return space, where the x-axis represents the risk (standard deviation) and the y-axis represents the expected return, as shown in Figure \ref{fig:efficient_frontier}. Portfolios below the curve are suboptimal, while those on the frontier represent the best achievable combinations of risk and return.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/markowitz-efficient-frontier.png}
     \caption{Efficient Frontier in Risk-Return Space. \cite{Bodie2014}}
@@ -82,4 +81,104 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 Consequently, \acrshort{rl} emerges as a framework for solving complex decision-making problems, where an agent continuously interacts with an environment, receiving observations about its states and rewards based on the actions taken. The agent's objective is to learn a policy that maximises the expected cumulative reward over time.
 
 Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning. \acrshort{dl} focuses on the use of \acrfull{dnn} \insertref{17}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
+
+\subsection{Reinforcement Learning} \label{sec:reinforcementlearning}
+
+As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem of sequential decision-making through continuous interaction with an environment. The agent learns to take actions given a representation of the environment's state with the goal of optimising a pre-defined notion of reward. The agent learns by successively adjusting its policy based on its observations and interactions with the environment. 
+
+The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
+
+\begin{figure}[ht]
+    \label{fig:agent_environment_interaction}
+    \centering
+    \input{figures/agent.tex}
+    \caption{Agent interaction with environment}
+\end{figure}
+
+A discrete time stochastic control process can be formalised as a \acrfull{mdp}, if it fulfils the Markov Property. 
+
+\begin{definition}[Markov Property]
+    A discrete time stochastic control process satisfies the Markov Property if:
+    \begin{eqnarray}
+        P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0) \\  
+        P(r_t | s_t, a_t) = P(r_t | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0)
+    \end{eqnarray}
+    where $P(s_{t+1} | s_t, a_t)$ is the transition probability of moving to state $s_{t+1}$ given the current state $s_t$ and action $a_t$, and $P(r_t | s_t, a_t)$ is the reward function that defines the expected reward received at time $t$ given the current state and action.
+\end{definition}
+
+This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends on the current state $s_t$ and action $a_t$. Similarly, the reward $r_t$ at time step $t$ only depends on the current state and action and not on the history of previous states and actions. Consequently, a \acrlong{mdp} is a discrete time stochastic control process defined as:
+
+\begin{definition}[Markov Decision Process]
+    An \acrshort{mdp} is a tuple $\mathcal{M} = \left(\mathcal{S}, \mathcal{A}, T, R, \gamma\right)$, where:
+    \begin{itemize}
+        \item $\mathcal{S}$ is the state space: $s_t \in \mathcal{S}$,
+        \item $\mathcal{A}$ is the action space: $a_t \in \mathcal{A}$,
+        \item $T: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow [0, 1]$ is the transition function,
+        \item $R: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow \mathcal{R}$ is the reward function, where $\mathcal{R} \in \left[0, R_{max}\right]$ is the set of all possible rewards bounded by $R_{max} \in \mathbb{R}^+$, and
+        \item $\gamma \in [0, 1)$ is the discount factor.
+    \end{itemize}
+    
+\end{definition}
+
+At each time step, the probability of advancing to the next state $s_{t+1}$ is given by the transition function $T(s_t, a_t, s_{t+1})$ and the reward $r_t$ is given by the reward function $R(s_t, a_t, s_{t+1})$. This can be visualised in Figure \ref{fig:mdp}.
+
+\begin{figure}[ht]
+    \label{fig:mdp}
+    \centering
+    \input{figures/mdp.tex}
+    \caption{Markov Decision Process with policy, transition, and reward functions}
+\end{figure}
+
+The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions, in order to maximise the expected cumulative reward over time. In the case of a stochastic policy, it describes the probability that action $a_t$ is taken in state $s_t$. 
+
+\acrlong{mdp} are based on the idea that the current state is fully representative of the environment. However, in most real world scenarios, the agent does not have access to the complete state. In such cases, \acrfull{pomdp} can be used to model the uncertainty in the agent's observations and actions.
+
+The goal of the agent is maximise the cumulative long-term reward $G_t$, which is defined as the sum of discounted rewards over time:
+\begin{equation}
+    G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = r_{t+1} + \gamma G_{t+1}
+\end{equation}
+where $\gamma \in [0, 1)$ is the discount factor and is used to balance the importance between immediate and future rewards. If the discount factor is set to 0, the agent is myopic and only maximises the immediate reward; whereas, as $\gamma$ approaches $1$, the agent becomes more far-sighted and places greater importance on future rewards.
+
+The expected cumulative reward is defined as the state value function $V^\pi(s): \mathcal{S} \to \mathbb{R}$, which is the expected return when starting from state $s$ and following policy $\pi$:
+\begin{equation}
+    V^\pi(s) = \mathbb{E}_\pi \left[G_t | s_t = s\right] 
+\end{equation}
+where $\mathbb{E}_\pi$ denotes the expectation over the policy $\pi$.
+
+Similarly, the state-action value function $Q^\pi(s, a): \mathcal{S} \times \mathcal{A} \to \mathbb{R}$ is defined as the expected return when starting from state $s$, taking action $a$, and then following policy $\pi$:
+\begin{equation}
+    Q^\pi(s, a) = \mathbb{E}_\pi \left[G_t | s_t = s, a_t = a\right] 
+\end{equation}
+
+The state value function $V^\pi(s)$ and the state-action value function $Q^\pi(s, a)$ are related as follows:
+\begin{equation}
+    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a | s) Q^\pi(s, a) = \mathbb{E}_\pi \left[Q^\pi(s, a) \mid s_t = s\right]
+\end{equation}
+
+A policy $\pi$ is said to be optimal if the policy's value function is the optimal value function of the \acrshort{mdp}, defined as: 
+\begin{eqnarray}
+    V^*(s) = \max_{\pi'} V^{\pi'}(s), \forall s \in \mathcal{S} \\ 
+    Q^*(s, a) = \max_{\pi'} Q^{\pi'}(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}
+\end{eqnarray}
+The optimal policy $\pi^*$ is:
+\begin{equation}
+    \pi^*(s) = \arg \max_{a\in \mathcal{A}} Q^*(s, a)
+\end{equation}
+
+As a result, the optimal policy is the greedy policy that performs the optimal actions at each time step as determined by the optimal value functions. This enables the agent to determine optimal actions that maximise long-term returns by evaluating immediate information, without requiring knowledge of the values of future states and actions.
+
+The \Gls{bellmanequations} \insertref{Bellman 1957} provide a recursive relation between the value functions in terms of the future state/action values. There are four main Bellman equations, classified in two groups: the Bellman expectation equations and the Bellman optimality equations. The Bellman expectation equations are defined as follows:
+\begin{eqnarray}
+    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi\left(a \mid s\right) \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma V^\pi(s')\right] \\ 
+    Q^\pi(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma \sum_{a' \in \mathcal{A}} \pi\left(a' \mid s'\right) Q^\pi(s', a')\right]
+\end{eqnarray}
+
+and the Bellman optimality equations are defined as:
+\begin{eqnarray}
+    V^*(s) = \max_{a \in \mathcal{A}} \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma V^*(s')\right] \\
+    Q^*(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma \max_{a' \in \mathcal{A}} Q^*(s', a')\right]
+\end{eqnarray}
+
+Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation. Theoretically, following the greedy action yields the optimal policy, but this is only true if the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting the current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
+
 
