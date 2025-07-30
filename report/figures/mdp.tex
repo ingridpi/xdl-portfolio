@@ -1,0 +1,42 @@
+\begin{tikzpicture}[->, >=stealth, node distance=2cm, every node/.style={scale=0.9}]
+    % State nodes
+    \node[circle, draw, minimum size=1cm] (s0) {$s_0$};
+    \node[circle, draw, minimum size=1cm, right=4cm of s0] (s1) {$s_1$};
+    \node[circle, draw, minimum size=1cm, right=4cm of s1] (s2) {$s_2$};
+
+    % Action nodes
+    \node[circle, draw, minimum size=1cm, below=2cm of s0] (a0) {$a_0$};
+    \node[circle, draw, minimum size=1cm, below=2cm of s1] (a1) {$a_1$};
+
+    % Reward nodes
+    \node[circle, draw, minimum size=1cm, right=2.5cm of a0] (r0) {$r_0$};
+    \node[circle, draw, minimum size=1cm, right=2.5cm of a1] (r1) {$r_1$};
+
+    % Arrows between states
+    \draw[->] (s0) -- (s1) node[midway, above] {\begin{tabular}{c}
+            Transition function \\
+            $T(s_0, a_0, s_1)$
+        \end{tabular}};
+    \draw[->] (s1) -- (s2) node[midway, above] {\begin{tabular}{c}
+            Transition function \\
+            $T(s_1, a_1, s_2)$
+        \end{tabular}};
+
+    % Policy arrows 
+    \draw[->] (s0) -- (a0) node[midway, left] {Policy};
+    \draw[->] (s1) -- (a1) node[midway, left] {Policy};
+
+    \draw[->] (a0) .. controls +(0,3.7) and +(0,3.7) .. node[midway, below, yshift=-20pt] {\begin{tabular}{c}
+            Reward function \\
+            $R(s_0, a_0, s_1)$
+        \end{tabular}} (r0);
+
+    \draw[->] (a1) .. controls +(0,3.7) and +(0,3.7) .. node[midway, below, yshift=-20pt] {\begin{tabular}{c}
+            Reward function \\
+            $R(s_1, a_1, s_2)$
+        \end{tabular}} (r1);
+
+    % Ellipsis
+    \node at ($(s2)+(1.2cm,0)$) {\large $\cdots$};
+
+\end{tikzpicture}
