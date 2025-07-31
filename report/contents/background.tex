@@ -65,22 +65,20 @@ Solving the mean-variance optimisation problem for varying levels of target retu
 \end{figure}
 
 Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do not reflect the behaviour of real markets. Moreover, modern markets are dynamic, non-stationary, and feature non-linear relationships, which have driven research into other approaches better suited to capture the complexities of modern financial markets. 
-
+ 
 \section{Deep Reinforcement Learning} \label{sec:deepreinforcementlearning}
-
-\acrfull{drl} is a sub-field of \acrfull{dl} that combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Silver2016, Shao2019}.
 
 \acrlong{ml} is a branch of \acrfull{ai} that focuses on the use of data and algorithms to imitate the way humans learn, gradually improving their accuracy over time \cite{IBM2021}. There are three main tasks in \acrshort{ml} \cite{Francois-Lavet2018}:
 
 \begin{itemize}
-    \item \textbf{\Gls{supervisedlearning}}: Task of inferring a classification or regression from labelled training data, where the model learns to map inputs to outputs based on examples.
+    \item \textbf{\Gls{supervisedlearning}}: Task of training a classification or regression model from labelled training data, where the model learns to map inputs to outputs based on examples.
     \item \textbf{\Gls{unsupervisedlearning}}: Task of drawing inferences from datasets consisting of unlabelled input data, where the model learns to identify patterns or structures in the data.
-    \item \textbf{\acrlong{rl}}: Task of training an agent to sequentially make decisions by taking actions in an environment with the goal of maximising cumulative reward, using feedback from the environment to learn.
+    \item \textbf{\acrlong{rl}}: Task of training an agent to sequentially make decisions by taking actions in an environment with the goal of maximising cumulative reward, using feedback from the environment to learn an optimal strategy.
 \end{itemize}
 
-Consequently, \acrshort{rl} emerges as a framework for solving complex decision-making problems, where an agent continuously interacts with an environment, receiving observations about its states and rewards based on the actions taken. The agent's objective is to learn a policy that maximises the expected cumulative reward over time.
+\acrlong{dl} is a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning tasks. \acrshort{dl} focuses on the use of \acrfull{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
 
-Conversely, \acrlong{dl} is not a \acrshort{ml} task, but rather a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning tasks. \acrshort{dl} focuses on the use of \acrfull{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformation that allow the model to learn a representation of the data with various levels of abstraction.
+Therefore, \acrfull{drl} combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Silver2016, Shao2019}.
 
 \subsection{Reinforcement Learning} \label{sec:reinforcementlearning}
 
@@ -169,7 +167,7 @@ The optimal policy $\pi^*$ is:
     \pi^*(s) = \arg \max_{a\in \mathcal{A}} Q^*(s, a)
 \end{equation}
 
-As a result, the optimal policy is the greedy policy that performs the optimal actions at each time step as determined by the optimal value functions. This enables the agent to determine optimal actions that maximise long-term returns by evaluating immediate information, without requiring knowledge of the values of future states and actions.
+As a result, the optimal policy is the greedy policy that performs the optimal actions at each time step as determined by the optimal value functions. This framework enables the agent to determine optimal actions that maximise long-term returns by evaluating immediate information, without requiring knowledge of the values of future states and actions.
 
 The \Gls{bellmanequations} \cite{Bellman1957book} provide a recursive relation between the value functions in terms of the future state/action values. There are four main Bellman equations, classified in two groups: the Bellman expectation equations and the Bellman optimality equations. The Bellman expectation equations are defined as follows:
 \begin{eqnarray}
@@ -183,5 +181,4 @@ and the Bellman optimality equations are defined as:
     Q^*(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a\right) + \gamma \max_{a' \in \mathcal{A}} Q^*(s', a')\right]
 \end{eqnarray}
 
-Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting the current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
-
+Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if all the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting its current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one at the current time.
