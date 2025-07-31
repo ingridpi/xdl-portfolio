@@ -182,3 +182,33 @@ and the Bellman optimality equations are defined as:
 \end{eqnarray}
 
 Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing exploration and exploitation \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if all the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting its current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one at the current time.
+
+\subsection{Deep Reinforcement Learning Algorithms} \label{sec:drlalgorithms}
+
+A \acrlong{rl} agent includes one or more of the following components \cite{Francois-Lavet2018}:
+\begin{itemize}
+    \item a representation of the value function that provides a prediction of the value of each state or state-action pair,
+    \item a direct representation of the policy $\pi$, and
+    \item a model of the environment, consisting of estimates of transition and reward functions.
+\end{itemize}
+
+Depending on the components, the main \acrlong{rl} paradigms are: 
+\begin{itemize}
+    \item \textbf{Model-free} algorithms do not learn a representation of the model, but focus on either the value function or the policy. 
+    \begin{itemize}
+        \item \textbf{Value-based} algorithms learn an approximation of the value function, which is used to compute the state or state-action values. The policy is not learn explicitly but can be derived from the value function. Examples include \acrfull{dqn} \cite{Mnih2013} and C51 \cite{Bellemare2017}. 
+        \item \textbf{Policy-based} algorithms learn a direct representation of the policy, which is used to select actions. \acrfull{a2c}, \acrfull{a3c} \cite{Mnih2016} and \acrfull{ppo} \cite{Schulman2017} are examples of policy-based algorithms.
+        \item \textbf{Actor-Critic} algorithms combine both value-based and policy-based approaches, where the actor learns the policy and the critic learns the value function. The critic provides feedback to the actor to improve the policy. The following algorithms are examples of actor-critic approaches: \acrfull{ddpg} \cite{Lillicrap2015}, \acrfull{td3} \cite{Fujimoto2018}, and \acrfull{sac} \cite{Haarnoja2018}.
+    \end{itemize}
+    \item \textbf{Model-based} algorithms include a model of the environment, which can be used to simulate future states and rewards. For example, World Models \cite{HaGoogleBrainTokyo2018} learns a model of the environment and AlphaZero \cite{Silver2017} has a representation of the model. 
+\end{itemize}
+
+The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxonomy}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/rl-taxonomy.png}
+    \caption{Taxonomy of Reinforcement Learning Algorithms \cite{Achiam2018}}
+    \label{fig:rl_taxonomy}
+\end{figure}
+
+The full potential of \acrlong{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. These thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.

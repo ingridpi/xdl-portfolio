@@ -375,3 +375,104 @@
    url = {https://www.ri.cmu.edu/publications/efficient-exploration-in-reinforcement-learning/},
    year = {1992}
 }
+@misc{Achiam2018,
+   author = {Josh Achiam},
+   title = {Part 2: Kinds of RL Algorithms},
+   url = {https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html},
+   year = {2018}
+}
+@article{Bellemare2017,
+   abstract = {In this paper we argue for the fundamental importance of the value distribution: the distribution of the random return received by a reinforcement learning agent. This is in contrast to the common approach to reinforcement learning which models the expectation of this return, or value. Although there is an established body of literature studying the value distribution, thus far it has always been used for a specific purpose such as implementing risk-aware behaviour. We begin with theoretical results in both the policy evaluation and control settings, exposing a significant distributional instability in the latter. We then use the distributional perspective to design a new algorithm which applies Bellman's equation to the learning of approximate value distributions. We evaluate our algorithm using the suite of games from the Arcade Learning Environment. We obtain both state-of-the-art results and anecdotal evidence demonstrating the importance of the value distribution in approximate reinforcement learning. Finally, we combine theoretical and empirical evidence to highlight the ways in which the value distribution impacts learning in the approximate setting.},
+   author = {Marc G. Bellemare and Will Dabney and Rémi Munos},
+   isbn = {9781510855144},
+   journal = {34th International Conference on Machine Learning, ICML 2017},
+   month = {7},
+   pages = {693-711},
+   publisher = {International Machine Learning Society (IMLS)},
+   title = {A Distributional Perspective on Reinforcement Learning},
+   volume = {1},
+   url = {https://arxiv.org/abs/1707.06887v1},
+   year = {2017}
+}
+@article{Mnih2013,
+   abstract = {We present the first deep learning model to successfully learn control policies directly from high-dimensional sensory input using reinforcement learning. The model is a convolutional neural network, trained with a variant of Q-learning, whose input is raw pixels and whose output is a value function estimating future rewards. We apply our method to seven Atari 2600 games from the Arcade Learning Environment, with no adjustment of the architecture or learning algorithm. We find that it outperforms all previous approaches on six of the games and surpasses a human expert on three of them.},
+   author = {Volodymyr Mnih and Koray Kavukcuoglu and David Silver and Alex Graves and Ioannis Antonoglou and Daan Wierstra and Martin Riedmiller},
+   month = {12},
+   title = {Playing Atari with Deep Reinforcement Learning},
+   url = {https://arxiv.org/abs/1312.5602v1},
+   year = {2013}
+}
+@article{Schulman2017,
+   abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.},
+   author = {John Schulman and Filip Wolski and Prafulla Dhariwal and Alec Radford and Oleg Klimov Openai},
+   month = {7},
+   title = {Proximal Policy Optimization Algorithms},
+   url = {https://arxiv.org/abs/1707.06347v2},
+   year = {2017}
+}
+@article{Haarnoja2018,
+   abstract = {Model-free deep reinforcement learning (RL) algorithms have been demonstrated on a range of challenging decision making and control tasks. However, these methods typically suffer from two major challenges: very high sample complexity and brittle convergence properties, which necessitate meticulous hyperparameter tuning. Both of these challenges severely limit the applicability of such methods to complex, real-world domains. In this paper, we propose soft actor-critic, an off-policy actor-critic deep RL algorithm based on the maximum entropy reinforcement learning framework. In this framework, the actor aims to maximize expected reward while also maximizing entropy. That is, to succeed at the task while acting as randomly as possible. Prior deep RL methods based on this framework have been formulated as Q-learning methods. By combining off-policy updates with a stable stochastic actor-critic formulation, our method achieves state-of-the-art performance on a range of continuous control benchmark tasks, outperforming prior on-policy and off-policy methods. Furthermore, we demonstrate that, in contrast to other off-policy algorithms, our approach is very stable, achieving very similar performance across different random seeds.},
+   author = {Tuomas Haarnoja and Aurick Zhou and Pieter Abbeel and Sergey Levine},
+   isbn = {9781510867963},
+   journal = {35th International Conference on Machine Learning, ICML 2018},
+   month = {1},
+   pages = {2976-2989},
+   publisher = {International Machine Learning Society (IMLS)},
+   title = {Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor},
+   volume = {5},
+   url = {https://arxiv.org/abs/1801.01290v2},
+   year = {2018}
+}
+@article{Fujimoto2018,
+   abstract = {In value-based reinforcement learning methods such as deep Q-learning, function approximation errors are known to lead to overestimated value estimates and suboptimal policies. We show that this problem persists in an actor-critic setting and propose novel mechanisms to minimize its effects on both the actor and the critic. Our algorithm builds on Double Q-learning, by taking the minimum value between a pair of critics to limit overestimation. We draw the connection between target networks and overestimation bias, and suggest delaying policy updates to reduce per-update error and further improve performance. We evaluate our method on the suite of OpenAI gym tasks, outperforming the state of the art in every environment tested.},
+   author = {Scott Fujimoto and Herke Van Hoof and David Meger},
+   isbn = {9781510867963},
+   journal = {35th International Conference on Machine Learning, ICML 2018},
+   month = {2},
+   pages = {2587-2601},
+   publisher = {International Machine Learning Society (IMLS)},
+   title = {Addressing Function Approximation Error in Actor-Critic Methods},
+   volume = {4},
+   url = {https://arxiv.org/abs/1802.09477v3},
+   year = {2018}
+}
+@article{Lillicrap2015,
+   abstract = {We adapt the ideas underlying the success of Deep Q-Learning to the continuous action domain. We present an actor-critic, model-free algorithm based on the deterministic policy gradient that can operate over continuous action spaces. Using the same learning algorithm, network architecture and hyper-parameters, our algorithm robustly solves more than 20 simulated physics tasks, including classic problems such as cartpole swing-up, dexterous manipulation, legged locomotion and car driving. Our algorithm is able to find policies whose performance is competitive with those found by a planning algorithm with full access to the dynamics of the domain and its derivatives. We further demonstrate that for many of the tasks the algorithm can learn policies end-to-end: directly from raw pixel inputs.},
+   author = {Timothy P. Lillicrap and Jonathan J. Hunt and Alexander Pritzel and Nicolas Heess and Tom Erez and Yuval Tassa and David Silver and Daan Wierstra},
+   journal = {4th International Conference on Learning Representations, ICLR 2016 - Conference Track Proceedings},
+   month = {9},
+   publisher = {International Conference on Learning Representations, ICLR},
+   title = {Continuous control with deep reinforcement learning},
+   url = {https://arxiv.org/abs/1509.02971v6},
+   year = {2015}
+}
+@article{Mnih2016,
+   abstract = {We propose a conceptually simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. We present asynchronous variants of four standard reinforcement learning algorithms and show that parallel actor-learners have a stabilizing effect on training allowing all four methods to successfully train neural network controllers. The best performing method, an asynchronous variant of actor-critic, surpasses the current state-of-the-art on the Atari domain while training for half the time on a single multi-core CPU instead of a GPU. Furthermore, we show that asynchronous actor-critic succeeds on a wide variety of continuous motor control problems as well as on a new task of navigating random 3D mazes using a visual input.},
+   author = {Volodymyr Mnih and Adria Puigdomenech Badia and Lehdi Mirza and Alex Graves and Tim Harley and Timothy P. Lillicrap and David Silver and Koray Kavukcuoglu},
+   isbn = {9781510829008},
+   journal = {33rd International Conference on Machine Learning, ICML 2016},
+   month = {2},
+   pages = {2850-2869},
+   publisher = {International Machine Learning Society (IMLS)},
+   title = {Asynchronous Methods for Deep Reinforcement Learning},
+   volume = {4},
+   url = {https://arxiv.org/abs/1602.01783v2},
+   year = {2016}
+}
+@article{Silver2017,
+   abstract = {The game of chess is the most widely-studied domain in the history of artificial intelligence. The strongest programs are based on a combination of sophisticated search techniques, domain-specific adaptations, and handcrafted evaluation functions that have been refined by human experts over several decades. In contrast, the AlphaGo Zero program recently achieved superhuman performance in the game of Go, by tabula rasa reinforcement learning from games of self-play. In this paper, we generalise this approach into a single AlphaZero algorithm that can achieve, tabula rasa, superhuman performance in many challenging domains. Starting from random play, and given no domain knowledge except the game rules, AlphaZero achieved within 24 hours a superhuman level of play in the games of chess and shogi (Japanese chess) as well as Go, and convincingly defeated a world-champion program in each case.},
+   author = {David Silver and Thomas Hubert and Julian Schrittwieser and Ioannis Antonoglou and Matthew Lai and Arthur Guez and Marc Lanctot and Laurent Sifre and Dharshan Kumaran and Thore Graepel and Timothy Lillicrap and Karen Simonyan and Demis Hassabis},
+   month = {12},
+   title = {Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm},
+   url = {https://arxiv.org/abs/1712.01815v1},
+   year = {2017}
+}
+@article{HaGoogleBrainTokyo2018,
+   abstract = {A generative recurrent neural network is quickly trained in an unsupervised manner to model popular reinforcement learning environments through compressed spatio-temporal representations. The world model's extracted features are fed into compact and simple policies trained by evolution, achieving state of the art results in various environments. We also train our agent entirely inside of an environment generated by its own internal world model, and transfer this policy back into the actual environment. Interactive version of paper: https://worldmodels.github.io},
+   author = {David Ha Google Brain Tokyo and Jürgen Schmidhuber},
+   journal = {Advances in Neural Information Processing Systems},
+   title = {Recurrent World Models Facilitate Policy Evolution},
+   volume = {31},
+   url = {https://worldmodels.github.io},
+   year = {2018}
+}
