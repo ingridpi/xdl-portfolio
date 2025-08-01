@@ -231,4 +231,20 @@ where $k$ represents the $n$-step return and is upper-bounded by the maximum num
     J\left(\theta, \theta_v\right) = \mathbb{E}_{\pi}\left[\log \pi\left(a_t\mid s_t; \theta\right) A\left(s_t, a_t; \theta, \theta_v\right)\right]
 \end{equation}
 
-The pseudo-code for the algorithm for \acrshort{a2c} is outlined in appendix \ref{sec:app_a2c}. 
+The pseudo-code for the algorithm for \acrshort{a2c} is outlined in appendix \ref{alg:a2c}. 
+
+\subsubsection{Proximal Policy Optimization (PPO)} \label{sec:ppo}
+
+\acrfull{ppo} is a policy gradient algorithm that was introduced by Schulman et al. (2017) in their paper on \textit{Proximal Policy Optimization Algorithms} \cite{Schulman2017} with the objective of constraining policy updates. The algorithm balances sufficiently large policy updates in order to improve the policy, while avoiding excessively large changes that could hinder performance. 
+
+\acrshort{ppo} improves the performance of \acrfull{trpo} \cite{Schulman2015} by using a clipped surrogate objective function, by ensuring that the probability ratio $r_t$ is bounded within a range of $[1 - \epsilon, 1 + \epsilon]$, where $\epsilon$ is a hyperparameter that controls the clipping range. The objective function is defined as:
+\begin{equation}
+    L_t^{CLIP}(\theta) = \mathbb{E}_t \left[\min\left(r_t(\theta) \hat{A}_t, \text{clip}\left(r_t(\theta), 1 - \epsilon, 1 + \epsilon\right) \hat{A}_t\right)\right]
+\end{equation}
+where 
+\begin{equation}
+    r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{old}}(a_t | s_t)}
+\end{equation}
+is the probability ratio between the current policy $\pi_\theta$ and the old policy $\pi_{\theta_{old}}$
+
+Another improvement with respect to \acrshort{trpo} is the use of simple first-order optimisation methods as opposed to the second-order methods used in \acrshort{trpo}. Consequently, \acrshort{ppo} maintains the stability and reliability of other trust-region methods, while being easier to implement and more computationally efficient. The pseudo-code for the algorithm for \acrshort{ppo} is outlined in appendix \ref{alg:ppo}.

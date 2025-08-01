@@ -215,6 +215,14 @@
   url       = {https://link.springer.com/article/10.1007/s10479-023-05810-8},
   year      = {2024}
 }
+@article{Huang2022,
+  abstract = {Advantage Actor-critic (A2C) and Proximal Policy Optimization (PPO) are popular deep reinforcement learning algorithms used for game AI in recent years. A common understanding is that A2C and PPO are separate algorithms because PPO's clipped objective appears significantly different than A2C's objective. In this paper, however, we show A2C is a special case of PPO. We present theoretical justifications and pseudocode analysis to demonstrate why. To validate our claim, we conduct an empirical experiment using \texttt\{Stable-baselines3\}, showing A2C and PPO produce the \textit\{exact\} same models when other settings are controlled.},
+  author   = {Shengyi Huang and Anssi Kanervisto and Antonin Raffin and Weixun Wang and Santiago Ontañón and Rousslan Fernand and Julien Dossa},
+  month    = {5},
+  title    = {A2C is a special case of PPO},
+  url      = {https://arxiv.org/abs/2205.09123v1},
+  year     = {2022}
+}
 @misc{IBM2021,
   author = {IBM},
   month  = {9},
@@ -307,8 +315,10 @@
   month    = {12},
   title    = {Playing Atari with Deep Reinforcement Learning},
   url      = {https://arxiv.org/abs/1312.5602v1},
-  year     = {2013}
+  year     = {2013},
+  journal  = {arXiv preprint arXiv:1312.5602}
 }
+
 @article{Mnih2016,
   abstract  = {We propose a conceptually simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. We present asynchronous variants of four standard reinforcement learning algorithms and show that parallel actor-learners have a stabilizing effect on training allowing all four methods to successfully train neural network controllers. The best performing method, an asynchronous variant of actor-critic, surpasses the current state-of-the-art on the Atari domain while training for half the time on a single multi-core CPU instead of a GPU. Furthermore, we show that asynchronous actor-critic succeeds on a wide variety of continuous motor control problems as well as on a new task of navigating random 3D mazes using a visual input.},
   author    = {Volodymyr Mnih and Adria Puigdomenech Badia and Lehdi Mirza and Alex Graves and Tim Harley and Timothy P. Lillicrap and David Silver and Koray Kavukcuoglu},
@@ -322,7 +332,6 @@
   url       = {https://arxiv.org/abs/1602.01783v2},
   year      = {2016}
 }
-
 @article{Moody2001,
   abstract = {We present methods for optimizing portfolios, asset allocations, and trading systems based on direct reinforcement (DR). In this approach, investment decision making is viewed as a stochastic control problem, and strategies are discovered directly. We present an adaptive algorithm called recurrent reinforcement learning (RRL) for discovering investment policies. The need to build forecasting models is eliminated, and better trading performance is obtained. The direct reinforcement approach differs from dynamic programming and reinforcement algorithms such as TD-learning and Q-learning, which attempt to estimate a value function for the control problem. We find that the RRL direct reinforcement framework enables a simpler problem representation, avoids Bellman's curse of dimensionality and offers compelling advantages in efficiency. We demonstrate how direct reinforcement can be used to optimize risk-adjusted investment returns (including the differential Sharpe ratio), while accounting for the effects of transaction costs. In extensive simulation work using real financial data, we find that our approach based on RRL produces better trading strategies than systems utilizing Q-Learning (a value function method). Real-world applications include an intra-daily currency trader and a monthly asset allocation system for the S&P 500 Stock Index and T-Bills.},
   author   = {John Moody and Matthew Saffell},
@@ -363,13 +372,27 @@
   journal  = {arXiv preprint arXiv:1904.04973},
   year     = {2019}
 }
+@article{Schulman2015,
+  abstract  = {We describe an iterative procedure for optimizing policies, with guaranteed monotonic improvement. By making several approximations to the theoretically-justified procedure, we develop a practical algorithm, called Trust Region Policy Optimization (TRPO). This algorithm is similar to natural policy gradient methods and is effective for optimizing large nonlinear policies such as neural networks. Our experiments demonstrate its robust performance on a wide variety of tasks: learning simulated robotic swimming, hopping, and walking gaits; and playing Atari games using images of the screen as input. Despite its approximations that deviate from the theory, TRPO tends to give monotonic improvement, with little tuning of hyperparameters.},
+  author    = {John Schulman and Sergey Levine and Philipp Moritz and Michael Jordan and Pieter Abbeel},
+  isbn      = {9781510810587},
+  journal   = {32nd International Conference on Machine Learning, ICML 2015},
+  month     = {2},
+  pages     = {1889-1897},
+  publisher = {International Machine Learning Society (IMLS)},
+  title     = {Trust Region Policy Optimization},
+  volume    = {3},
+  url       = {https://arxiv.org/abs/1502.05477v5},
+  year      = {2015}
+}
 @article{Schulman2017,
   abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time.},
   author   = {John Schulman and Filip Wolski and Prafulla Dhariwal and Alec Radford and Oleg Klimov Openai},
   month    = {7},
   title    = {Proximal Policy Optimization Algorithms},
   url      = {https://arxiv.org/abs/1707.06347v2},
-  year     = {2017}
+  year     = {2017},
+  journal  = {arXiv preprint arXiv:1707.06347}
 }
 @article{Shao2019,
   abstract = {Deep reinforcement learning (DRL) has made great achievements since proposed. Generally, DRL agents receive high-dimensional inputs at each step, and make actions according to deep-neural-network-based policies. This learning mechanism updates the policy to maximize the return with an end-to-end method. In this paper, we survey the progress of DRL methods, including value-based, policy gradient, and model-based algorithms, and compare their main techniques and properties. Besides, DRL plays an important role in game artificial intelligence (AI). We also take a review of the achievements of DRL in various video games, including classical Arcade games, first-person perspective games and multi-agent real-time strategy games, from 2D to 3D, and from single-agent to multi-agent. A large number of video game AIs with DRL have achieved super-human performance, while there are still some challenges in this domain. Therefore, we also discuss some key points when applying DRL methods to this field, including exploration-exploitation, sample efficiency, generalization and transfer, multi-agent learning, imperfect information, and delayed spare rewards, as well as some research directions.},
@@ -420,7 +443,8 @@
   month    = {12},
   title    = {Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm},
   url      = {https://arxiv.org/abs/1712.01815v1},
-  year     = {2017}
+  year     = {2017},
+  journal  = {arXiv preprint arXiv:1712.01815}
 }
 @article{Tang2024,
   abstract  = {Reinforcement learning (RL), particularly its combination with deep neural networks referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms, holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks, and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL's power to create generally capable real-world robotic systems.},
@@ -448,17 +472,17 @@
   year        = {1992}
 }
 @article{Wu2017,
-   abstract = {In this work, we propose to apply trust region optimization to deep reinforcement learning using a recently proposed Kronecker-factored approximation to the curvature. We extend the framework of natural policy gradient and propose to optimize both the actor and the critic using Kronecker-factored approximate curvature (K-FAC) with trust region; hence we call our method Actor Critic using Kronecker-Factored Trust Region (ACKTR). To the best of our knowledge, this is the first scalable trust region natural gradient method for actor-critic methods. It is also a method that learns non-trivial tasks in continuous control as well as discrete control policies directly from raw pixel inputs. We tested our approach across discrete domains in Atari games as well as continuous domains in the MuJoCo environment. With the proposed methods, we are able to achieve higher rewards and a 2- to 3-fold improvement in sample efficiency on average, compared to previous state-of-the-art on-policy actor-critic methods. Code is available at https://github.com/openai/baselines},
-   author = {Yuhuai Wu and Elman Mansimov and Shun Liao and Roger Grosse and Jimmy Ba},
-   issn = {10495258},
-   journal = {Advances in Neural Information Processing Systems},
-   month = {8},
-   pages = {5280-5289},
-   publisher = {Neural information processing systems foundation},
-   title = {Scalable trust-region method for deep reinforcement learning using Kronecker-factored approximation},
-   volume = {2017-December},
-   url = {https://arxiv.org/abs/1708.05144v2},
-   year = {2017}
+  abstract  = {In this work, we propose to apply trust region optimization to deep reinforcement learning using a recently proposed Kronecker-factored approximation to the curvature. We extend the framework of natural policy gradient and propose to optimize both the actor and the critic using Kronecker-factored approximate curvature (K-FAC) with trust region; hence we call our method Actor Critic using Kronecker-Factored Trust Region (ACKTR). To the best of our knowledge, this is the first scalable trust region natural gradient method for actor-critic methods. It is also a method that learns non-trivial tasks in continuous control as well as discrete control policies directly from raw pixel inputs. We tested our approach across discrete domains in Atari games as well as continuous domains in the MuJoCo environment. With the proposed methods, we are able to achieve higher rewards and a 2- to 3-fold improvement in sample efficiency on average, compared to previous state-of-the-art on-policy actor-critic methods. Code is available at https://github.com/openai/baselines},
+  author    = {Yuhuai Wu and Elman Mansimov and Shun Liao and Roger Grosse and Jimmy Ba},
+  issn      = {10495258},
+  journal   = {Advances in Neural Information Processing Systems},
+  month     = {8},
+  pages     = {5280-5289},
+  publisher = {Neural information processing systems foundation},
+  title     = {Scalable trust-region method for deep reinforcement learning using Kronecker-factored approximation},
+  volume    = {2017-December},
+  url       = {https://arxiv.org/abs/1708.05144v2},
+  year      = {2017}
 }
 @article{Wu2023,
   abstract  = {In today’s society, investment wealth management has become a mainstream of the contemporary era. Investment wealth management refers to the use of funds by investors to arrange funds reasonably, for example, savings, bank financial products, bonds, stocks, commodity spots, real estate, gold, art, and many others. Wealth management tools manage and assign families, individuals, enterprises, and institutions to achieve the purpose of increasing and maintaining value to accelerate asset growth. Among them, in investment and financial management, people’s favorite product of investment often stocks, because the stock market has great advantages and charm, especially compared with other investment methods. More and more scholars have developed methods of prediction from multiple angles for the stock market. According to the feature of financial time series and the task of price prediction, this article proposes a new framework structure to achieve a more accurate prediction of the stock price, which combines Convolution Neural Network (CNN) and Long–Short-Term Memory Neural Network (LSTM). This new method is aptly named stock sequence array convolutional LSTM (SACLSTM). It constructs a sequence array of historical data and its leading indicators (options and futures), and uses the array as the input image of the CNN framework, and extracts certain feature vectors through the convolutional layer and the layer of pooling, and as the input vector of LSTM, and takes ten stocks in U.S.A and Taiwan as the experimental data. Compared with previous methods, the prediction performance of the proposed algorithm in this article leads to better results when compared directly.},
