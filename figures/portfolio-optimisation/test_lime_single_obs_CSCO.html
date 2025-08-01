@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divG06Z2YSGP7TT42U"></div>
+        <div class="lime top_div" id="top_divQP29OBBD4XON4AZ"></div>
         
         <script>
-        var top_div = d3.select('#top_divG06Z2YSGP7TT42U').classed('lime top_div', true);
+        var top_div = d3.select('#top_divQP29OBBD4XON4AZ').classed('lime top_div', true);
         
         
                     var pp_div = top_div.append('div')
                                         .classed('lime predicted_value', true);
                     var pp_svg = pp_div.append('svg').style('width', '100%');
-                    var pp = new lime.PredictedValue(pp_svg, 0.4873712658882141, 0.0, 1.0);
+                    var pp = new lime.PredictedValue(pp_svg, 0.0, 0.0, 1.0);
                     
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
             exp_div = top_div.append('div').classed('lime explanation', true);
-            exp.show([["vwma_AAPL > 229.57", 0.0277638583417616], ["rsi_MSFT <= 43.38", -0.023967474053649247], ["open_CSCO > 56.83", 0.020996790930033826], ["boll_AAPL > 229.15", -0.019288052695223597], ["202.37 < close_HON <= 212.72", -0.01684615518780816], ["202.31 < close_5_sma_HON <= 211.67", -0.016178444439308038], ["183.39 < low_AAPL <= 218.24", -0.01614445905137025], ["20.12 < adx_AAPL <= 35.35", -0.015989402442712367], ["vwma_V > 303.40", 0.015477046242108971], ["close_CSCO > 56.95", 0.015098564684038744]], 1, exp_div);
+            exp.show([["cci_CSCO <= -67.42", 0.03037305829287979], ["boll_MSFT <= 407.11", 0.021802170501001993], ["185.34 < open_AAPL <= 220.41", -0.02110689533446897], ["vwma_MSFT <= 406.31", -0.016876530117998192], ["macd_V <= -0.31", -0.016512913785712898], ["vwma_AAPL > 229.57", -0.01620627439475757], ["macd_CSCO <= -0.08", -0.014201605100880423], ["cci_V <= -48.04", -0.013470688843847955], ["20.12 < adx_AAPL <= 35.35", -0.013217434602912453], ["vwma_CSCO > 56.42", 0.011776558454990354]], 1, exp_div);
             
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["vwma_AAPL", "232.44", 0.0277638583417616], ["rsi_MSFT", "33.52", -0.023967474053649247], ["open_CSCO", "59.65", 0.020996790930033826], ["boll_AAPL", "236.67", -0.019288052695223597], ["close_HON", "205.64", -0.01684615518780816], ["close_5_sma_HON", "208.93", -0.016178444439308038], ["low_AAPL", "208.15", -0.01614445905137025], ["adx_AAPL", "34.14", -0.015989402442712367], ["vwma_V", "347.63", 0.015477046242108971], ["close_CSCO", "58.92", 0.015098564684038744]], 1, raw_div);
+            exp.show_raw_tabular([["cci_CSCO", "-190.03", 0.03037305829287979], ["boll_MSFT", "396.60", 0.021802170501001993], ["open_AAPL", "215.67", -0.02110689533446897], ["vwma_MSFT", "390.58", -0.016876530117998192], ["macd_V", "-1.33", -0.016512913785712898], ["vwma_AAPL", "232.44", -0.01620627439475757], ["macd_CSCO", "-0.23", -0.014201605100880423], ["cci_V", "-135.08", -0.013470688843847955], ["adx_AAPL", "34.14", -0.013217434602912453], ["vwma_CSCO", "62.20", 0.011776558454990354]], 1, raw_div);
         
         </script>
         </body></html>
