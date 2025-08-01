@@ -209,7 +209,7 @@ Depending on the components, the main \acrlong{rl} paradigms are:
 \end{itemize}
 
 The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxonomy}.
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/rl-taxonomy.png}
     \caption{Taxonomy of Reinforcement Learning Algorithms \cite{Achiam2018}}
@@ -217,3 +217,18 @@ The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxo
 \end{figure}
 
 The full potential of \acrlong{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. These thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.
+
+\subsubsection{Advantage Actor-Critic (A2C)} \label{sec:a2c}
+
+The \acrfull{a2c} algorithm was developed by Mnih et al. (2016) in their paper on \textit{Asynchronous methods for deep reinforcement learning} \cite{Mnih2016}. The main contribution is the usage of the advantage function to address the variance issues present in policy gradient methods. The \acrshort{a2c} is the synchronous version of \acrshort{a3c}, and is preferred due to its better performance in terms of training time and cost-effectiveness \cite{Wu2017}.
+
+The algorithm consists of a dual-network architecture, where the actor network learns a stochastic policy $\pi\left(a_t\mid s_t; \theta\right)$ and the critic network learns the value function $V\left(s_t; \theta_v\right)$. The policy and the value function are updated after every $t_max$ actions or when a terminal state is reached. The advantage function is estimated as follows: 
+\begin{equation}
+    A\left(s_t, a_t; \theta, \theta_v\right) = \sum_{i=0}^{k-1} \gamma^i r_{t+i} + \gamma^k V\left(s_{t+k}; \theta_v\right) - V\left(s_t; \theta_v\right)
+\end{equation}
+where $k$ represents the $n$-step return and is upper-bounded by the maximum number of steps $t_{max}$, and $\gamma$ is the discount factor. The algorithm's objective function is defined as:
+\begin{equation}
+    J\left(\theta, \theta_v\right) = \mathbb{E}_{\pi}\left[\log \pi\left(a_t\mid s_t; \theta\right) A\left(s_t, a_t; \theta, \theta_v\right)\right]
+\end{equation}
+
+The pseudo-code for the algorithm for \acrshort{a2c} is outlined in appendix \ref{sec:app_a2c}. 

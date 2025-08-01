@@ -1,0 +1,37 @@
+\begin{algorithmic}
+\State \textit{// Assume global shared parameter vectors } $\theta$ \textit{ and } $\theta_v$
+\State \textit{// Assume } $N$ \textit{ parallel worker environments}
+\State Initialize global step counter $T = 0$
+\Repeat
+    \State Reset gradients: $d\theta \gets 0$ and $d\theta_v \gets 0$
+    \State Initialize empty batch storage for all workers
+    \For{worker $i = 1$ to $N$}
+        \State $t_{\text{start}} = t$
+        \State Get state $s_t^{(i)}$ from worker $i$
+        \Repeat
+            \State Perform $a_t^{(i)}$ according to policy $\pi(a_t^{(i)} | s_t^{(i)}; \theta)$
+            \State Receive reward $r_t^{(i)}$ and new state $s_{t+1}^{(i)}$
+            \State Store $(s_t^{(i)}, a_t^{(i)}, r_t^{(i)})$ in worker $i$'s trajectory
+            \State $t \gets t + 1$
+        \Until{terminal $s_t^{(i)}$ or $t - t_{\text{start}} == t_{\max}$}
+        
+        \State $R^{(i)} = 
+            \begin{cases}
+                0 & \text{for terminal } s_t^{(i)} \\
+                V(s_t^{(i)}, \theta_v) & \text{for non-terminal } s_t^{(i)}
+            \end{cases}$
+        
+        \For{$j \in \{t-1, \ldots, t_{\text{start}}\}$}
+            \State $R^{(i)} \gets r_j^{(i)} + \gamma R^{(i)}$
+            \State Accumulate gradients w.r.t. $\theta$:
+            \State \quad $d\theta \gets d\theta + \nabla_{\theta} \log \pi(a_j^{(i)} | s_j^{(i)}; \theta) (R^{(i)} - V(s_j^{(i)}; \theta_v))$
+            \State Accumulate gradients w.r.t. $\theta_v$:
+            \State \quad $d\theta_v \gets d\theta_v + \frac{\partial (R^{(i)} - V(s_j^{(i)}; \theta_v))^2}{\partial \theta_v}$
+        \EndFor
+    \EndFor
+    \State \textit{// Synchronous update: wait for all workers to complete}
+    \State Average gradients: $d\theta \gets \frac{1}{N} d\theta$ and $d\theta_v \gets \frac{1}{N} d\theta_v$
+    \State Perform synchronous update of $\theta$ using $d\theta$ and of $\theta_v$ using $d\theta_v$
+    \State $T \gets T + N \times t_{\max}$
+\Until{$T > T_{\max}$}
+\end{algorithmic}
