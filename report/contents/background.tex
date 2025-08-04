@@ -257,10 +257,21 @@ The algorithm uses two networks: the actor network $\mu(s_t; \theta_\mu)$, which
 \begin{equation}
     \nabla_{\theta_\mu} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\nabla_a Q(s_t, a_t; \theta_Q) \nabla_{\theta_\mu} \mu(s_t; \theta_\mu)\right]
 \end{equation}
-where $\mathcal{D}$ is the replay buffer that stores the agent's experiences, and the critic network is updated using the Bellman equation:
+where $\mathcal{D}$ is the replay buffer that stores the agent's experiences, and the critic network is updated using the \Gls{bellmanequations}:
 \begin{equation}
     \nabla_{\theta_Q} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\left(r_t + \gamma Q(s_{t+1}, \mu(s_{t+1}; \theta_\mu); \theta_Q') - Q(s_t, a_t; \theta_Q)\right) \nabla_{\theta_Q} Q(s_t, a_t; \theta_Q)\right]
 \end{equation}
 where $\theta_Q'$ are the parameters of the target critic network. 
 
 From \acrlong{dqn}, the algorithm incorporates a replay buffer to store the agent's experiences, which allows the agent to learn from past experiences and improve its performance over time. Moreover, \acrshort{ddpg} incorporates noise, typically Ornstein-Uhlenbeck noise \cite{Uhlenbeck1930}, to the actions taken by the actor network to encourage exploration of the action space. The pseudo-code for the algorithm for \acrshort{ddpg} is outlined in appendix \ref{alg:ddpg}.
+
+\subsubsection{Twin Delayed Deep Deterministic Policy Gradient (TD3)} \label{sec:td3}
+
+\acrfull{td3} is an extension of \acrshort{ddpg} introduced by Fujimoto et al. (2018) in their paper on \textit{Addressing Function Approximation Error in Actor-Critic Methods} \cite{Fujimoto2018}. The proposal addresses the hyper-parameter sensitivity and overestimation bias present in the critic network of \acrshort{ddpg}. There are three main improvements to \acrshort{ddpg}:
+\begin{itemize}
+    \item \textbf{Clipped Double Q-Learning}: The algorithm employs two critic networks and uses their minimum value to compute the target value for the actor network, which reduces the overestimation bias. 
+    \item \textbf{Delayed Policy Updates}: The actor and critic networks updates are performed at different frequencies. The critic networks are updated every time step, whereas the actor and target networks are updated less frequently. The main benefit is that it allows the critic to improve the accuracy of the value estimates before the actor updates its policy.
+    \item \textbf{Target Policy Smoothing}: The algorithm adds noise to the target action during the critic updates to smooth the value function over similar actions, resulting in a lower impact of approximation errors and more robust policies. 
+\end{itemize}
+
+The pseudo-code for the algorithm for \acrshort{td3} is outlined in appendix \ref{alg:td3}.

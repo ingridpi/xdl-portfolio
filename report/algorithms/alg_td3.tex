@@ -1,0 +1,27 @@
+\begin{algorithmic}
+\State \textbf{Initialise:}
+\State \quad Critic networks $Q_{\theta_1}(s,a)$ and $Q_{\theta_2}(s,a)$ with random weights $\theta_1,\theta_2$
+\State \quad Actor policy $\mu_{\phi}(s)$ with random weights $\phi$
+\State \quad Target networks: $\theta_1' \leftarrow \theta_1$, $\theta_2' \leftarrow \theta_2$, $\phi' \leftarrow \phi$
+\State \quad Replay buffer $\mathcal{B}$
+\State \quad Hyper-parameters: discount $\gamma$, target noise $\tilde{\sigma}$, noise clip $c$, policy delay $d$, smoothing noise $\sigma$, update rate $\tau$
+\For{$t = 1$ to $T$}
+    \State Observe state $s_t$
+    \State Sample action with exploration: $a_t = \mu_{\phi}(s_t) + \epsilon$, $\epsilon \sim \mathcal{N}(0,\sigma)$
+    \State Execute $a_t$, observe reward $r_t$ and next state $s_{t+1}$
+    \State Store $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{B}$
+    \State Sample mini-batch $\{(s_i,a_i,r_i,s_{i+1})\}_{i=1}^N$ from $\mathcal{B}$
+    \State \quad Sample clipped noise: $\tilde{\epsilon} \sim \mathrm{clip}(\mathcal{N}(0,\tilde{\sigma}), -c, c)$
+    \State \quad Compute target action: $\tilde{a}_{i+1} = \mu_{\phi'}(s_{i+1}) + \tilde{\epsilon}$
+    \State \quad Compute target Q-value:
+        $y_i = r_i + \gamma \min_{j=1,2} Q_{\theta_j'}(s_{i+1}, \tilde{a}_{i+1})$
+    \State \quad Update each critic by minimising
+        $L(\theta_j) = \frac{1}{N}\sum_i \bigl(y_i - Q_{\theta_j}(s_i,a_i)\bigr)^2$
+    \If{$t \bmod d = 0$}
+        \State Update actor by policy gradient: $\nabla_{\phi} J \approx \frac{1}{N}\sum_i \nabla_a Q_{\theta_1}(s_i,a)\mid_{a=\mu_{\phi}(s_i)} \nabla_{\phi} \mu_{\phi}(s_i)$
+        \State Update target networks:
+        \State \quad $\theta_j' \leftarrow \tau\,\theta_j + (1-\tau)\,\theta_j'$ \hfill for $j=1,2$
+        \State \quad $\phi' \leftarrow \tau\,\phi + (1-\tau)\,\phi'$
+    \EndIf
+\EndFor
+\end{algorithmic}
