@@ -275,3 +275,23 @@ From \acrlong{dqn}, the algorithm incorporates a replay buffer to store the agen
 \end{itemize}
 
 The pseudo-code for the algorithm for \acrshort{td3} is outlined in appendix \ref{alg:td3}.
+
+\subsubsection{Soft Actor-Critic (SAC)} \label{sec:sac}
+
+\acrfull{sac}, despite being an off-policy actor-critic algorithm, represents a paradigm shift in \acrshort{rl}. The algorithm was presented by Haarnoja et al. (2018) in their paper on \textit{Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor} \cite{Haarnoja2018} and is based on the maximum entropy framework, which aims to maximise both the expected return and the entropy of the policy, encouraging the agent to succeed at the task while acting as randomly as possible. 
+
+The algorithm uses two critic networks to estimate the state-action value function, and a stochastic actor network that learns a policy that maximises the expected return while also maximising the entropy of the policy. The critic networks are updated using the Bellman equations, and the actor network is updated using the policy gradient method. The objective function for the actor network is defined as:
+\begin{equation}
+    J(\theta) = \mathbb{E}_{s_t \sim \mathcal{D}} \left[\mathbb{E}_{a_t \sim \pi_\theta} \left[\alpha \log \pi_\theta(a_t | s_t) + Q(s_t, a_t; \theta_Q)\right]\right]
+\end{equation}
+where $\alpha$ is a temperature parameter that controls the trade-off between exploration and exploitation, and $\mathcal{D}$ is the replay buffer that stores the agent's experiences. The critic networks are updated using the Bellman equations:
+\begin{equation}
+    J(\theta_Q) = \mathbb{E}_{s_t \sim \mathcal{D}} \left[\left(r_t + \gamma \min_{i=1,2} Q(s_{t+1}, \mu_\theta(s_{t+1}) + \mathcal{N}(0, \sigma); \theta_{Q_i}) - Q(s_t, a_t; \theta_{Q_i})\right)^2\right]
+\end{equation}
+where $\mathcal{N}(0, \sigma)$ is the noise added to the action to encourage exploration, and $\theta_{Q_i}$ are the parameters of the two critic networks. The temperature parameter $\alpha$ is learned automatically by maximising the entropy of the policy, which is defined as:
+\begin{equation}
+    J(\alpha) = \mathbb{E}_{s_t \sim \mathcal{D}} \left[\alpha \log \pi_\theta(a_t | s_t)\right]
+\end{equation}
+This parameter is used to control the trade-off between the entropy and the reward terms, effectively controlling the stochasticity of the policy.
+
+The pseudo-code for the algorithm for \acrshort{sac} is outlined in appendix \ref{alg:sac}.
