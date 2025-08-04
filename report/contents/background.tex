@@ -295,3 +295,27 @@ where $\mathcal{N}(0, \sigma)$ is the noise added to the action to encourage exp
 This parameter is used to control the trade-off between the entropy and the reward terms, effectively controlling the stochasticity of the policy.
 
 The pseudo-code for the algorithm for \acrshort{sac} is outlined in appendix \ref{alg:sac}.
+
+\subsubsection{Algorithm comparison}
+
+The five algorithms presented above are among the most widely used in the field of \acrshort{drl}, each addressing specific challenges in policy estimation and value function approximation. \acrshort{a2c} is an on-policy actor-critic method that reduces variance through advantage estimation, while \acrshort{ppo} changed on-policy learning by introducing a clipped surrogate objective that ensures stable policy updates. Although \acrshort{ddpg} pioneered continuous control through deterministic policies, \acrshort{td3} addressed the overestimation bias via twin critics and delayed updates of its predecessor. \acrshort{sac} revolutionised the paradigm in \acrshort{rl} by incorporating maximum entropy principles.
+
+An overview of the algorithms and their key characteristics is summarised in Table \ref{tab:drl_algorithms_comparison}. 
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        Algorithm & Policy Type & On/Off Policy & Key Idea \\
+        \hline
+        \acrshort{a2c} & Stochastic & On-Policy & Advantage Actor-Critic \\
+        \acrshort{ppo} & Stochastic & On-Policy & Clipped Policy Updates \\
+        \acrshort{ddpg} & Deterministic & Off-Policy & Actor-Critic + Replay buffer \\
+        \acrshort{td3} & Deterministic & Off-Policy & Double critics + Delayed updates \\
+        \acrshort{sac} & Stochastic & Off-Policy & Max-entropy \acrshort{rl} \\
+        \hline
+    \end{tabular}
+    \caption{Comparison of Deep Reinforcement Learning Algorithms}
+    \label{tab:drl_algorithms_comparison}
+\end{table}
+
