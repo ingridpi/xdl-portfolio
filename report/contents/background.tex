@@ -248,3 +248,19 @@ where
 is the probability ratio between the current policy $\pi_\theta$ and the old policy $\pi_{\theta_{old}}$
 
 Another improvement with respect to \acrshort{trpo} is the use of simple first-order optimisation methods as opposed to the second-order methods used in \acrshort{trpo}. Consequently, \acrshort{ppo} maintains the stability and reliability of other trust-region methods, while being easier to implement and more computationally efficient. The pseudo-code for the algorithm for \acrshort{ppo} is outlined in appendix \ref{alg:ppo}.
+
+\subsubsection{Deep Deterministic Policy Gradient (DDPG)} \label{sec:ddpg}
+
+\acrfull{ddpg} is an off-policy actor-critic algorithm that was introduced by Lillicrap et al. (2015) in their paper on \textit{Continuous control with deep reinforcement learning} \cite{Lillicrap2015}. The algorithm arises to solve the challenges of applying \acrlong{dqn} \cite{Mnih2013} to continuous action spaces by applying \acrfull{dpg}, which enables the efficient computation of the policy gradient without the need to integrate over the action space. 
+
+The algorithm uses two networks: the actor network $\mu(s_t; \theta_\mu)$, which learns a deterministic policy, and the critic network $Q(s_t, a_t; \theta_Q)$, which learns the state-action value function, in conjunction with their respective target networks. The actor network is updated using \acrshort{dpg}: 
+\begin{equation}
+    \nabla_{\theta_\mu} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\nabla_a Q(s_t, a_t; \theta_Q) \nabla_{\theta_\mu} \mu(s_t; \theta_\mu)\right]
+\end{equation}
+where $\mathcal{D}$ is the replay buffer that stores the agent's experiences, and the critic network is updated using the Bellman equation:
+\begin{equation}
+    \nabla_{\theta_Q} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\left(r_t + \gamma Q(s_{t+1}, \mu(s_{t+1}; \theta_\mu); \theta_Q') - Q(s_t, a_t; \theta_Q)\right) \nabla_{\theta_Q} Q(s_t, a_t; \theta_Q)\right]
+\end{equation}
+where $\theta_Q'$ are the parameters of the target critic network. 
+
+From \acrlong{dqn}, the algorithm incorporates a replay buffer to store the agent's experiences, which allows the agent to learn from past experiences and improve its performance over time. Moreover, \acrshort{ddpg} incorporates noise, typically Ornstein-Uhlenbeck noise \cite{Uhlenbeck1930}, to the actions taken by the actor network to encourage exploration of the action space. The pseudo-code for the algorithm for \acrshort{ddpg} is outlined in appendix \ref{alg:ddpg}.
