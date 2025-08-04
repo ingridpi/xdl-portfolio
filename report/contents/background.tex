@@ -87,10 +87,10 @@ As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem o
 The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space \cite{Francois-Lavet2018}. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
 
 \begin{figure}[ht]
-    \label{fig:agent_environment_interaction}
     \centering
     \input{figures/agent.tex}
     \caption{Agent interaction with environment}
+    \label{fig:agent_environment_interaction}
 \end{figure}
 
 A discrete time stochastic control process can be formalised as a \acrfull{mdp}, if it fulfils the Markov Property. 
@@ -121,10 +121,10 @@ This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends o
 At each time step, the probability of advancing to the next state $s_{t+1}$ is given by the transition function $T(s_t, a_t, s_{t+1})$ and the reward $r_t$ is given by the reward function $R(s_t, a_t, s_{t+1})$. This can be visualised in Figure \ref{fig:mdp}.
 
 \begin{figure}[ht]
-    \label{fig:mdp}
     \centering
     \input{figures/mdp.tex}
     \caption{Markov Decision Process with policy, transition, and reward functions}
+    \label{fig:mdp}
 \end{figure}
 
 The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions, in order to maximise the expected cumulative reward over time. Policies can be categorised as:
@@ -216,7 +216,7 @@ The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxo
     \label{fig:rl_taxonomy}
 \end{figure}
 
-The full potential of \acrlong{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. These thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.
+The full potential of \acrlong{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. This thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.
 
 \subsubsection{Advantage Actor-Critic (A2C)} \label{sec:a2c}
 
@@ -233,7 +233,7 @@ where $k$ represents the $n$-step return and is upper-bounded by the maximum num
 
 The pseudo-code for the algorithm for \acrshort{a2c} is outlined in appendix \ref{alg:a2c}. 
 
-\subsubsection{Proximal Policy Optimization (PPO)} \label{sec:ppo}
+\subsubsection{Proximal Policy Optimisation (PPO)} \label{sec:ppo}
 
 \acrfull{ppo} is a policy gradient algorithm that was introduced by Schulman et al. (2017) in their paper on \textit{Proximal Policy Optimization Algorithms} \cite{Schulman2017} with the objective of constraining policy updates. The algorithm balances sufficiently large policy updates in order to improve the policy, while avoiding excessively large changes that could hinder performance. 
 
