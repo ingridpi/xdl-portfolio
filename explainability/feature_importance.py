@@ -27,7 +27,7 @@ class FeatureImportance:
         feature_importances["indicator"] = (
             feature_importances["feature"]
             .apply(lambda x: x.split("_")[:-1] if "_" in x else x)
-            .apply(lambda x: "_".join(x) if isinstance(x, list) else x[0])
+            .apply(lambda x: "_".join(x) if len(x) > 1 else x[0])
         )
         self.feature_importances = feature_importances
 
@@ -190,8 +190,8 @@ class FeatureImportance:
         )
         plt.title("Feature importances by Indicator")
         plt.xlabel("Importance")
-        plt.ylabel("Indicator")
-        plt.legend(title="Ticker")
+        plt.ylabel("Feature")
+        plt.legend(title="Indicator")
         plt.tight_layout()
         plt.savefig(
             f"{directory}/{filename}_feature_importance_by_indicator.png"
