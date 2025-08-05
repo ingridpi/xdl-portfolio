@@ -4,20 +4,16 @@ import seaborn as sns
 
 
 class FinancialDataVisualiser:
-    def __init__(self) -> None:
+    def __init__(self, directory: str) -> None:
         """
         Initialise the FinancialDataVisualiser.
         """
-        pass
+        self.directory = directory
 
-    def plot_close_prices(
-        self, data: pd.DataFrame, directory: str, filename: str
-    ) -> None:
+    def plot_close_prices(self, data: pd.DataFrame) -> None:
         """
         Plot closing prices of tickers in the data.
         :param data: DataFrame containing financial data with 'date', 'tic', and 'close' columns.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Name of the file to save the plot (without extension).
         """
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
@@ -34,22 +30,18 @@ class FinancialDataVisualiser:
         plt.ylabel("Closing Price")
         plt.legend(title="Tickers")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_close_prices.png")
+        plt.savefig(f"{self.directory}/close_prices.png")
         plt.show()
 
     def plot_technical_indicators(
         self,
         data: pd.DataFrame,
         indicators: dict[str, str],
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Plot technical indicators for each ticker in the data.
         :param data: DataFrame containing financial data with 'date', 'tic', and technical indicators.
         :param indicators: Dictionary mapping technical indicator names to their descriptions.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Name of the file to save the plot (without extension).
         """
 
         # Sample the first 10 tickers if there are more than 10 unique tickers
@@ -72,7 +64,7 @@ class FinancialDataVisualiser:
                 plt.xlabel("Date")
                 plt.ylabel(indicator)
                 plt.legend(title="Tickers")
-                plt.savefig(f"{directory}/{filename}_technical.png")
+                plt.savefig(f"{self.directory}/technical_indicators.png")
                 plt.show()
             else:
                 print(f"Technical indicator '{indicator}' not found in data.")
@@ -100,22 +92,18 @@ class FinancialDataVisualiser:
                     )
 
             plt.tight_layout()
-            plt.savefig(f"{directory}/{filename}_technical.png")
+            plt.savefig(f"{self.directory}/technical_indicators.png")
             plt.show()
 
     def plot_macroeconomic_indicators(
         self,
         data: pd.DataFrame,
         indicators: dict[str, str],
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Plot macroeconomic indicators.
         :param data: DataFrame containing financial data with 'date' and macroeconomic indicators.
         :param indicators: Dictionary mapping macroeconomic indicator names to their descriptions.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Name of the file to save the plot (without extension).
         """
 
         # Sample the first 10 tickers if there are more than 10 unique tickers
@@ -143,7 +131,7 @@ class FinancialDataVisualiser:
                 plt.title(name)
                 plt.xlabel("Date")
                 plt.ylabel(indicator)
-                plt.savefig(f"{directory}/{filename}_macroeconomic.png")
+                plt.savefig(f"{self.directory}/macroeconomic_indicators.png")
                 plt.show()
             else:
                 print(
@@ -176,15 +164,13 @@ class FinancialDataVisualiser:
                     )
 
             plt.tight_layout()
-            plt.savefig(f"{directory}/{filename}_macroeconomic.png")
+            plt.savefig(f"{self.directory}/macroeconomic_indicators.png")
             plt.show()
 
     def plot_train_test_close_prices(
         self,
         train_data: pd.DataFrame,
         test_data: pd.DataFrame,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Plot closing prices for train and test datasets.
@@ -215,5 +201,5 @@ class FinancialDataVisualiser:
 
         plt.suptitle("Train and Test Closing Prices of Tickers")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_train_test_close_prices.png")
+        plt.savefig(f"{self.directory}/train_test_close_prices.png")
         plt.show()
