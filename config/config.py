@@ -53,3 +53,9 @@ if USE_MACROECONOMIC_INDICATORS:
 TICKERS = config_tickers.TEST_TICKERS
 TICKERS_NAME = TEST_NAME
 EXCHANGE = EXCHANGE_NYSE
+
+# Set dataset name based on the configuration
+if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
+    DATASET_NAME = "dataset-indicators"
+else:
+    DATASET_NAME = "simple-dataset"
