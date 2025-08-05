@@ -199,11 +199,11 @@ A \acrlong{rl} agent includes one or more of the following components \cite{Fran
 
 Depending on the components, the main \acrlong{rl} paradigms are: 
 \begin{itemize}
-    \item \textbf{Model-free} algorithms do not learn a representation of the model, but focus on either the value function or the policy. 
+    \item \textbf{Model-free} algorithms do not learn a representation of the environment, but focus on either the value function or the policy. 
     \begin{itemize}
-        \item \textbf{Value-based} algorithms learn an approximation of the value function, which is used to compute the state or state-action values. The policy is not learn explicitly but can be derived from the value function. Examples include \acrfull{dqn} \cite{Mnih2013} and C51 \cite{Bellemare2017}. 
+        \item \textbf{Value-based} algorithms learn an approximation of the value function, which is used to compute the state or state-action values. The policy is not learnt explicitly but can be derived from the value function. Examples include \acrfull{dqn} \cite{Mnih2013} and C51 \cite{Bellemare2017}. 
         \item \textbf{Policy-based} algorithms learn a direct representation of the policy, which is used to select actions. \acrfull{a2c}, \acrfull{a3c} \cite{Mnih2016} and \acrfull{ppo} \cite{Schulman2017} are examples of policy-based algorithms.
-        \item \textbf{Actor-Critic} algorithms combine both value-based and policy-based approaches, where the actor learns the policy and the critic learns the value function. The critic provides feedback to the actor to improve the policy. The following algorithms are examples of actor-critic approaches: \acrfull{ddpg} \cite{Lillicrap2015}, \acrfull{td3} \cite{Fujimoto2018}, and \acrfull{sac} \cite{Haarnoja2018}.
+        \item \textbf{Actor-Critic} algorithms combine both value-based and policy-based approaches, where the actor learns the policy and the critic learns the value function. The critic provides feedback to the actor to improve the policy. Some examples are \acrfull{ddpg} \cite{Lillicrap2015}, \acrfull{td3} \cite{Fujimoto2018}, and \acrfull{sac} \cite{Haarnoja2018}.
     \end{itemize}
     \item \textbf{Model-based} algorithms include a model of the environment, which can be used to simulate future states and rewards. For example, World Models \cite{HaGoogleBrainTokyo2018} learns a model of the environment and AlphaZero \cite{Silver2017} has a representation of the model. 
 \end{itemize}
@@ -253,7 +253,7 @@ Another improvement with respect to \acrshort{trpo} is the use of simple first-o
 
 \acrfull{ddpg} is an off-policy actor-critic algorithm that was introduced by Lillicrap et al. (2015) in their paper on \textit{Continuous control with deep reinforcement learning} \cite{Lillicrap2015}. The algorithm arises to solve the challenges of applying \acrlong{dqn} \cite{Mnih2013} to continuous action spaces by applying \acrfull{dpg}, which enables the efficient computation of the policy gradient without the need to integrate over the action space. 
 
-The algorithm uses two networks: the actor network $\mu(s_t; \theta_\mu)$, which learns a deterministic policy, and the critic network $Q(s_t, a_t; \theta_Q)$, which learns the state-action value function, in conjunction with their respective target networks. The actor network is updated using \acrshort{dpg}: 
+The algorithm uses the following networks: the actor network $\mu(s_t; \theta_\mu)$, which learns a deterministic policy, the critic network $Q(s_t, a_t; \theta_Q)$, which learns the state-action value function, and the actor's and critic's target networks. The actor network is updated using \acrshort{dpg}: 
 \begin{equation}
     \nabla_{\theta_\mu} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\nabla_a Q(s_t, a_t; \theta_Q) \nabla_{\theta_\mu} \mu(s_t; \theta_\mu)\right]
 \end{equation}
@@ -278,7 +278,7 @@ The pseudo-code for the algorithm for \acrshort{td3} is outlined in appendix \re
 
 \subsubsection{Soft Actor-Critic (SAC)} \label{sec:sac}
 
-\acrfull{sac}, despite being an off-policy actor-critic algorithm, represents a paradigm shift in \acrshort{rl}. The algorithm was presented by Haarnoja et al. (2018) in their paper on \textit{Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor} \cite{Haarnoja2018} and is based on the maximum entropy framework, which aims to maximise both the expected return and the entropy of the policy, encouraging the agent to succeed at the task while acting as randomly as possible. 
+\acrfull{sac}, despite being an off-policy actor-critic algorithm, represents a paradigm shift in \acrshort{rl}. The algorithm was presented by Haarnoja et al. (2018) in their paper on \textit{Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor} \cite{Haarnoja2018} and is based on the maximum entropy framework, which aims to maximise both the expected return and the \gls{entropy} of the policy, encouraging the agent to succeed at the task while acting as randomly as possible. 
 
 The algorithm uses two critic networks to estimate the state-action value function, and a stochastic actor network that learns a policy that maximises the expected return while also maximising the entropy of the policy. The critic networks are updated using the Bellman equations, and the actor network is updated using the policy gradient method. The objective function for the actor network is defined as:
 \begin{equation}
@@ -298,7 +298,7 @@ The pseudo-code for the algorithm for \acrshort{sac} is outlined in appendix \re
 
 \subsubsection{Algorithm comparison}
 
-The five algorithms presented above are among the most widely used in the field of \acrshort{drl}, each addressing specific challenges in policy estimation and value function approximation. \acrshort{a2c} is an on-policy actor-critic method that reduces variance through advantage estimation, while \acrshort{ppo} changed on-policy learning by introducing a clipped surrogate objective that ensures stable policy updates. Although \acrshort{ddpg} pioneered continuous control through deterministic policies, \acrshort{td3} addressed the overestimation bias via twin critics and delayed updates of its predecessor. \acrshort{sac} revolutionised the paradigm in \acrshort{rl} by incorporating maximum entropy principles.
+The five algorithms presented above are among the most widely used in the field of \acrshort{drl}, each addressing specific challenges in policy estimation and value function approximation. \acrshort{a2c} is an on-policy actor-critic method that reduces variance through advantage estimation, while \acrshort{ppo} changed on-policy learning by introducing a clipped surrogate objective that ensures stable policy updates. Although \acrshort{ddpg} pioneered continuous control through deterministic policies, \acrshort{td3} addressed the overestimation bias of its predecessor via twin critics and delayed updates. \acrshort{sac} revolutionised the field of \acrshort{drl} by incorporating maximum entropy principles.
 
 An overview of the algorithms and their key characteristics is summarised in Table \ref{tab:drl_algorithms_comparison}. 
 
