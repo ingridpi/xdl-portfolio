@@ -1,3 +1,5 @@
+from typing import Optional
+
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -10,7 +12,9 @@ class FinancialDataVisualiser:
         """
         self.directory = directory
 
-    def plot_close_prices(self, data: pd.DataFrame) -> None:
+    def plot_close_prices(
+        self, data: pd.DataFrame, filename: Optional[str] = "close_prices"
+    ) -> None:
         """
         Plot closing prices of tickers in the data.
         :param data: DataFrame containing financial data with 'date', 'tic', and 'close' columns.
@@ -30,7 +34,7 @@ class FinancialDataVisualiser:
         plt.ylabel("Closing Price")
         plt.legend(title="Tickers")
         plt.tight_layout()
-        plt.savefig(f"{self.directory}/close_prices.png")
+        plt.savefig(f"{self.directory}/{filename}.png")
         plt.show()
 
     def plot_technical_indicators(
@@ -202,4 +206,7 @@ class FinancialDataVisualiser:
         plt.suptitle("Train and Test Closing Prices of Tickers")
         plt.tight_layout()
         plt.savefig(f"{self.directory}/train_test_close_prices.png")
+        plt.show()
+        plt.show()
+        plt.show()
         plt.show()
