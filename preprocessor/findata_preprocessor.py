@@ -196,30 +196,30 @@ class FinancialDataPreprocessor:
         return data
 
     def split_train_test(
-        self, data: pd.DataFrame, train_end_date: pd.Timestamp | str
+        self, data: pd.DataFrame, test_start_date: pd.Timestamp | str
     ) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
-        Split the data into training and testing sets based on the given train end date.
+        Split the data into training and testing sets based on the given test start date.
         :param data: DataFrame containing financial data.
-        :param train_end_date: The end date for the training set. Data before and including this date will be used for training, and data after this date will be used for testing.
+        :param test_start_date: The start date for the testing set. Data after this date will be used for testing.
         :return: A tuple containing the training DataFrame and the testing DataFrame.
         """
 
-        # Ensure train end date is part of the DataFrame
-        train_end_date = pd.to_datetime(train_end_date)
+        # Ensure test start date is part of the DataFrame
+        test_start_date = pd.to_datetime(test_start_date)
         if "date" not in data.columns:
             raise ValueError("Data must contain a 'date' column for splitting.")
         if (
-            train_end_date < data["date"].min()
-            or train_end_date > data["date"].max()
+            test_start_date < data["date"].min()
+            or test_start_date > data["date"].max()
         ):
             raise ValueError(
-                f"The train end date is outside of the 'date' column values."
+                f"The test start date is outside of the 'date' column values."
             )
 
         # Split the data into training and testing sets
-        train_data = data[data["date"] <= train_end_date].copy()
-        test_data = data[data["date"] > train_end_date].copy()
+        train_data = data[data["date"] < test_start_date].copy()
+        test_data = data[data["date"] >= test_start_date].copy()
 
         train_data = self.__set_index(train_data)
         test_data = self.__set_index(test_data)
