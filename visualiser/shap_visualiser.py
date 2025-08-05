@@ -14,6 +14,9 @@ class ShapVisualiser:
         shap_values: shap.Explanation,
         action_space: pd.DataFrame,
         X_test: pd.DataFrame,
+        directory: str,
+        filename: str,
+        model_name: str,
         shap_interaction_values: Optional[np.ndarray] = None,
     ) -> None:
         """
@@ -21,24 +24,26 @@ class ShapVisualiser:
         :param shap_values: SHAP explanation object containing the SHAP values.
         :param action_space: DataFrame containing the action space columns.
         :param X_test: DataFrame containing the test state space data.
+        :param directory: Directory where plots will be saved.
+        :param filename: Base filename for the saved plots.
+        :param model_name: Name of the DRL model to which the feature importances belong to.
         :param shap_interaction_values: SHAP interaction values for the features.
         """
         self.shap_values = shap_values
         self.action_space = action_space
         self.X_test = X_test
+        self.directory = directory
+        self.filename = filename
+        self.model_name = model_name
         self.shap_interaction_values = shap_interaction_values
 
     def beeswarm_plot(
         self,
         index: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a beeswarm plot for the SHAP values.
         :param index: Index of the asset in the action space to plot.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         ax = shap.plots.beeswarm(
@@ -49,20 +54,18 @@ class ShapVisualiser:
         )
         asset = self.action_space.columns[index]
         ax.set_title(f"SHAP Beeswarm Plot for {asset}")
-        plt.savefig(f"{directory}/{filename}_shap_beeswarm_{asset}.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_beeswarm_{asset}.png"
+        )
         plt.show()
 
     def force_plot(
         self,
         index: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a force plot for the SHAP values.
         :param index: Index of the asset in the action space to plot.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         force_plot = shap.plots.force(
@@ -72,7 +75,7 @@ class ShapVisualiser:
         )
 
         shap.save_html(
-            f"{directory}/{filename}_shap_force_{self.action_space.columns[index]}.html",
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_force_{self.action_space.columns[index]}.html",
             force_plot,
         )
 
@@ -80,15 +83,11 @@ class ShapVisualiser:
         self,
         index: int,
         obs: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a force plot for a single observation.
         :param index: Index of the asset in the action space to plot.
         :param obs: Index of the observation to plot in time.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         shap.plots.force(
@@ -120,41 +119,30 @@ class ShapVisualiser:
                         pass
 
         plt.savefig(
-            f"{directory}/{filename}_shap_force_single_obs_{asset}_{obs}.png"
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_force_single_obs_{asset}_{obs}.png"
         )
         plt.show()
 
     def force_plot_assets(
         self,
         obs: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create force plots for each asset in the portfolio.
         :param obs: Index of the observation to plot in time.
-        :param columns: List of asset columns to plot.
-        :param directory: Directory where the plots will be saved.
-        :param filename: Base filename for the saved plots.
-        :return: None
         """
         for index, _ in enumerate(self.action_space.columns):
-            self.force_plot_single_obs(index, obs, directory, filename)
+            self.force_plot_single_obs(index, obs)
 
     def waterfall_plot_single_obs(
         self,
         index: int,
         obs: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a waterfall plot for the SHAP values.
         :param index: Index of the asset in the action space to plot.
         :param obs: Index of the observation to plot in time.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
-        :return: None
         """
         shap.plots.waterfall(
             self.shap_values[obs, ..., index], show=False, max_display=10
@@ -163,20 +151,18 @@ class ShapVisualiser:
         asset = self.action_space.columns[index]
 
         plt.title(f"SHAP Waterfall Plot for {asset}")
-        plt.savefig(f"{directory}/{filename}_shap_waterfall_{asset}.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_waterfall_{asset}.png"
+        )
         plt.show()
 
     def heatmap(
         self,
         index: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a heatmap for the SHAP values.
         :param index: Index of the asset in the action space to plot.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         shap.plots.heatmap(
@@ -184,21 +170,18 @@ class ShapVisualiser:
         )
         asset = self.action_space.columns[index]
         plt.title(f"SHAP Heatmap for {asset}")
-        plt.savefig(f"{directory}/{filename}_shap_heatmap_{asset}.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_heatmap_{asset}.png"
+        )
         plt.show()
 
     def interaction_plot(
         self,
         index: int,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Create a summary plot for the SHAP interaction values.
         :param index: Index of the asset in the action space to plot.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
-        :return: None
         """
         if self.shap_interaction_values is None:
             raise ValueError("SHAP interaction values are not provided.")
@@ -213,5 +196,7 @@ class ShapVisualiser:
             y=1.1,
             fontsize=14,
         )
-        plt.savefig(f"{directory}/{filename}_shap_interaction_{asset}.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_{self.filename}_shap_interaction_{asset}.png"
+        )
         plt.show()

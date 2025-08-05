@@ -7,11 +7,30 @@ from sklearn.ensemble import RandomForestRegressor
 
 
 class FeatureImportance:
-    def __init__(self, model: RandomForestRegressor, columns: List[str]):
+    def __init__(
+        self,
+        model: RandomForestRegressor,
+        columns: List[str],
+        directory: str,
+        model_name: str,
+    ):
+        """
+        Initialize the FeatureImportance class.
+        :param model: Trained Random Forest model.
+        :param columns: List of feature names.
+        :param directory: Directory where plots will be saved.
+        :param model_name: Name of the DRL model to which the feature importances belong to.
+        """
         self.model = model
         self.columns = columns
+        self.directory = directory
+        self.model_name = model_name
 
     def get_feature_importances(self) -> pd.DataFrame:
+        """
+        Calculate feature importances from the trained model.
+        :return: DataFrame containing feature names and their importances.
+        """
         importances = self.model.feature_importances_
         feature_importances = pd.DataFrame(
             {
@@ -35,14 +54,10 @@ class FeatureImportance:
 
     def plot_feature_importances(
         self,
-        directory: str,
-        filename: str,
         max_features: int = 20,
     ) -> None:
         """
         Plot the feature importances
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :param max_features: Maximum number of features to display. Defaults to 20.
         :return: None
         """
@@ -57,19 +72,17 @@ class FeatureImportance:
         plt.xlabel("Importance")
         plt.ylabel("Feature")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_feature_importance.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_feature_importance.png"
+        )
         plt.show()
 
     def plot_feature_importances_by_ticker(
         self,
-        directory: str,
-        filename: str,
         max_features: int = 20,
     ) -> None:
         """
         Plot the feature importances by ticker.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         plt.figure(figsize=(10, 6))
@@ -85,7 +98,9 @@ class FeatureImportance:
         plt.ylabel("Feature")
         plt.legend(title="Ticker")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_feature_importance_by_ticker.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_feature_importance_by_ticker.png"
+        )
         plt.show()
 
     def add_comparison(
@@ -123,15 +138,11 @@ class FeatureImportance:
 
     def plot_feature_importance_comparison(
         self,
-        directory: str,
-        filename: str,
         max_features: int = 20,
         statistic: Literal["mean", "median", "q1", "q3"] = "mean",
     ) -> None:
         """
         Plot the feature importances with comparison to a statistical threshold.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :param max_features: Maximum number of features to display. Defaults to 20.
         :param statistic: Statistical function to compare against (e.g., mean, median, q1, q3).
         :return: None
@@ -152,20 +163,16 @@ class FeatureImportance:
         plt.legend(title="")
         plt.tight_layout()
         plt.savefig(
-            f"{directory}/{filename}_feature_importance_{statistic}_comparison.png"
+            f"{self.directory}/{self.model_name}_feature_importance_{statistic}_comparison.png"
         )
         plt.show()
 
     def plot_feature_importance_by_indicator(
         self,
-        directory: str,
-        filename: str,
         max_features: int = 20,
     ) -> None:
         """
         Plot the feature importances by indicator.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :param max_features: Maximum number of features to display. Defaults to 20.
         :return: None
         """
@@ -183,14 +190,12 @@ class FeatureImportance:
         plt.legend(title="Indicator")
         plt.tight_layout()
         plt.savefig(
-            f"{directory}/{filename}_feature_importance_by_indicator.png"
+            f"{self.directory}/{self.model_name}_feature_importance_by_indicator.png"
         )
         plt.show()
 
     def plot_top_features_per_ticker(
         self,
-        directory: str,
-        filename: str,
         top_features: int = 5,
     ) -> None:
         """
@@ -222,19 +227,17 @@ class FeatureImportance:
         plt.ylabel("Feature")
         plt.legend(title="Ticker")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_top_features_per_ticker.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_top_features_per_ticker.png"
+        )
         plt.show()
 
     def plot_top_features_per_indicator(
         self,
-        directory: str,
-        filename: str,
         top_features: int = 5,
     ) -> None:
         """
         Plot the top features per indicator.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :param top_features: Number of top features to display per indicator. Defaults to 5
         :return: None
         """
@@ -276,18 +279,16 @@ class FeatureImportance:
         plt.ylabel("Feature")
         plt.legend(title="Indicator")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_top_features_per_indicator.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_top_features_per_indicator.png"
+        )
         plt.show()
 
     def plot_mean_importance_by_ticker(
         self,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Plot the mean feature importances by ticker.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         mean_importances = (
@@ -309,18 +310,16 @@ class FeatureImportance:
         plt.xlabel("Mean Importance")
         plt.ylabel("Ticker")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_mean_importance_by_ticker.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_mean_importance_by_ticker.png"
+        )
         plt.show()
 
     def plot_mean_importance_by_indicator(
         self,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Plot the mean feature importances by indicator.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Base filename for the saved plot.
         :return: None
         """
         mean_importances = (
@@ -342,5 +341,7 @@ class FeatureImportance:
         plt.xlabel("Mean Importance")
         plt.ylabel("Indicator")
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_mean_importance_by_indicator.png")
+        plt.savefig(
+            f"{self.directory}/{self.model_name}_mean_importance_by_indicator.png"
+        )
         plt.show()
