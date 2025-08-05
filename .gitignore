@@ -179,7 +179,7 @@ cython_debug/
 .LSOverride
 
 # Ignore data files
-data/*.csv
+data/*
 
 # Ignore trained models
 models/*
