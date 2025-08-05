@@ -30,10 +30,9 @@ VAL_END_DATE = "2023-12-31"
 TEST_START_DATE = "2024-01-01"
 TEST_END_DATE = END_DATE
 
-USE_TECHNICAL_INDICATORS = True
-USE_MACROECONOMIC_INDICATORS = True
-
-MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]
+# Configuration for technical indicators
+USE_TECHNICAL_INDICATORS = False
+USE_MACROECONOMIC_INDICATORS = False
 
 # Environment representation columns
 ENVIRONMENT_COLUMNS = [
