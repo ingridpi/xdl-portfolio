@@ -1,0 +1,17 @@
+\begin{tikzpicture}[>=stealth]
+    % Nodes
+    \node[draw, rectangle, minimum width=2cm, minimum height=1cm] (agent) {Agent};
+    \node[draw, rectangle, minimum width=2.8cm, minimum height=1cm, right=5cm of agent] (env) {Environment};
+
+    % Coordinates for paths
+    \coordinate (top1) at ($(env.north)+(0,1.5)$);
+    \coordinate (top2) at ($(agent.north)+(0,1.5)$);
+
+    \coordinate (bot1) at ($(env.south)+(0,-1.5)$);
+    \coordinate (bot2) at ($(agent.south)+(0,-1.5)$);
+
+    % Arrows
+    \draw[->] (agent) -- node[above, midway] {Action $a_t$} (env);
+    \draw[->] (env.north) -- (top1) -- node[above] {State $s_t$} (top2) -- (agent.north);
+    \draw[->] (env.south) -- (bot1) -- node[below] {Reward $r_t$} (bot2) -- (agent.south);
+\end{tikzpicture}

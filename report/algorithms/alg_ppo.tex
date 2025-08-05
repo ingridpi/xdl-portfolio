@@ -1,0 +1,30 @@
+\begin{algorithmic}
+\State \textbf{Initialise:}
+\State \quad Policy parameters $\theta_0$ and value function parameters $\phi_0$
+\State \quad Global step counter $T \gets 0$
+\State \quad Hyper-parameters: discount $\gamma$, GAE parameter $\lambda$, clipping parameter $\epsilon$, learning rates $\alpha_\pi, \alpha_v$, epochs per update $K_{\text{epochs}}$, minibatch size $N_{\text{minibatch}}$, loss coefficients $c_1, c_2$
+\For{$k = 0, 1, 2, \ldots$}
+    \State Collect set of trajectories $\mathcal{D}_k = \{\tau_i\}$ by running policy $\pi_{\theta_k}$ in environment
+    \State Store transitions: $\{(s_t, a_t, r_t, s_{t+1}, \text{done}_t)\}$
+    \For{each trajectory $\tau$ in $\mathcal{D}_k$}
+        \State Compute value estimates: $V_t = V_{\phi_k}(s_t)$
+        \State Compute TD residuals: $\delta_t = r_t + \gamma V_{t+1} (1 - \text{done}_t) - V_t$
+        \State Compute GAE advantages: $\hat{A}_t = \sum_{l=0}^{\infty} (\gamma \lambda)^l \delta_{t+l}$
+        \State Compute returns: $\hat{R}_t = \hat{A}_t + V_t$
+    \EndFor
+    \For{epoch $e = 1$ to $K_{\text{epochs}}$}
+        \State Shuffle dataset $\mathcal{D}_k$
+        \For{each minibatch $\mathcal{B}$ in $\mathcal{D}_k$}
+            \State $r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_k}(a_t | s_t)}$
+            \State $L^{\text{CLIP}}(\theta) = \frac{1}{|\mathcal{B}|} \sum_{t \in \mathcal{B}} \min\left(r_t(\theta) \hat{A}_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \hat{A}_t\right)$
+            \State $L^{VF}(\phi) = \frac{1}{|\mathcal{B}|} \sum_{t \in \mathcal{B}} \left(V_\phi(s_t) - \hat{R}_t\right)^2$
+            \State $L(\theta, \phi) = L^{\text{CLIP}}(\theta) - c_1 L^{VF}(\phi) + c_2 S[\pi_\theta]$
+            \State $\theta \gets \theta + \alpha_\pi \nabla_\theta L^{\text{CLIP}}(\theta)$
+            \State $\phi \gets \phi - \alpha_v \nabla_\phi L^{VF}(\phi)$
+        \EndFor
+    \EndFor
+    \State Update policy: $\theta_{k+1} = \theta$
+    \State Update value function: $\phi_{k+1} = \phi$
+    \State $T \gets T + |\mathcal{D}_k|$
+\EndFor
+\end{algorithmic}

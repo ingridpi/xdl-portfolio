@@ -18,6 +18,9 @@
 \usepackage{pgfgantt}
 \usepackage{nomencl}
 \usepackage[acronym]{glossaries}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{exa}{Example}[section]
@@ -66,7 +69,7 @@
 
 %%%%% Table of contents
 \pagenumbering{roman}
-\setcounter{tocdepth}{4}
+\setcounter{tocdepth}{2}
 \doublespacing
 \tableofcontents
 \newpage
@@ -77,6 +80,10 @@
 
 %%%%% List of tables
 \listoftables
+\newpage
+
+%%%%% List of algorithms
+\listofalgorithms
 \newpage
 
 %%%%% Nomenclature
@@ -115,7 +122,7 @@
 \bibliography{bibliography} 
 
 %%%%%% Appendices
-\include{contents/appendix}
-
+\appendix
+\include{appendix/drl_algorithms}
 
 \end{document}

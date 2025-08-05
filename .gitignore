@@ -193,6 +193,7 @@ logs/*
 *.out
 *.lof
 *.lot
+*.loa
 *.fls
 *.fdb_latexmk
 *.synctex.gz

@@ -61,7 +61,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=3.25cm]{figures/kcl.png}
+\includegraphics[width=5cm]{figures/kcl.png}
 \end{figure}
 
 \begin{center}
