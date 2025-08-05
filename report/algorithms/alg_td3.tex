@@ -4,7 +4,7 @@
 \State \quad Actor policy $\mu_{\phi}(s)$ with random weights $\phi$
 \State \quad Target networks: $\theta_1' \leftarrow \theta_1$, $\theta_2' \leftarrow \theta_2$, $\phi' \leftarrow \phi$
 \State \quad Replay buffer $\mathcal{B}$
-\State \quad Hyper-parameters: discount $\gamma$, target noise $\tilde{\sigma}$, noise clip $c$, policy delay $d$, smoothing noise $\sigma$, update rate $\tau$
+\State \quad Hyper-parameters: discount $\gamma$, target policy noise $\tilde{\sigma}$, noise clip $c$, policy delay $d$, exploration noise $\sigma$, update rate $\tau$, batch size $N$, total steps $T$
 \For{$t = 1$ to $T$}
     \State Observe state $s_t$
     \State Sample action with exploration: $a_t = \mu_{\phi}(s_t) + \epsilon$, $\epsilon \sim \mathcal{N}(0,\sigma)$
@@ -20,7 +20,7 @@
     \If{$t \bmod d = 0$}
         \State Update actor by policy gradient: $\nabla_{\phi} J \approx \frac{1}{N}\sum_i \nabla_a Q_{\theta_1}(s_i,a)\mid_{a=\mu_{\phi}(s_i)} \nabla_{\phi} \mu_{\phi}(s_i)$
         \State Update target networks:
-        \State \quad $\theta_j' \leftarrow \tau\,\theta_j + (1-\tau)\,\theta_j'$ \hfill for $j=1,2$
+        \State \quad $\theta_j' \leftarrow \tau\,\theta_j + (1-\tau)\,\theta_j'$ for $j=1,2$
         \State \quad $\phi' \leftarrow \tau\,\phi + (1-\tau)\,\phi'$
     \EndIf
 \EndFor

@@ -1,20 +1,22 @@
 \begin{algorithmic}
-\State Randomly initialise critic network $Q(s, a|\theta^Q)$ and actor $\mu(s|\theta^\mu)$ with weights $\theta^Q$ and $\theta^\mu$
-\State Initialise target networks $Q'$ and $\mu'$ with weights $\theta^{Q'} \leftarrow \theta^Q$, $\theta^{\mu'} \leftarrow \theta^\mu$
-\State Initialise replay buffer $\mathcal{R}$
-\For{episode $= 1, M$}
-    \State Initialise a random process $\mathcal{N}$ for action exploration
-    \State Receive initial observation state $s_1$
-    \For{$t = 1, T$}
-        \State Select action $a_t = \mu(s_t|\theta^\mu) + \mathcal{N}_t$ according to current policy and exploration noise
-        \State Execute action $a_t$ and observe reward $r_t$ and new state $s_{t+1}$
-        \State Store transition $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{R}$
-        \State Sample random mini-batch of $N$ transitions $(s_i, a_i, r_i, s_{i+1})$ from $\mathcal{R}$
-        \State Set $y_i = r_i + \gamma Q'(s_{i+1}, \mu'(s_{i+1}|\theta^{\mu'})|\theta^{Q'})$
-        \State Update critic by minimising the loss: $L = \frac{1}{N}\sum_i (y_i - Q(s_i, a_i|\theta^Q))^2$
-        \State Update the actor policy using the sampled policy gradient:
-        \State \quad $\nabla_{\theta^\mu} J \approx \frac{1}{N}\sum_i \nabla_a Q(s, a|\theta^Q)|_{s=s_i,a=\mu(s_i)} \nabla_{\theta^\mu}\mu(s|\theta^\mu)|_{s_i}$
-        \State Update the target networks:
+\State \textbf{Initialise:}
+\State \quad Critic network $Q_{\theta^Q}(s, a)$ and actor $\mu_{\theta^\mu}(s)$ with random weights $\theta^Q$, $\theta^\mu$
+\State \quad Target networks: $\theta^{Q'} \leftarrow \theta^Q$, $\theta^{\mu'} \leftarrow \theta^\mu$
+\State \quad Replay buffer $\mathcal{B}$
+\State \quad Hyper-parameters: discount $\gamma$, soft update rate $\tau$, batch size $N$, exploration noise process $\mathcal{N}$, learning rates $\alpha_Q, \alpha_\mu$, total episodes $M$, steps per episode $T$
+\For{episode $= 1$ to $M$}
+    \State Initialise random process $\mathcal{N}$ for action exploration
+    \State Receive initial state $s_1$
+    \For{$t = 1$ to $T$}
+        \State Select action $a_t = \mu_{\theta^\mu}(s_t) + \mathcal{N}_t$
+        \State Execute $a_t$, observe reward $r_t$ and next state $s_{t+1}$
+        \State Store $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{B}$
+        \State Sample mini-batch $\{(s_i, a_i, r_i, s_{i+1})\}_{i=1}^N$ from $\mathcal{B}$
+        \State Compute target: $y_i = r_i + \gamma Q_{\theta^{Q'}}(s_{i+1}, \mu_{\theta^{\mu'}}(s_{i+1}))$
+        \State Update critic by minimising: $L(\theta^Q) = \frac{1}{N}\sum_i (y_i - Q_{\theta^Q}(s_i, a_i))^2$
+        \State Update actor by policy gradient:
+        \State \quad $\nabla_{\theta^\mu} J \approx \frac{1}{N}\sum_i \nabla_a Q_{\theta^Q}(s_i, a)|_{a=\mu_{\theta^\mu}(s_i)} \nabla_{\theta^\mu}\mu_{\theta^\mu}(s_i)$
+        \State Update target networks:
         \State \quad $\theta^{Q'} \leftarrow \tau \theta^Q + (1 - \tau)\theta^{Q'}$
         \State \quad $\theta^{\mu'} \leftarrow \tau \theta^\mu + (1 - \tau)\theta^{\mu'}$
     \EndFor

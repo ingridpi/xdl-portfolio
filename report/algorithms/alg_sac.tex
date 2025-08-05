@@ -4,18 +4,14 @@
 \State \quad Two critic networks $Q_{\phi_1}(s,a)$ and $Q_{\phi_2}(s,a)$ with parameters $\phi_1, \phi_2$
 \State \quad Target critic networks: $\phi_1' \leftarrow \phi_1$, $\phi_2' \leftarrow \phi_2$
 \State \quad Replay buffer $\mathcal{D}$
-\State \quad Temperature parameter $\alpha$ (fixed or learnable)
-\State \quad Target entropy $\mathcal{H}$ (if $\alpha$ is learnable)
-\State
+\State \quad Hyper-parameters: discount $\gamma$, temperature $\alpha$ (fixed or learnable), target entropy $\mathcal{H}$ (if $\alpha$ is learnable), batch size $N$, learning rates $\lambda_Q, \lambda_\pi, \lambda_\alpha$, soft update rate $\tau$
 \For{each training step}
     \State Observe state $s_t$
-    \State Sample action from policy: $a_t \sim \pi_\theta(\cdot | s_t)$
-    \State Execute action $a_t$, observe reward $r_t$ and next state $s_{t+1}$
-    \State Store transition $(s_t, a_t, r_t, s_{t+1})$ in replay buffer $\mathcal{D}$
-    \State
+    \State Sample action: $a_t \sim \pi_\theta(\cdot | s_t)$
+    \State Execute $a_t$, observe reward $r_t$ and next state $s_{t+1}$
+    \State Store $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{D}$
     \If{time to update}
         \State Sample mini-batch $\{(s_i, a_i, r_i, s_{i+1})\}_{i=1}^N$ from $\mathcal{D}$
-        \State
         \State \textbf{Update Critics:}
         \For{$j = 1, 2$}
             \State Sample next actions: $\tilde{a}_{i+1} \sim \pi_\theta(\cdot | s_{i+1})$
@@ -23,19 +19,16 @@
             \State \quad $y_i = r_i + \gamma \left(\min_{k=1,2} Q_{\phi_k'}(s_{i+1}, \tilde{a}_{i+1}) - \alpha \log \pi_\theta(\tilde{a}_{i+1} | s_{i+1})\right)$
             \State Update critic: $\phi_j \leftarrow \phi_j - \lambda_Q \nabla_{\phi_j} \frac{1}{N}\sum_i (Q_{\phi_j}(s_i, a_i) - y_i)^2$
         \EndFor
-        \State
         \State \textbf{Update Actor:}
         \State Sample actions with reparametrisation: $\tilde{a}_i = f_\theta(\epsilon_i; s_i)$ where $\epsilon_i \sim \mathcal{N}(0, I)$
         \State Compute policy loss:
         \State \quad $J(\theta) = \frac{1}{N}\sum_i \left[\alpha \log \pi_\theta(\tilde{a}_i | s_i) - \min_{j=1,2} Q_{\phi_j}(s_i, \tilde{a}_i)\right]$
         \State Update actor: $\theta \leftarrow \theta - \lambda_\pi \nabla_\theta J(\theta)$
-        \State
         \If{$\alpha$ is learnable}
             \State \textbf{Update Temperature:}
             \State $J(\alpha) = \frac{1}{N}\sum_i \alpha \left(\log \pi_\theta(\tilde{a}_i | s_i) + \mathcal{H}\right)$
             \State Update temperature: $\alpha \leftarrow \alpha - \lambda_\alpha \nabla_\alpha J(\alpha)$
         \EndIf
-        \State
         \State \textbf{Update Target Networks:}
         \State $\phi_j' \leftarrow \tau \phi_j + (1-\tau) \phi_j'$ for $j = 1, 2$
     \EndIf
