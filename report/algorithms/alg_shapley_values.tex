@@ -1,0 +1,26 @@
+\begin{algorithmic}
+\Require Number of iterations $M$, instance of interest $\mathbf{x}$, feature index $j$, data matrix $\mathbf{X}$, model $\hat{f}$
+\Ensure Estimated Shapley value $\phi_j(\mathbf{x})$
+
+\For{$m = 1$ to $M$}
+    \State Draw a random instance $\mathbf{z}$ from data matrix $\mathbf{X}$
+    \State Choose a random permutation $\mathbf{o}$ of the feature indices
+    \State Order $\mathbf{x}$ according to $\mathbf{o}$: $\mathbf{x}_{\mathbf{o}} = \left(x_{(1)}, \dots, x_{(j)}, \dots, x_{(p)}\right)$
+    \State Order $\mathbf{z}$ according to $\mathbf{o}$: $\mathbf{z}_{\mathbf{o}} = \left(z_{(1)}, \dots, z_{(j)}, \dots, z_{(p)}\right)$
+    
+    \State Construct two new instances:
+    \State \hskip1.5em $\mathbf{x}_{+j} = \left(x_{(1)}, \dots, x_{(j-1)}, x_{(j)}, z_{(j+1)}, \dots, z_{(p)}\right)$
+    \State \hskip1.5em $\mathbf{x}_{-j} = \left(x_{(1)}, \dots, x_{(j-1)}, z_{(j)}, z_{(j+1)}, \dots, z_{(p)}\right)$
+    
+    \State Compute marginal contribution: 
+    \[
+        \phi_j^{(m)} = \hat{f}(\mathbf{x}_{+j}) - \hat{f}(\mathbf{x}_{-j})
+    \]
+\EndFor
+
+\State Compute average Shapley value:
+\[
+    \phi_j(\mathbf{x}) = \frac{1}{M} \sum_{m=1}^M \phi_j^{(m)}
+\]
+
+\end{algorithmic}

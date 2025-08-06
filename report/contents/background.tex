@@ -362,3 +362,50 @@ The method works as follows:
 \end{itemize}
 
 Its main advantages are its ability to work across different types of data and models, due to its model-agnostic nature, and its explanations are human-friendly and include a fidelity measure that indicates how well the explanation approximates the black-box model's local behaviour. Nonetheless, the method offers only local explanations, which may not generalise well to the entire model; it relies on the choice of neighbourhood; and the complexity of the surrogate model needs to be defined in advance and can compromise the interpretability of the explanation \cite{Molnar2025}.
+
+\subsection{SHapley Additive exPlanations (SHAP)} \label{sec:shap}
+
+Another model-agnostic technique is \acrfull{shap}, which was introduced by Lundberg and Lee (2017) in their paper on \textit{A unified approach to interpreting model predictions} \cite{Lundberg2017}. The method is based on cooperative game theory and the concept of Shapley values \cite{Shapley1953}.
+
+The Shapley value arises in cooperative game theory, to answer the question of how to fairly distribute the contribution of each player in a coalition. In this framework, a coalitional game is represented as a tuple $(N,v)$, where $N = \{1, 2, \ldots, n\}$ is the set of players and $v: 2^N \rightarrow \mathbb{R}$ is the characteristic function that assigns a value $v(S)$ to each possible coalition $S \subseteq N$, with the convention that $v(\emptyset) = 0$. The characteristic function $v(S)$ represents the total value that coalition $S$ can achieve through cooperation. 
+
+Mathematically, the Shapley value for a feature $i$ is defined as:
+\begin{equation}
+    \phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} \left[ v_{S \cup \{i\}}(x_{S \cup \{i\}}) - v_S(x_S) \right]
+\end{equation}
+where $S \subseteq N$ is a subset of all features $N$, $v_{S \cup \{i\}}$ is marginal contribution of player $i$ to coalition $S$, and $v_S$ is the value of coalition $S$ without player $i$. This formula can be understood as computing the weighted average of marginal contributions of feature $i$ across all possible coalitions. 
+
+The advantage of Shapley values is that it is the only attribution method that results in a fair payout. In particular, it satisfies the four fundamental properties that define a fair allocation: 
+
+\begin{itemize}
+    \item \textbf{Efficiency:} The sum of all Shapley values equals the value of the grand coalition:
+    \[
+        \sum_{i \in N} \phi_i = v(N)
+    \]
+    \item \textbf{Symmetry:} The contributions of two players $i$ and $j$ should be equal if they make identical marginal contributions to all possible coalitions:
+    \[
+        v(S \cup \{i\}) = v(S \cup \{j\}), \forall S \subseteq N \setminus \{i, j\} \implies \phi_i = \phi_j
+    \]
+    \item \textbf{Dummy:} If a player contributes nothing to any coalition they join, their Shapley value should be zero:
+    \[
+        v(S \cup \{i\}) = v(S), \forall S \subseteq N \setminus \{i\} \implies \phi_i = 0
+    \]
+    \item \textbf{Additivity:} For two games $(N,v_1)$ and $(N,v_2)$, the Shapley value of the combined game $(N,v_1+v_2)$ equals the sum of individual Shapley values:
+    \[
+        \phi_i(v_1 + v_2) = \phi_i(v_1) + \phi_i(v_2)
+    \]
+\end{itemize}
+
+The algorithm for approximating Shapley values is outlined in \ref{alg:shapley}. However, the method is computationally expensive, as it requires evaluating the model for all possible coalitions of features. 
+
+\begin{algorithm}
+\label{alg:shapley}
+\caption{Shapley Value Approximation}
+\input{algorithms/alg_shapley_values.tex}
+\end{algorithm}
+
+The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining black-box regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method. The explanation is given as:
+\begin{equation}
+    g(\mathbf{z}') = \phi_0 + \sum_{i=1}^{M} \phi_j z'_j
+\end{equation}
+where $g$ is the explanation model, $\mathbf{z}' \in \{0,1\}^M$ is the coalition vector, $M$ is the maximum coalition size and $\phi_j$ is the feature attribution for feature $j$.
