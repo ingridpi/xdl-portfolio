@@ -207,6 +207,3 @@ class FinancialDataVisualiser:
         plt.tight_layout()
         plt.savefig(f"{self.directory}/train_test_close_prices.png")
         plt.show()
-        plt.show()
-        plt.show()
-        plt.show()
