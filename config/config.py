@@ -24,14 +24,15 @@ EXCHANGE_LSE = "XLON"  # London Stock Exchange
 EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
 
 TRAIN_START_DATE = START_DATE
-TRAIN_END_DATE = "2023-12-31"
+TRAIN_END_DATE = "2022-12-31"
+VAL_START_DATE = "2023-01-01"
+VAL_END_DATE = "2023-12-31"
 TEST_START_DATE = "2024-01-01"
 TEST_END_DATE = END_DATE
 
-USE_TECHNICAL_INDICATORS = True
-USE_MACROECONOMIC_INDICATORS = True
-
-MODELS = ["a2c", "ppo", "ddpg", "td3", "sac"]
+# Configuration for technical indicators
+USE_TECHNICAL_INDICATORS = False
+USE_MACROECONOMIC_INDICATORS = False
 
 # Environment representation columns
 ENVIRONMENT_COLUMNS = [
@@ -51,3 +52,9 @@ if USE_MACROECONOMIC_INDICATORS:
 TICKERS = config_tickers.TEST_TICKERS
 TICKERS_NAME = TEST_NAME
 EXCHANGE = EXCHANGE_NYSE
+
+# Set dataset name based on the configuration
+if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
+    DATASET_NAME = "dataset-indicators"
+else:
+    DATASET_NAME = "simple-dataset"

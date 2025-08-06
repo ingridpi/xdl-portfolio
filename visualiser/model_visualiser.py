@@ -8,8 +8,13 @@ import seaborn as sns
 class ModelVisualiser:
     def __init__(
         self,
+        directory: str,
     ):
-        pass
+        """
+        Initializes the ModelVisualiser with a directory to save plots.
+        :param directory: Directory where the plots will be saved.
+        """
+        self.directory = directory
 
     def evaluate_training(
         self,
@@ -18,8 +23,6 @@ class ModelVisualiser:
         y: List[str],
         title: List[str],
         logs_dir: str,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Visualises the training progress of an agent by plotting specified variables against a common
@@ -29,9 +32,6 @@ class ModelVisualiser:
         :param y: List of variable names to be plotted on the y-axis.
         :param title: List of titles for each subplot corresponding to the y variables.
         :param logs_dir: Directory where the training logs are stored.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Name of the file to save the plot (without extension).
-        :return: None
         """
 
         num_variables = len(y)
@@ -58,7 +58,7 @@ class ModelVisualiser:
 
         plt.suptitle(f"Training Progress of {model_name.upper()} Agent", y=1)
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_{model_name}_train_evaluation.png")
+        plt.savefig(f"{self.directory}/{model_name}_train_evaluation.png")
         plt.show()
 
     def evaluate_testing(
@@ -66,17 +66,12 @@ class ModelVisualiser:
         model_name: str,
         account_data: pd.DataFrame,
         actions_data: pd.DataFrame,
-        directory: str,
-        filename: str,
     ) -> None:
         """
         Visualises the testing results of an agent by plotting account value and actions over time.
         :param model_name: Name of the model being evaluated (e.g., 'a2c').
         :param account_data: DataFrame containing account values with a 'date' column.
         :param actions_data: DataFrame containing actions with a 'date' column.
-        :param directory: Directory where the plot will be saved.
-        :param filename: Name of the file to save the plot (without extension).
-        :return: None
         """
 
         _, ax = plt.subplots(2, 1, figsize=(12, 10), sharex=True)
@@ -128,5 +123,5 @@ class ModelVisualiser:
 
         plt.suptitle(f"Testing Results of {model_name.upper()} Agent", y=1)
         plt.tight_layout()
-        plt.savefig(f"{directory}/{filename}_{model_name}_test_evaluation.png")
+        plt.savefig(f"{self.directory}/{model_name}_test_evaluation.png")
         plt.show()

@@ -142,16 +142,14 @@ class DRLAgent:
         model: BaseAlgorithm,
         model_name: str,
         directory: str,
-        filename: str,
     ):
         """
         Saves the trained model to a specified directory.
         :param model: The trained DRL model.
         :param model_name: The name of the model.
         :param directory: The directory where the model will be saved.
-        :param filename: The filename for the saved model.
         """
-        model_path = f"{directory}/{filename}_{model_name}"
+        model_path = f"{directory}/{model_name}"
         model.save(model_path)
         print(f"Model saved to {model_path}")
 
@@ -159,13 +157,11 @@ class DRLAgent:
         self,
         model_name: str,
         directory: str,
-        filename: str,
     ) -> BaseAlgorithm:
         """
         Loads a trained model from a specified directory.
         :param model_name: The name of the model to load.
         :param directory: The directory where the model is saved.
-        :param filename: The filename of the saved model.
         :return: The loaded DRL model.
         :raises ValueError: If the model name is not supported.
         """
@@ -175,7 +171,7 @@ class DRLAgent:
                 f"Model {model_name} is not supported. Choose from {config_models.MODELS.keys()}."
             )
 
-        model_path = f"{directory}/{filename}_{model_name}"
+        model_path = f"{directory}/{model_name}"
         model = config_models.MODELS[model_name].load(model_path)
 
         print(f"Model successfully loaded from {model_path}")
