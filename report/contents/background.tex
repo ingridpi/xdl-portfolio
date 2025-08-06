@@ -329,12 +329,28 @@ Another classification relates to whether the explanation method depends on the 
 
 \subsection{Feature Importance} \label{sec:featureimportance}
 
-\Gls{featureimportance} quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary. The pseudo-code of the algorithm for permutation feature importance is outlined in algorithm \ref{alg:feature_importance}.
-
-\begin{algorithm}
-\label{alg:feature_importance}
-\caption{Permutation Feature Importance Pseudo-code \cite{sklearn52}}
-\input{algorithms/alg_feature_importance.tex}
-\end{algorithm}
+\Gls{featureimportance} quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary.
 
 An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing the impurity at each node. As such, a split with a large decrease of impurity is considered importance and as such the variable responsible for the split is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and tress in the forest at which the particular feature was used to split the data. The splitting criterion is normally the Gini impurity for classification tasks or the mean squared error for regression. However, this methods suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that they are computed on the training set.
+
+\subsection{Local Interpretable Model-agnostic Explanations (LIME)} \label{sec:lime}
+
+\acrfull{lime} is a model-agnostic explanation method that explains individual predictions of a \acrlong{ml} model by analysing the model locally around the prediction of interest. The method was introduced by Ribeiro et al. (2016) in their paper on \textit{Why should I trust you? Explaining the predictions of any classifier} \cite{Ribeiro2016}. The main idea is to use the black box model to understand what happens to the outputs when the input data is modified slightly, and then fit a simpler, interpretable model to the perturbed data to approximate the black box model's behaviour in that local region.
+
+Mathematically, let $\mathcal{L}(f,g,\pi_x)$ be a measure of how unfaithful an explanation model $g$ is in approximating the model $f:\mathbf{R}^d \to \mathbf{R}$ in the neighbourhood of the instance $x$ defined as $\pi_x$. The goal is to find an interpretable model $g \in G$ that minimises the following objective function:
+\begin{equation}
+    \xi(x) = \mathcal{L}(f, g, \pi_x) + \Omega(g)
+\end{equation}
+where $\Omega(g)$ is a regularisation term that penalises the complexity of the explanation model $g$ ensuring its interpretability, which is the qualitative understanding between inputs and outputs, and local fidelity, which refers to a model's ability to accurately approximate the model's behaviour in the local region, of the explanation. 
+
+The method works as follows:
+\begin{itemize}
+    \item \textbf{Instance Selection}: Start with a specific prediction instance that requires explanation.
+    \item \textbf{Perturbation}: Generate synthetic data points by perturbing the original instance.
+    \item \textbf{Model Querying}: Obtain predictions from the black-box model for these perturbed instances.
+    \item \textbf{Weighting}: Assign weights to the synthetic data points based on their proximity to the original instance.
+    \item \textbf{Surrogate Training}: Train a simple, interpretable model (typically linear regression) on the weighted synthetic dataset.
+    \item \textbf{Explanation}: Use the surrogate model to explain the original prediction by interpreting its coefficients or structure.
+\end{itemize}
+
+Its main advantages are its ability to work across different types of data and models, due to its model-agnostic nature, and its explanations are human-friendly and include a fidelity measure that indicates how well the explanation approximates the black-box model's local behaviour. Nonetheless, the method offers only local explanations, which may not generalise well to the entire model; it relies on the choice of neighbourhood; and the complexity of the surrogate model needs to be defined in advance and can compromise the interpretability of the explanation.
