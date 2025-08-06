@@ -319,3 +319,22 @@ An overview of the algorithms and their key characteristics is summarised in Tab
     \label{tab:drl_algorithms_comparison}
 \end{table}
 
+\section{Explainable Artificial Intelligence} \label{sec:explainableai}
+
+\acrfull{xai} refers to a set of processes, methods and techniques that enable human users to comprehend and trust the outcomes and decisions made by \acrfull{ai} systems. The goal is to make \acrshort{ai} algorithms more transparent, interpretable, and accountable, allowing end-users to understand the outputs of the models. This is particularly important in \acrfull{dl} where the models are often considered black boxes, making it difficult to understand how they arrive at their decisions due to the complexity, non-linearity and high-dimensionality of the models. With explainable systems, the benefits are numerous ranging from informed decision making to increased user adoption and better governance \cite{Phillips2021}. 
+
+Although there are many possible classifications of \acrshort{xai} methods, they can be broadly categorised into two main categories. First, transparent algorithms are inherently understandable and interpretable, such as linear regression, decision trees and rule-based systems. Second, post-hoc explanations are methods that require the usage of an additional algorithm to explain the decisions made by a model. Examples include saliency maps \cite{Sequeira2020} and interaction data \cite{Greydanus2018}. The post-hoc methods can be further sub-divided between global and local explanations. The goal of global explainability is to provide an understanding of the model's overall behaviour across the entire dataset, while local explainability focuses on explaining the individual predictions made by the model.
+
+Another classification relates to whether the explanation method depends on the type of model it is being applied to. On the one hand, model-agnostic methods are applied to any model regardless of its internal architecture. The methods are model-independent, and treat all types of models as black boxes. The analysis is conducted by understanding the input-output behaviour and how small perturbations to the input impact the output. Examples include \acrfull{lime} \cite{Ribeiro2016} and \acrfull{shap} \cite{Lundberg2017}. On the other hand, model-specific methods are tailored to the architecture of the model and leverage its components as part of the explanation process. In the case of neural networks, it can be done by analysing the learned features or by incorporating attention mechanisms \cite{Amirshahi2023}.
+
+\subsection{Feature Importance} \label{sec:featureimportance}
+
+\Gls{featureimportance} quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary. The pseudo-code of the algorithm for permutation feature importance is outlined in algorithm \ref{alg:feature_importance}.
+
+\begin{algorithm}
+\label{alg:feature_importance}
+\caption{Permutation Feature Importance Pseudo-code \cite{sklearn52}}
+\input{algorithms/alg_feature_importance.tex}
+\end{algorithm}
+
+An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing the impurity at each node. As such, a split with a large decrease of impurity is considered importance and as such the variable responsible for the split is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and tress in the forest at which the particular feature was used to split the data. The splitting criterion is normally the Gini impurity for classification tasks or the mean squared error for regression. However, this methods suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that they are computed on the training set.

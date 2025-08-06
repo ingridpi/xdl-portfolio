@@ -4,6 +4,22 @@
   url    = {https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html},
   year   = {2018}
 }
+@article{Amirshahi2023,
+  abstract  = {In recent years, cryptocurrencies' price prediction has attracted the interest of many people including investors, researchers and practitioners. In this study, we proposed a hybrid model for predicting the daily close price of cryptocurrencies based on different neural networks such as long short-term memory, convolutional neural network and attention mechanism. Using an ensemble of three pre-trained language models, we extracted sentiment of cryptocurrency-related tweets posted between 1 January 2021 and 31 December 2021. We constructed 20 different versions of our model and evaluated their performance on data of 27 most traded cryptocurrencies using a history of previous days' sentiment data along with close prices as input data. The flexible input layer of our model enables different ways of feeding data into the model to adjust it for different cryptocurrencies to obtain better predictions. Our analysis revealed several important findings. We showed that longer sequences of input data achieve most accurate predictions on average. More specifically, using a history of 14- and 21-days' data results in lowest RMSE values on average compared to using a history of 7 days. However, there is no significant difference between the results related to the input sequences with lengths of 14 and 21. In addition, our findings suggest that sentiment data can be useful in predicting prices for more than 70% of the studied cryptocurrencies. Thus, peoples' emotions, opinions, and sentiment that are expressed through their posts on Twitter platform play a significant role in prediction of cryptocurrencies' prices.},
+  author    = {Bahareh Amirshahi and Salim Lahmiri},
+  doi       = {10.1111/EXSY.13428},
+  issn      = {1468-0394},
+  issue     = {1},
+  journal   = {Expert Systems},
+  keywords  = {cryptocurrencies,deep learning,hybrid model,price prediction,sentiment analysis},
+  month     = {8},
+  pages     = {e13428},
+  publisher = {John Wiley and Sons Inc},
+  title     = {Investigating the effectiveness of Twitter sentiment in cryptocurrency close price prediction by using deep learning},
+  volume    = {42},
+  url       = {https://onlinelibrary.wiley.com/doi/full/10.1111/exsy.13428 https://onlinelibrary.wiley.com/doi/abs/10.1111/exsy.13428 https://onlinelibrary.wiley.com/doi/10.1111/exsy.13428},
+  year      = {2023}
+}
 @article{BarredoArrieta2019,
   abstract  = {In the last years, Artificial Intelligence (AI) has achieved a notable momentum that may deliver the best of expectations over many application sectors across the field. For this to occur, the entire community stands in front of the barrier of explainability, an inherent problem of AI techniques brought by sub-symbolism (e.g. ensembles or Deep Neural Networks) that were not present in the last hype of AI. Paradigms underlying this problem fall within the so-called eXplainable AI (XAI) field, which is acknowledged as a crucial feature for the practical deployment of AI models. This overview examines the existing literature in the field of XAI, including a prospect toward what is yet to be reached. We summarize previous efforts to define explainability in Machine Learning, establishing a novel definition that covers prior conceptual propositions with a major focus on the audience for which explainability is sought. We then propose and discuss about a taxonomy of recent contributions related to the explainability of different Machine Learning models, including those aimed at Deep Learning methods for which a second taxonomy is built. This literature analysis serves as the background for a series of challenges faced by XAI, such as the crossroads between data fusion and explainability. Our prospects lead toward the concept of Responsible Artificial Intelligence, namely, a methodology for the large-scale implementation of AI methods in real organizations with fairness, model explainability and accountability at its core. Our ultimate goal is to provide newcomers to XAI with a reference material in order to stimulate future research advances, but also to encourage experts and professionals from other disciplines to embrace the benefits of AI in their activity sectors, without any prior bias for its lack of interpretability.},
   author    = {Alejandro Barredo Arrieta and Natalia Díaz-Rodríguez and Javier Del Ser and Adrien Bennetot and Siham Tabik and Alberto Barbado and Salvador Garcia and Sergio Gil-Lopez and Daniel Molina and Richard Benjamins and Raja Chatila and Francisco Herrera},
@@ -63,6 +79,21 @@
   publisher = {McGraw-Hill Education},
   title     = {Investments},
   year      = {2014}
+}
+@article{Breiman2001,
+  abstract  = {Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund & R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, * * *, 148-156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.},
+  author    = {Leo Breiman},
+  doi       = {10.1023/A:1010933404324/METRICS},
+  issn      = {08856125},
+  journal   = {Machine Learning},
+  keywords  = {Classification,Ensemble,Regression},
+  month     = {10},
+  pages     = {5-32},
+  publisher = {Springer},
+  title     = {Random Forests},
+  volume    = {45},
+  url       = {https://link.springer.com/article/10.1023/A:1010933404324},
+  year      = {2001}
 }
 @article{Brigo2021,
   abstract  = {Deep learning is a powerful tool whose applications in quantitative finance are growing every day. Yet, artificial neural networks behave as black boxes and this hinders validation and accountability processes. Being able to interpret the inner functioning and the input-output relationship of these networks has become key for the acceptance of such tools. In this paper we focus on the calibration process of a stochastic volatility model, a subject recently tackled by deep learning algorithms. We analyze the Heston model in particular, as this model's properties are well known, resulting in an ideal benchmark case. We investigate the capability of local strategies and global strategies coming from cooperative game theory to explain the trained neural networks, and we find that global strategies such as Shapley values can be effectively used in practice. Our analysis also highlights that Shapley values may help choose the network architecture, as we find that fully-connected neural networks perform better than convolutional neural networks in predicting and interpreting the Heston model prices to parameters relationship.},
@@ -150,6 +181,19 @@
   publisher = {MIT Press},
   note      = {\url{http://www.deeplearningbook.org}},
   year      = {2016}
+}
+@article{Greydanus2018,
+  abstract  = {While deep reinforcement learning (deep RL) agents are effective at maximizing rewards, it is often unclear what strategies they use to do so. In this paper, we take a step toward explaining deep RL agents through a case study using Atari 2600 environments. In particular, we focus on using saliency maps to understand how an agent learns and executes a policy. We introduce a method for generating useful saliency maps and use it to show 1) what strong agents attend to, 2) whether agents are making decisions for the right or wrong reasons , and 3) how agents evolve during learning. We also test our method on non-expert human subjects and find that it improves their ability to reason about these agents. Overall, our results show that saliency information can provide significant insight into an RL agent's decisions and learning behavior.},
+  author    = {Samuel Greydanus and Anurag Koul and Jonathan Dodge and Alan Fern},
+  issn      = {2640-3498},
+  journal   = {Proceedings of the 35th International Conference on Machine Learning},
+  month     = {7},
+  pages     = {1792-1801},
+  publisher = {PMLR},
+  title     = {Visualizing and Understanding Atari Agents},
+  volume    = {80},
+  url       = {https://proceedings.mlr.press/v80/greydanus18a.html},
+  year      = {2018}
 }
 @article{Guan2021,
   abstract  = {Deep reinforcement learning (DRL) has been widely studied in the portfolio management task. However, it is challenging to understand a DRL-based trading strategy because of the black-box nature of deep neural networks. In this paper, we propose an empirical approach to explain the strategies of DRL agents for the portfolio management task. First, we use a linear model in hindsight as the reference model, which finds the best portfolio weights by assuming knowing actual stock returns in foresight. In particular, we use the coefficients of a linear model in hindsight as the reference feature weights. Secondly, for DRL agents, we use integrated gradients to define the feature weights, which are the coefficients between reward and features under a linear regression model. Thirdly, we study the prediction power in two cases, single-step prediction and multi-step prediction. In particular, we quantify the prediction power by calculating the linear correlations between the feature weights of a DRL agent and the reference feature weights, and similarly for machine learning methods. Finally, we evaluate a portfolio management task on Dow Jones 30 constituent stocks during 01/01/2009 to 09/01/2021. Our approach empirically reveals that a DRL agent exhibits a stronger multi-step prediction power than machine learning methods.},
@@ -280,6 +324,20 @@
   url      = {https://arxiv.org/abs/1811.07522v3},
   year     = {2018}
 }
+
+@article{Lundberg2017,
+  abstract  = {Understanding why a model makes a certain prediction can be as crucial as the prediction's accuracy in many applications. However, the highest accuracy for large modern datasets is often achieved by complex models that even experts struggle to interpret, such as ensemble or deep learning models, creating a tension between accuracy and interpretability. In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. Its novel components include: (1) the identification of a new class of additive feature importance measures, and (2) theoretical results showing there is a unique solution in this class with a set of desirable properties. The new class unifies six existing methods, notable because several recent methods in the class lack the proposed desirable properties. Based on insights from this unification, we present new methods that show improved computational performance and/or better consistency with human intuition than previous approaches.},
+  author    = {Scott M. Lundberg and Su In Lee},
+  issn      = {10495258},
+  journal   = {Advances in Neural Information Processing Systems},
+  month     = {5},
+  pages     = {4766-4775},
+  publisher = {Neural information processing systems foundation},
+  title     = {A Unified Approach to Interpreting Model Predictions},
+  volume    = {2017-December},
+  url       = {https://arxiv.org/abs/1705.07874v2},
+  year      = {2017}
+}
 @article{Ma2021,
   abstract  = {In recent years, deep reinforcement learning (DRL) algorithm has been widely used in algorithmic trading. Many fully automated trading systems or strategies have been built using DRL agents, which integrate price prediction and trading signal generation in one system. However, the previous agents extract the current state from the market data without considering the long-term market historical trend when making decisions. Besides, plenty of related and useful information has not been considered. To address these two problems, we propose a novel model named Parallel Multi-Module Deep Reinforcement Learning (PMMRL) algorithm. Here, two parallel modules are used to extract and encode the feature: one module employing Fully Connected (FC) layers is used to learn the current state from the market data of the traded stock and the fundamental data of the issuing company; another module using Long Short-Term Memory (LSTM) layers aims to detect the long-term historical trend of the market. The proposed model can extract features from the whole environment by the above two modules simultaneously, taking the advantages of both LSTM and FC layers. Extensive experiments on China stock market illustrate that the proposed PMMRL algorithm achieves a higher profit and a lower drawdown than several state-of-the-art algorithms.},
   author    = {Cong Ma and Jiangshe Zhang and Junmin Liu and Lizhen Ji and Fei Gao},
@@ -318,7 +376,6 @@
   year     = {2013},
   journal  = {arXiv preprint arXiv:1312.5602}
 }
-
 @article{Mnih2016,
   abstract  = {We propose a conceptually simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. We present asynchronous variants of four standard reinforcement learning algorithms and show that parallel actor-learners have a stabilizing effect on training allowing all four methods to successfully train neural network controllers. The best performing method, an asynchronous variant of actor-critic, surpasses the current state-of-the-art on the Atari domain while training for half the time on a single multi-core CPU instead of a GPU. Furthermore, we show that asynchronous actor-critic succeeds on a wide variety of continuous motor control problems as well as on a new task of navigating random 3D mazes using a visual input.},
   author    = {Volodymyr Mnih and Adria Puigdomenech Badia and Lehdi Mirza and Alex Graves and Tim Harley and Timothy P. Lillicrap and David Silver and Koray Kavukcuoglu},
@@ -346,6 +403,23 @@
   volume   = {12},
   year     = {2001}
 }
+@article{Nembrini2018,
+  abstract  = {Motivation: Random forests are fast, flexible and represent a robust approach to analyze high dimensional data. A key advantage over alternative machine learning algorithms are variable importance measures, which can be used to identify relevant features or perform variable selection. Measures based on the impurity reduction of splits, such as the Gini importance, are popular because they are simple and fast to compute. However, they are biased in favor of variables with many possible split points and high minor allele frequency. Results: We set up a fast approach to debias impurity-based variable importance measures for classification, regression and survival forests. We show that it creates a variable importance measure which is unbiased with regard to the number of categories and minor allele frequency and almost as fast as the standard impurity importance. As a result, it is now possible to compute reliable importance estimates without the extra computing cost of permutations. Further, we combine the importance measure with a fast testing procedure, producing p-values for variable importance with almost no computational overhead to the creation of the random forest. Applications to gene expression and genome-wide association data show that the proposed method is powerful and computationally efficient.},
+  author    = {Stefano Nembrini and Inke R. König and Marvin N. Wright},
+  doi       = {10.1093/BIOINFORMATICS/BTY373},
+  issn      = {1367-4811},
+  issue     = {21},
+  journal   = {Bioinformatics (Oxford, England)},
+  keywords  = {Algorithms*,Gene Frequency,Genome,Genome-Wide Association Study*,Inke R König,MEDLINE,Machine Learning,Marvin N Wright,NCBI,NIH,NLM,National Center for Biotechnology Information,National Institutes of Health,National Library of Medicine,Non-U.S. Gov't,PMC6198850,PubMed Abstract,Research Support,Software,Stefano Nembrini,doi:10.1093/bioinformatics/bty373,pmid:29757357},
+  month     = {11},
+  pages     = {3711-3718},
+  pmid      = {29757357},
+  publisher = {Bioinformatics},
+  title     = {The revival of the Gini importance?},
+  volume    = {34},
+  url       = {https://pubmed.ncbi.nlm.nih.gov/29757357/},
+  year      = {2018}
+}
 @article{Nti2020,
   abstract  = {Stock-market prediction using machine-learning technique aims at developing effective and efficient models that can provide a better and higher rate of prediction accuracy. Numerous ensemble regressors and classifiers have been applied in stock market predictions, using different combination techniques. However, three precarious issues come in mind when constructing ensemble classifiers and regressors. The first concerns with the choice of base regressor or classifier technique adopted. The second concerns the combination techniques used to assemble multiple regressors or classifiers and the third concerns with the quantum of regressors or classifiers to be ensembled. Subsequently, the number of relevant studies scrutinising these previously mentioned concerns are limited. In this study, we performed an extensive comparative analysis of ensemble techniques such as boosting, bagging, blending and super learners (stacking). Using Decision Trees (DT), Support Vector Machine (SVM) and Neural Network (NN), we constructed twenty-five (25) different ensembled regressors and classifiers. We compared their execution times, accuracy, and error metrics over stock-data from Ghana Stock Exchange (GSE), Johannesburg Stock Exchange (JSE), Bombay Stock Exchange (BSE-SENSEX) and New York Stock Exchange (NYSE), from January 2012 to December 2018. The study outcome shows that stacking and blending ensemble techniques offer higher prediction accuracies (90–100%) and (85.7–100%) respectively, compared with that of bagging (53–97.78%) and boosting (52.7–96.32%). Furthermore, the root means square error (RMSE) recorded by stacking (0.0001–0.001) and blending (0.002–0.01) shows a better fit of ensemble classifiers and regressors based on these two techniques in market analyses compared with bagging (0.01–0.11) and boosting (0.01–0.443). Finally, the results undoubtedly suggest that an innovative study in the domain of stock market direction prediction ought to include ensemble techniques in their sets of algorithms.},
   author    = {Isaac Kofi Nti and Adebayo Felix Adekoya and Benjamin Asubam Weyori},
@@ -361,6 +435,31 @@
   volume    = {7},
   url       = {https://journalofbigdata.springeropen.com/articles/10.1186/s40537-020-00299-5},
   year      = {2020}
+}
+@article{Phillips2021,
+  abstract = {We introduce four principles for explainable artificial intelligence (AI) that comprise fundamental properties for explainable AI systems. We propose that explainable AI systems deliver accompanying evidence or reasons for outcomes and processes; provide explanations that are understandable to individual users; provide explanations that correctly reflect the system’s process for generating the output; and that a system only operates under conditions for which it was designed and when it reaches sufficient confidence in its output. We have termed these four principles as explanation, meaningful, explanation accuracy, and knowledge limits, respectively. Through significant stakeholder engagement, these four principles were developed to encompass the multidisciplinary nature of explainable AI, including the fields of computer science, engineering, and psychology. Because one-size-fits-all explanations do not exist, different users will require different types of explanations. We present five categories of explanation and summarize theories of explainable AI. We give an overview of the algorithms in the field that cover the major classes of explainable algorithms. As a baseline comparison, we assess how well explanations provided by people follow our four principles. This assessment provides insights to the challenges of designing explainable AI systems.},
+  author   = {P Jonathon Phillips and Carina A Hahn and Peter C Fontana and Amy N Yates and Kristen Greene and David A Broniatowski and Mark A Przybocki},
+  doi      = {10.6028/NIST.IR.8312},
+  journal  = {National Institute of Standards and Technology},
+  keywords = {Artificial Intelligence (AI),explainability,explainable AI,trustworthy AI.},
+  month    = {9},
+  title    = {Four Principles of Explainable Artificial Intelligence},
+  volume   = {Internal Report 8312},
+  url      = {https://doi.org/10.6028/NIST.IR.8312},
+  year     = {2021}
+}
+@article{Ribeiro2016,
+  abstract  = {Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust, which is fundamental if one plans to take action based on a prediction, or when choosing whether to deploy a new model. Such understanding also provides insights into the model, which can be used to transform an untrustworthy model or prediction into a trustworthy one. In this work, we propose LIME, a novel explanation technique that explains the predictions of any classifier in an interpretable and faithful manner, by learning an interpretable model locally around the prediction. We also propose a method to explain models by presenting representative individual predictions and their explanations in a non-redundant way, framing the task as a submodular optimization problem. We demonstrate the flexibility of these methods by explaining different models for text (e.g. random forests) and image classification (e.g. neural networks). We show the utility of explanations via novel experiments, both simulated and with human subjects, on various scenarios that require trust: deciding if one should trust a prediction, choosing between models, improving an untrustworthy classifier, and identifying why a classifier should not be trusted.},
+  author    = {Marco Tulio Ribeiro and Sameer Singh and Carlos Guestrin},
+  doi       = {10.1145/2939672.2939778/SUPPL_FILE/KDD2016_RIBEIRO_ANY_CLASSIFIER_01-ACM.MP4},
+  isbn      = {9781450342322},
+  journal   = {Proceedings of the ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+  month     = {8},
+  pages     = {1135-1144},
+  publisher = {Association for Computing Machinery},
+  title     = {"Why should i trust you?": Explaining the predictions of any classifier},
+  url       = {https://dl.acm.org/doi/10.1145/2939672.2939778},
+  year      = {2016}
 }
 @article{Sato2019,
   abstract = {Financial portfolio management is one of the problems that are most frequently encountered in the investment industry. Nevertheless, it is not widely recognized that both Kelly Criterion and Risk Parity collapse into Mean Variance under some conditions, which implies that a universal solution to the portfolio optimization problem could potentially exist. In fact, the process of sequential computation of optimal component weights that maximize the portfolio's expected return subject to a certain risk budget can be reformulated as a discrete-time Markov Decision Process (MDP) and hence as a stochastic optimal control, where the system being controlled is a portfolio consisting of multiple investment components, and the control is its component weights. Consequently, the problem could be solved using model-free Reinforcement Learning (RL) without knowing specific component dynamics. By examining existing methods of both value-based and policy-based model-free RL for the portfolio optimization problem, we identify some of the key unresolved questions and difficulties facing today's portfolio managers of applying model-free RL to their investment portfolios.},
@@ -393,6 +492,20 @@
   url      = {https://arxiv.org/abs/1707.06347v2},
   year     = {2017},
   journal  = {arXiv preprint arXiv:1707.06347}
+}
+@article{Sequeira2020,
+  abstract  = {We propose an explainable reinforcement learning (XRL) framework that analyzes an agent's history of interaction with the environment to extract interestingness elements that help explain its behavior. The framework relies on data readily available from standard RL algorithms, augmented with data that can easily be collected by the agent while learning. We describe how to create visual summaries of an agent's behavior in the form of short video-clips highlighting key interaction moments, based on the proposed elements. We also report on a user study where we evaluated the ability of humans to correctly perceive the aptitude of agents with different characteristics, including their capabilities and limitations, given visual summaries automatically generated by our framework. The results show that the diversity of aspects captured by the different interestingness elements is crucial to help humans correctly understand an agent's strengths and limitations in performing a task, and determine when it might need adjustments to improve its performance.},
+  author    = {Pedro Sequeira and Melinda Gervasio},
+  doi       = {10.1016/J.ARTINT.2020.103367},
+  issn      = {0004-3702},
+  journal   = {Artificial Intelligence},
+  keywords  = {Autonomy,Explainable AI,Interestingness elements,Reinforcement learning,Video highlights,Visual explanations},
+  month     = {11},
+  pages     = {103367},
+  publisher = {Elsevier},
+  title     = {Interestingness elements for explainable reinforcement learning: Understanding agents' capabilities and limitations},
+  volume    = {288},
+  year      = {2020}
 }
 @article{Shao2019,
   abstract = {Deep reinforcement learning (DRL) has made great achievements since proposed. Generally, DRL agents receive high-dimensional inputs at each step, and make actions according to deep-neural-network-based policies. This learning mechanism updates the policy to maximize the return with an end-to-end method. In this paper, we survey the progress of DRL methods, including value-based, policy gradient, and model-based algorithms, and compare their main techniques and properties. Besides, DRL plays an important role in game artificial intelligence (AI). We also take a review of the achievements of DRL in various video games, including classical Arcade games, first-person perspective games and multi-agent real-time strategy games, from 2D to 3D, and from single-agent to multi-agent. A large number of video game AIs with DRL have achieved super-human performance, while there are still some challenges in this domain. Therefore, we also discuss some key points when applying DRL methods to this field, including exploration-exploitation, sample efficiency, generalization and transfer, multi-agent learning, imperfect information, and delayed spare rewards, as well as some research directions.},
@@ -445,6 +558,12 @@
   url      = {https://arxiv.org/abs/1712.01815v1},
   year     = {2017},
   journal  = {arXiv preprint arXiv:1712.01815}
+}
+@misc{sklearn52,
+  author  = {Scikit Learn},
+  journal = {Scikit Learn Documentation},
+  title   = {5.2. Permutation feature importance — scikit-learn 1.7.1 documentation},
+  url     = {https://scikit-learn.org/stable/modules/permutation_importance.html#outline-of-the-permutation-importance-algorithm}
 }
 @article{Tang2024,
   abstract  = {Reinforcement learning (RL), particularly its combination with deep neural networks referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms, holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks, and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL's power to create generally capable real-world robotic systems.},
