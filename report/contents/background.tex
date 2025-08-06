@@ -327,6 +327,14 @@ Although there are many possible classifications of \acrshort{xai} methods, they
 
 Another classification relates to whether the explanation method depends on the type of model it is being applied to. On the one hand, model-agnostic methods are applied to any model regardless of its internal architecture. The methods are model-independent, and treat all types of models as black boxes. The analysis is conducted by understanding the input-output behaviour and how small perturbations to the input impact the output. Examples include \acrfull{lime} \cite{Ribeiro2016} and \acrfull{shap} \cite{Lundberg2017}. On the other hand, model-specific methods are tailored to the architecture of the model and leverage its components as part of the explanation process. In the case of neural networks, it can be done by analysing the learned features or by incorporating attention mechanisms \cite{Amirshahi2023}.
 
+The taxonomy of the \acrshort{xai} methods is shown in Figure \ref{fig:xai_taxonomy}.
+\begin{figure}[h]
+    \centering
+    \input{figures/xai-taxonomy.tex}
+    \caption{Taxonomy of Explainable Artificial Intelligence Methods}
+    \label{fig:xai_taxonomy}
+\end{figure}
+
 \subsection{Feature Importance} \label{sec:featureimportance}
 
 \Gls{featureimportance} quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary.
