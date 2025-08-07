@@ -338,6 +338,13 @@
   url       = {https://arxiv.org/abs/1705.07874v2},
   year      = {2017}
 }
+@article{Lundberg2019,
+  abstract = {Interpreting predictions from tree ensemble methods such as gradient boosting machines and random forests is important, yet feature attribution for trees is often heuristic and not individualized for each prediction. Here we show that popular feature attribution methods are inconsistent, meaning they can lower a feature's assigned importance when the true impact of that feature actually increases. This is a fundamental problem that casts doubt on any comparison between features. To address it we turn to recent applications of game theory and develop fast exact tree solutions for SHAP (SHapley Additive exPlanation) values, which are the unique consistent and locally accurate attribution values. We then extend SHAP values to interaction effects and define SHAP interaction values. We propose a rich visualization of individualized feature attributions that improves over classic attribution summaries and partial dependence plots, and a unique "supervised" clustering (clustering based on feature attributions). We demonstrate better agreement with human intuition through a user study, exponential improvements in run time, improved clustering performance, and better identification of influential features. An implementation of our algorithm has also been merged into XGBoost and LightGBM, see http://github.com/slundberg/shap for details.},
+  author   = {Scott M. Lundberg and Gabriel G. Erion and Su-In Lee},
+  title    = {Consistent Individualized Feature Attribution for Tree Ensembles},
+  url      = {https://arxiv.org/abs/1802.03888v3},
+  year     = {2019}
+}
 @article{Ma2021,
   abstract  = {In recent years, deep reinforcement learning (DRL) algorithm has been widely used in algorithmic trading. Many fully automated trading systems or strategies have been built using DRL agents, which integrate price prediction and trading signal generation in one system. However, the previous agents extract the current state from the market data without considering the long-term market historical trend when making decisions. Besides, plenty of related and useful information has not been considered. To address these two problems, we propose a novel model named Parallel Multi-Module Deep Reinforcement Learning (PMMRL) algorithm. Here, two parallel modules are used to extract and encode the feature: one module employing Fully Connected (FC) layers is used to learn the current state from the market data of the traded stock and the fundamental data of the issuing company; another module using Long Short-Term Memory (LSTM) layers aims to detect the long-term historical trend of the market. The proposed model can extract features from the whole environment by the above two modules simultaneously, taking the advantages of both LSTM and FC layers. Extensive experiments on China stock market illustrate that the proposed PMMRL algorithm achieves a higher profit and a lower drawdown than several state-of-the-art algorithms.},
   author    = {Cong Ma and Jiangshe Zhang and Junmin Liu and Lizhen Ji and Fei Gao},
@@ -585,6 +592,22 @@
   title   = {5.2. Permutation feature importance — scikit-learn 1.7.1 documentation},
   url     = {https://scikit-learn.org/stable/modules/permutation_importance.html#outline-of-the-permutation-importance-algorithm}
 }
+@article{Strumbelj2011,
+  abstract  = {We propose a method for explaining regression models and their predictions for individual instances. The method successfully reveals how individual features influence the model and can be used with any type of regression model in a uniform way. We used different...},
+  author    = {Erik Štrumbelj and Igor Kononenko},
+  doi       = {10.1007/978-3-642-20267-4_3},
+  isbn      = {978-3-642-20267-4},
+  issn      = {1611-3349},
+  issue     = {PART 2},
+  journal   = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
+  keywords  = {Neural networks,SVM,prediction,transparency},
+  pages     = {21-30},
+  publisher = {Springer, Berlin, Heidelberg},
+  title     = {A General Method for Visualizing and Explaining Black-Box Regression Models},
+  volume    = {6594 LNCS},
+  url       = {https://link.springer.com/chapter/10.1007/978-3-642-20267-4_3},
+  year      = {2011}
+}
 @article{Tang2024,
   abstract  = {Reinforcement learning (RL), particularly its combination with deep neural networks referred to as deep RL (DRL), has shown tremendous promise across a wide range of applications, suggesting its potential for enabling the development of sophisticated robotic behaviors. Robotics problems, however, pose fundamental difficulties for the application of RL, stemming from the complexity and cost of interacting with the physical world. This article provides a modern survey of DRL for robotics, with a particular focus on evaluating the real-world successes achieved with DRL in realizing several key robotic competencies. Our analysis aims to identify the key factors underlying those exciting successes, reveal underexplored areas, and provide an overall characterization of the status of DRL in robotics. We highlight several important avenues for future work, emphasizing the need for stable and sample-efficient real-world RL paradigms, holistic approaches for discovering and integrating various competencies to tackle complex long-horizon, open-world tasks, and principled development and evaluation procedures. This survey is designed to offer insights for both RL practitioners and roboticists toward harnessing RL's power to create generally capable real-world robotic systems.},
   author    = {Chen Tang and Ben Abbatematteo and Jiaheng Hu and Rohan Chandra and Roberto Martín-Martín and Peter Stone},
@@ -609,22 +632,6 @@
   title       = {Efficient Exploration In Reinforcement Learning},
   url         = {https://www.ri.cmu.edu/publications/efficient-exploration-in-reinforcement-learning/},
   year        = {1992}
-}
-@article{Strumbelj2011,
-  abstract  = {We propose a method for explaining regression models and their predictions for individual instances. The method successfully reveals how individual features influence the model and can be used with any type of regression model in a uniform way. We used different...},
-  author    = {Erik Štrumbelj and Igor Kononenko},
-  doi       = {10.1007/978-3-642-20267-4_3},
-  isbn      = {978-3-642-20267-4},
-  issn      = {1611-3349},
-  issue     = {PART 2},
-  journal   = {Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)},
-  keywords  = {Neural networks,SVM,prediction,transparency},
-  pages     = {21-30},
-  publisher = {Springer, Berlin, Heidelberg},
-  title     = {A General Method for Visualizing and Explaining Black-Box Regression Models},
-  volume    = {6594 LNCS},
-  url       = {https://link.springer.com/chapter/10.1007/978-3-642-20267-4_3},
-  year      = {2011}
 }
 @article{Uhlenbeck1930,
   abstract  = {With a method first indicated by Ornstein the mean values of all the powers of the velocity u and the displacement s of a free particle in Brownian motion are calculated. It is shown that u-u0exp(-βt) and s-u0β[1-exp(-βt)] where u0 is the initial velocity and β the friction coefficient divided by the mass of the particle, follow the normal Gaussian distribution law. For s this gives the exact frequency distribution corresponding to the exact formula for s2 of Ornstein and Fürth. Discussion is given of the connection with the Fokker-Planck partial differential equation. By the same method exact expressions are obtained for the square of the deviation of a harmonically bound particle in Brownian motion as a function of the time and the initial deviation. Here the periodic, aperiodic and overdamped cases have to be treated separately. In the last case, when β is much larger than the frequency and for values of tβ-1, the formula takes the form of that previously given by Smoluchowski. © 1930 The American Physical Society.},

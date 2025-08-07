@@ -441,3 +441,16 @@ The goal is to minimise the following loss function:
     \mathcal{L}(\hat{f}, g, \pi_{\mathbf{x}}) = \sum_{\mathbf{z}' \in \mathcal{Z}} \left[\hat{f} \left(h_{\mathbf{x}}\left(\mathbf{z}'\right)\right) - g(\mathbf{z}')\right]^2 \pi_{\mathbf{x}}(\mathbf{z}')
 \end{equation}
 where $\mathbf{Z}$ is the dataset of sampled coalitions. 
+
+\subsubsection{TreeSHAP} \label{sec:treeshap}
+
+A variant of their original proposal is TreeSHAP \cite{Lundberg2019}, designed specifically for tree-based models, such as decision trees, random forests and gradient-boosted trees. In this case, the method is model-specific and by leveraging the structure of the tree, it improves the computational efficiency by reducing computation time from exponential for KernelSHAP to polynomial. 
+
+The method works by traversing the tree structure and computing the Shapley values for each feature based on the contributions of the feature to the predictions made by the tree. The main steps of the TreeSHAP algorithm are:
+\begin{itemize}
+    \item For each feature, traverse the tree and compute the contribution of the feature to the prediction at each node.
+    \item For each node, compute the contribution of the feature to the prediction by considering the difference between the prediction at the node and the prediction at the parent node.
+    \item For each feature, compute the Shapley value by averaging the contributions across all nodes in the tree.
+    \item Return the Shapley values as the feature importances.
+\end{itemize} 
+
