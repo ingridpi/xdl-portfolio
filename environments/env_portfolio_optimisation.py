@@ -150,10 +150,10 @@ class PortfolioOptimisationEnv(gym.Env):
 
             # Update portfolio value
             new_portfolio_value = self.portfolio_value * (1 + portfolio_return)
-            self.portfolio_value = new_portfolio_value
 
-            # Update the reward
-            self.reward = new_portfolio_value
+            # Update the reward: Change in portfolio value
+            self.reward = new_portfolio_value - self.portfolio_value
+            self.portfolio_value = new_portfolio_value
             self.rewards_memory.append(self.reward)
             self.reward *= self.reward_scaling
 
