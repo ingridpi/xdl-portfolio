@@ -67,3 +67,16 @@ Consequently, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \
     J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right]
 \end{equation} 
 where $T$ is the time horizon and $\gamma$ is the discount factor that determines the importance of future rewards. 
+
+\section{DRL Models} \label{sec:drl-models}
+
+The proposed solution is based on the \acrshort{drl} framework, which allows the agent to learn the optimal policy directly from the environment by taking actions and receiving rewards. The algorithms used are:
+\begin{itemize}
+    \item \acrfull{a2c}
+    \item \acrfull{ppo}
+    \item \acrfull{ddpg}
+    \item \acrfull{td3}
+    \item \acrfull{sac}
+\end{itemize}
+
+The implementation is done using the Stable Baselines3 library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
