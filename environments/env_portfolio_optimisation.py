@@ -111,7 +111,7 @@ class PortfolioOptimisationEnv(gym.Env):
             df_return.columns = ["daily_return"]
 
             # Print information if verbose
-            if self.episode % self.verbose == 0:
+            if self.verbose and self.episode % self.verbose == 0:
                 print("=================================")
                 print(f"day: {self.day}, episode: {self.episode}")
                 print(f"begin_total_asset:{self.asset_memory[0]:.2f}")
@@ -282,6 +282,7 @@ class PortfolioOptimisationEnvWrapper:
         initial_amount: float = config.INITIAL_AMOUNT,
         reward_scaling: float = 1e-1,
         normalisation_strategy: Literal["sum", "softmax"] = "softmax",
+        verbose: int = 10,
     ):
         """
         Initialises the trading environment.
@@ -291,6 +292,7 @@ class PortfolioOptimisationEnvWrapper:
         :param initial_amount: Initial cash available for trading.
         :param reward_scaling: Scaling factor for the reward.
         :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
+        :param verbose: Verbosity level for logging.
         """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = len(state_columns)
@@ -305,11 +307,13 @@ class PortfolioOptimisationEnvWrapper:
             "reward_scaling": reward_scaling,
             "state_columns": state_columns,
             "normalisation_strategy": normalisation_strategy,
+            "verbose": verbose,
         }
 
-        print(
-            f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
-        )
+        if verbose:
+            print(
+                f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
+            )
 
     def get_train_env(self) -> DummyVecEnv:
         """
