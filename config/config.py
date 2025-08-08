@@ -58,3 +58,17 @@ if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
     DATASET_NAME = "dataset-indicators"
 else:
     DATASET_NAME = "simple-dataset"
+
+WANDB_ENTITY = "xdl-team"
+WANDB_PROJECT = "xdl-portfolio"
+
+SWEEP_CONFIG = {
+    "method": "bayes",
+    "metric": {"name": "change_in_portfolio_value", "goal": "maximize"},
+    "early_terminate": {
+        "type": "hyperband",
+        "s": 2,
+        "eta": 2,
+        "max_iter": 10,
+    },
+}
