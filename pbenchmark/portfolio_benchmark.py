@@ -218,3 +218,23 @@ class PortfolioBenchmark:
             turnover_denom="AGB",
         )
         return perf_stats_alg
+
+    def compute_sharpe_ratio(self, df_account: pd.DataFrame) -> float:
+        """
+        Computes the Sharpe ratio for the portfolio.
+        :param df_account: DataFrame containing account values with 'date',
+            'account_value', and 'daily_return' columns.
+        :return: The Sharpe ratio as a float.
+        """
+        perf_stats = self.compute_perf_stats(df_account)
+        return perf_stats.get("Sharpe ratio", 0)
+
+    def compute_cum_returns(self, df_account: pd.DataFrame) -> float:
+        """
+        Computes the cumulative returns for the portfolio.
+        :param df_account: DataFrame containing account values with 'date',
+            'account_value', and 'daily_return' columns.
+        :return: The cumulative returns as a float.
+        """
+        perf_stats = self.compute_perf_stats(df_account)
+        return perf_stats.get("Cumulative returns", 0)
