@@ -28,7 +28,7 @@ class DRLAgent:
         policy: str = "MlpPolicy",
         policy_kwargs: Optional[dict] = None,
         seed: Optional[int] = None,
-        verbose: int = 0,
+        verbose: int = 1,
     ) -> BaseAlgorithm:
         """
         Returns a DRL model based on the specified model name and parameters.
