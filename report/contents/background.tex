@@ -319,3 +319,137 @@ An overview of the algorithms and their key characteristics is summarised in Tab
     \label{tab:drl_algorithms_comparison}
 \end{table}
 
+\section{Explainable Artificial Intelligence} \label{sec:explainableai}
+
+\acrfull{xai} refers to a set of processes, methods and techniques that enable human users to comprehend and trust the outcomes and decisions made by \acrfull{ai} systems. The goal is to make \acrshort{ai} algorithms more transparent, interpretable, and accountable, allowing end-users to understand the outputs of the models. This is particularly important in \acrfull{dl} where the models are often considered black boxes  due to their complexity, non-linearity and high-dimensionality, making it difficult to understand how they arrive at their decisions. With explainable systems, the benefits are numerous ranging from informed decision making to increased user adoption and better governance \cite{Phillips2021}. 
+
+Although there are many possible classifications of \acrshort{xai} methods, they can be broadly categorised into two main categories. First, transparent algorithms are inherently understandable and interpretable, such as linear regression, decision trees and rule-based systems. Second, post-hoc explanations are methods that require the usage of an additional algorithm to clarify the decisions made by a model. Examples include saliency maps \cite{Sequeira2020} and interaction data \cite{Greydanus2018}. The post-hoc methods can be further sub-divided between global and local explanations. The goal of global explainability is to provide an understanding of the model's overall behaviour across an entire dataset, while local explainability focuses on explaining the individual predictions.
+
+Another classification relates to whether the explanation method depends on the type of model it is being applied to. On the one hand, model-agnostic methods can be applied to any model regardless of its internal architecture, effectively treating all types of models as black boxes. The analysis is conducted by understanding the input-output behaviour and how small perturbations to the input impact the output. Examples include \acrfull{lime} \cite{Ribeiro2016} and \acrfull{shap} \cite{Lundberg2017}. On the other hand, model-specific methods are tailored to a particular architecture and leverage its components as part of the explanation process. In the case of neural networks, this can be achieved by analysing the learned features or by incorporating attention mechanisms \cite{Amirshahi2023}.
+
+The taxonomy of the \acrshort{xai} methods is shown in Figure \ref{fig:xai_taxonomy}.
+\begin{figure}[h]
+    \centering
+    \input{figures/xai-taxonomy.tex}
+    \caption{Taxonomy of Explainable Artificial Intelligence Methods}
+    \label{fig:xai_taxonomy}
+\end{figure}
+
+\subsection{Feature Importance} \label{sec:featureimportance}
+
+\Gls{featureimportance} is a global model-specific method that quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary.
+
+An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing an impurity measure at each node, normally Gini impurity for classification tasks or mean squared error for regression. As such, a split with a large decrease of impurity is considered importance and as such the variable responsible for the split is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and trees in the forest where the particular feature was used to split the data. While powerful, this method suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that importance is computed on the training set. 
+
+\subsection{Local Interpretable Model-agnostic Explanations (LIME)} \label{sec:lime}
+
+\acrfull{lime} is a model-agnostic explanation method that explains individual predictions of a \acrlong{ml} model by analysing the model locally around the prediction of interest. The method, introduced by Ribeiro et al. (2016) in their paper on \textit{Why should I trust you? Explaining the predictions of any classifier} \cite{Ribeiro2016}, utilises the black box model to understand what happens to the outputs when the input data is slightly modified, then fits a simpler, interpretable model to the perturbed data to approximate the black box model's behaviour in that local region.
+
+For a more rigorous definition, let $\mathcal{L}(f,g,\pi_x)$ be a measure of how unfaithful an explanation model $g$ is in approximating the model $f:\mathbf{R}^d \to \mathbf{R}$ in the neighbourhood of the instance $x$ defined as $\pi_x$. The goal is to find an interpretable model $g \in G$ that minimises the following objective function:
+\begin{equation}
+    \xi(x) = \mathcal{L}(f, g, \pi_x) + \Omega(g)
+\end{equation}
+where $\Omega(g)$ is a regularisation term that penalises the complexity of the explanation model $g$. This encourages interpretability, meaning a qualitative understanding of the relationship between inputs and outputs, and promotes local fidelity, ensuring the explanation accurately approximates the model's behaviour in that region. 
+
+The method works as follows:
+\begin{itemize}
+    \item \textbf{Instance Selection}: Start with a specific prediction instance that requires explanation.
+    \item \textbf{Perturbation}: Generate synthetic data points by perturbing the original instance.
+    \item \textbf{Model Querying}: Obtain predictions from the black-box model for these perturbed instances.
+    \item \textbf{Weighting}: Assign weights to the synthetic data points based on their proximity to the original instance.
+    \item \textbf{Surrogate Training}: Train a simple, interpretable model (typically linear regression) on the weighted synthetic dataset.
+    \item \textbf{Explanation}: Use the surrogate model to explain the original prediction by interpreting its coefficients or structure.
+\end{itemize}
+
+Its main advantages are its ability to work across different types of data and models, due to its model-agnostic nature, and the fact that its explanations are human-friendly and include a fidelity measure that indicates how well the explanation approximates the black-box model's local behaviour. Nonetheless, the method offers only local explanations, which may not generalise well to the entire model; it relies on the choice of neighbourhood; and the complexity of the surrogate model needs to be defined in advance and can compromise the interpretability of the explanation \cite{Molnar2025}.
+
+\subsection{SHapley Additive exPlanations (SHAP)} \label{sec:shap}
+
+Another model-agnostic technique is \acrfull{shap}, which was introduced by Lundberg and Lee (2017) in their paper on \textit{A unified approach to interpreting model predictions} \cite{Lundberg2017}. The method is based on cooperative game theory and the concept of Shapley values \cite{Shapley1953}.
+
+The Shapley value arises in cooperative game theory to answer the question of how to fairly distribute the contribution of each player in a coalition. In this framework, a coalitional game is represented as a tuple $(N,v)$, where $N = \{1, 2, \ldots, n\}$ is the set of players and $v: 2^N \rightarrow \mathbb{R}$ is the characteristic function that assigns a value $v(S)$ to each possible coalition $S \subseteq N$, with the convention that $v(\emptyset) = 0$. The characteristic function $v(S)$ represents the total value that coalition $S$ can achieve through cooperation. 
+
+Mathematically, the Shapley value for a feature $i$ is defined as:
+\begin{equation}
+    \phi_i = \sum_{S \subseteq N \setminus \{i\}} \frac{|S|! (|N| - |S| - 1)!}{|N|!} \left[ v_{S \cup \{i\}}(x_{S \cup \{i\}}) - v_S(x_S) \right]
+\end{equation}
+where $S \subseteq N$ is a subset of all features $N$, $v_{S \cup \{i\}}$ is marginal contribution of player $i$ to coalition $S$, and $v_S$ is the value of coalition $S$ without player $i$. This formula can be understood as computing the weighted average of marginal contributions of feature $i$ across all possible coalitions. 
+
+The advantage of Shapley values is that it is the only attribution method that results in a fair payout. In particular, it satisfies the four fundamental properties that define a fair allocation: 
+
+\begin{itemize}
+    \item \textbf{Efficiency:} The sum of all Shapley values equals the value of the grand coalition:
+    \[
+        \sum_{i \in N} \phi_i = v(N)
+    \]
+    \item \textbf{Symmetry:} The contributions of two players $i$ and $j$ should be equal if they make identical marginal contributions to all possible coalitions:
+    \[
+        v(S \cup \{i\}) = v(S \cup \{j\}), \forall S \subseteq N \setminus \{i, j\} \implies \phi_i = \phi_j
+    \]
+    \item \textbf{Dummy:} If a player contributes nothing to any coalition they join, their Shapley value should be zero:
+    \[
+        v(S \cup \{i\}) = v(S), \forall S \subseteq N \setminus \{i\} \implies \phi_i = 0
+    \]
+    \item \textbf{Additivity:} For two games $(N,v_1)$ and $(N,v_2)$, the Shapley value of the combined game $(N,v_1+v_2)$ equals the sum of individual Shapley values:
+    \[
+        \phi_i(v_1 + v_2) = \phi_i(v_1) + \phi_i(v_2)
+    \]
+\end{itemize}
+
+The algorithm for approximating Shapley values is outlined in \ref{alg:shapley}. However, the method is computationally expensive, as it requires evaluating the model for all possible coalitions of features.
+
+\begin{algorithm}
+\caption{Shapley Value Approximation}
+\input{algorithms/alg_shapley_values.tex}
+\label{alg:shapley}
+\end{algorithm}
+
+The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining black-box regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method. The explanation is given as:
+\begin{equation}
+    g(\mathbf{z}') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j
+\end{equation}
+where $g$ is the explanation model, $\mathbf{z}' \in \{0,1\}^M$ is the coalition vector, $M$ is the maximum coalition size and $\phi_j$ is the feature attribution for feature $j$.
+
+\subsubsection{KernelSHAP} \label{sec:kernelshap}
+
+The KernelSHAP algorithm builds on the \acrshort{shap} framework by using a kernel-based approach to estimate Shapley values. It approximates the Shapley value by sampling different coalitions and using a weighted linear regression model to fit the contributions of each feature. The method relies on not all coalitions contributing equally to the final Shapley value and as such uses kernel weights to identify the most important coalitions. The main steps of the KernelSHAP algorithm are:
+\begin{itemize}
+    \item Sample a set of coalitions from the feature space: $\mathbf{z}'_k \in \{0,1\}^M, k \in \{1, \ldots, K\}$, where $K$ is the total number of samples.
+    \item For each coalition $\mathbf{z}'_k$, compute the model's prediction by first converting $\mathbf{z}'_k$ to the original feature space and then applying the model $\hat{f}$ : $\hat{f}\left(h_\mathbf{x}\left(\mathbf{z}'_k\right)\right)$.
+    \item Compute the weight for each coalition with the SHAP kernel: $\pi_\mathbf{x} (\mathbf{z}')$ 
+    \item Fit a weighted linear regression model to the sampled coalitions and their corresponding predictions.
+    \item Return shapley values $\phi_k$ as the coefficients of the fitted model.
+\end{itemize}
+
+The sample coalitions are generated by randomly selecting subsets of the features, or equivalently, a vector of 0s and 1s indicating whether a feature is included in the coalition or not. The sampled coalitions represent the dataset for the regression model whose target is the prediction for a coalition. However, the sampled coalitions are not on the target feature space and, as such, it is necessary to implement another function $h_{\mathbf{x}}\left(\mathbf{z}'\right) = \mathbf{z}$ that maps the sampled coalitions to the original feature space. In the case of tabular data, this is done by replacing the features that are not included in the coalition with their mean value or a random sample from its possible values. As a result, sampling from the marginal distribution ignores the dependence structure between features.
+
+Although there are similarities between \acrshort{shap} and \acrshort{lime}, their main difference lies in feature weighting in the regression model. The \acrshort{shap} weighting assumes that small and large coalitions provide the most information about its isolated effects or its total effects, respectively. Whereas coalitions with half the features add little information about a specific feature contributions. The proposed weighting function for KernelSHAP is:
+\begin{equation}
+    \pi_\mathbf{x} (\mathbf{z}') = \frac{(M - 1)}{\binom{M}{|\mathbf{z}'|} |\mathbf{z}'| \left(M - |\mathbf{z}'|\right)}
+\end{equation}
+where $M$ is the maximum coalition size and $|\mathbf{z}'|$ is the number of features in the coalition $\mathbf{z}'$.
+
+In addition, since the coalitions with the smallest and the largest number of features are the most informative, the sampling process is biased towards coalitions of size $1$ and $M-1$, resulting in $2M$ possible coalitions. Then, the remaining budget $K - 2M$ is used to sample coalitions of size $2$ to $M-2$. This process continues until the sampled coalitions reach the desired number of samples $K$.
+
+Consequently, given the samples, the KernelSHAP algorithm fits a weighted linear regression model to estimate the Shapley values. The model is defined as:
+\begin{equation}
+    g(\mathbf{z}') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j
+\end{equation}
+
+The goal is to minimise the following loss function:
+\begin{equation}
+    \mathcal{L}(\hat{f}, g, \pi_{\mathbf{x}}) = \sum_{\mathbf{z}' \in \mathcal{Z}} \left[\hat{f} \left(h_{\mathbf{x}}\left(\mathbf{z}'\right)\right) - g(\mathbf{z}')\right]^2 \pi_{\mathbf{x}}(\mathbf{z}')
+\end{equation}
+where $\mathbf{Z}$ is the dataset of sampled coalitions. 
+
+\subsubsection{TreeSHAP} \label{sec:treeshap}
+
+A variant of their original proposal is TreeSHAP \cite{Lundberg2019}, designed specifically for tree-based models, such as decision trees, random forests and gradient-boosted trees. In this case, the method is model-specific and by leveraging the structure of the tree, it improves the computational efficiency by reducing computation time from exponential for KernelSHAP to polynomial. 
+
+The method works by exploiting the tree structure and the main steps of the algorithm are as follows:
+\begin{itemize}
+    \item For each feature, traverse the tree and compute the contribution of the feature to the prediction at each node.
+    \item For each node, compute the contribution of the feature to the prediction by considering the difference between the prediction at the node and the prediction at the parent node.
+    \item For each feature, compute the Shapley value by averaging the contributions across all nodes in the tree.
+    \item Return the Shapley values as the feature importances.
+\end{itemize} 

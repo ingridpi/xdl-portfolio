@@ -1,0 +1,18 @@
+\begin{tikzpicture}[
+  level 1/.style={sibling distance=60mm, level distance=15mm},
+  level 2/.style={sibling distance=40mm, level distance=15mm},
+  level 3/.style={sibling distance=40mm, level distance=15mm},
+  every node/.style={rectangle, draw=black, rounded corners, align=center, font=\small, minimum height=0.7cm}
+]
+
+\node {Explainable AI}
+  child {node {Transparent Algorithms}}
+  child {node {Post-hoc Methods}
+    child {node {Model-agnostic}
+      child {node {Local explanations}}
+      child {node {Global explanations}}
+    }
+    child {node {Model-specific}}
+  };
+
+\end{tikzpicture}
