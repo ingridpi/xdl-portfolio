@@ -206,7 +206,8 @@ class PortfolioBenchmark:
     def compute_perf_stats(self, df_account: pd.DataFrame) -> pd.Series:
         """
         Computes performance statistics for the portfolio using PyFolio.
-        :param df_account: DataFrame containing account values with 'date', 'account_value', and 'daily_return' columns.
+        :param df_account: DataFrame containing account values with 'date',
+        'account_value', and 'daily_return' columns.
         :return: Series containing performance statistics.
         """
         pf_returns = self.convert_daily_return(df_account)
