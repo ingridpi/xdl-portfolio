@@ -22,8 +22,8 @@ class DRLAgent:
         self,
         model_name: str,
         environment: DummyVecEnv,
-        directory: str,
         use_case: Literal["stock-trading", "portfolio-optimisation"],
+        directory: Optional[str] = None,
         model_kwargs: Optional[dict] = None,
         policy: str = "MlpPolicy",
         policy_kwargs: Optional[dict] = None,
@@ -34,6 +34,7 @@ class DRLAgent:
         Returns a DRL model based on the specified model name and parameters.
         :param model_name: The name of the DRL model to create.
         :param environment: The environment in which the model will be trained.
+        :param use_case: The use case for the model (e.g., stock trading, portfolio optimization).
         :param directory: The directory where the tensorboard logs will be saved.
         :param model_kwargs: Additional keyword arguments for the model.
         :param policy: The policy to use for the model.
@@ -59,6 +60,11 @@ class DRLAgent:
             print(f"Model arguments: {model_kwargs}")
 
         if not self.run:
+            if not directory:
+                raise ValueError(
+                    "Directory must be specified if run is not provided."
+                )
+
             tensorboard_log = f"{directory}/{model_name}"
 
             logger = configure(tensorboard_log, ["csv", "tensorboard"])
