@@ -4,16 +4,19 @@ import pandas as pd
 from stable_baselines3.common.base_class import BaseAlgorithm
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.vec_env import DummyVecEnv
+from wandb.integration.sb3 import WandbCallback
+from wandb.sdk.wandb_run import Run
 
 from agents.tb_callback import TensorboardCallback
 from config import config_models
 
 
 class DRLAgent:
-    def __init__(self):
+    def __init__(self, run: Optional[Run] = None):
         """
         Initialises the DRL agent.
         """
+        self.run = run
 
     def get_model(
         self,
@@ -52,23 +55,35 @@ class DRLAgent:
             elif use_case == "portfolio-optimisation":
                 model_kwargs = config_models.MODEL_KWARGS_PORTFOLIO[model_name]
 
-        print(f"Model arguments: {model_kwargs}")
+        if verbose:
+            print(f"Model arguments: {model_kwargs}")
 
-        tensorboard_log = f"{directory}/{model_name}"
+        if not self.run:
+            tensorboard_log = f"{directory}/{model_name}"
 
-        logger = configure(tensorboard_log, ["csv", "tensorboard"])
+            logger = configure(tensorboard_log, ["csv", "tensorboard"])
 
-        model = config_models.MODELS[model_name](
-            policy=policy,
-            env=environment,
-            verbose=verbose,
-            tensorboard_log=tensorboard_log,
-            seed=seed,
-            policy_kwargs=policy_kwargs,
-            **model_kwargs,
-        )
+            model = config_models.MODELS[model_name](
+                policy=policy,
+                env=environment,
+                verbose=verbose,
+                tensorboard_log=tensorboard_log,
+                seed=seed,
+                policy_kwargs=policy_kwargs,
+                **model_kwargs,
+            )
 
-        model.set_logger(logger)
+            model.set_logger(logger)
+
+        else:
+            model = config_models.MODELS[model_name](
+                policy=policy,
+                env=environment,
+                verbose=verbose,
+                seed=seed,
+                policy_kwargs=policy_kwargs,
+                **model_kwargs,
+            )
 
         return model
 
@@ -78,6 +93,7 @@ class DRLAgent:
         tb_log_name: str,
         log_interval: int = 20,
         total_timesteps: int = 100000,
+        callback: TensorboardCallback | WandbCallback = TensorboardCallback(),
     ) -> BaseAlgorithm:
         """
         Trains the DRL model with the specified parameters.
@@ -85,6 +101,7 @@ class DRLAgent:
         :param tb_log_name: The name for the tensorboard log.
         :param log_interval: The interval for logging training progress.
         :param total_timesteps: The total number of timesteps for training.
+        :param callback: Callback function for additional logging or actions during training.
         :return: The trained DRL model.
         """
 
@@ -92,7 +109,7 @@ class DRLAgent:
             total_timesteps=total_timesteps,
             log_interval=log_interval,
             tb_log_name=tb_log_name,
-            callback=TensorboardCallback(),
+            callback=callback,
         )
 
         return model
