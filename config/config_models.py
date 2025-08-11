@@ -12,31 +12,31 @@ MODELS = {
 # Training parameters for stock trading task
 MODEL_KWARGS_STOCK = {
     "a2c": {
-        "n_steps": 5,
-        "ent_coef": 0.01,
-        "learning_rate": 0.0007,
+        "n_steps": 40,
+        "ent_coef": 0.0003,
+        "learning_rate": 0.003,
     },
     "ppo": {
-        "n_steps": 2048,
-        "ent_coef": 0.01,
-        "learning_rate": 0.00025,
+        "n_steps": 512,
+        "ent_coef": 0.0005,
+        "learning_rate": 0.0015,
         "batch_size": 64,
     },
     "ddpg": {
-        "batch_size": 128,
-        "buffer_size": 50000,
-        "learning_rate": 0.001,
+        "batch_size": 256,
+        "buffer_size": 200000,
+        "learning_rate": 0.005,
     },
     "td3": {
-        "batch_size": 100,
-        "buffer_size": 1000000,
+        "batch_size": 128,
+        "buffer_size": 500000,
         "learning_rate": 0.001,
     },
     "sac": {
         "batch_size": 64,
-        "buffer_size": 1000000,
-        "learning_rate": 0.0001,
-        "learning_starts": 1000,
+        "buffer_size": 500000,
+        "learning_rate": 0.001,
+        "learning_starts": 2000,
         "ent_coef": "auto_0.1",
     },
 }
