@@ -1,1 +1,7 @@
 \chapter{Methodology} \label{ch:methodology}
+
+This chapter covers the methodology and framework established to provide an explainable \acrfull{drl} model capable of optimising a portfolio. The chapter is structured as follows: first, it describes the architecture and components of the proposed \acrshort{drl} model, including the state representation, reward function and training process. Second, it discusses the evaluation metrics and experimental setup used to assess the performance of the proposed solution. Finally, it outlines the implementation of the post-hoc explainability techniques used to interpret the model's decisions. 
+
+\section{Problem Definition} \label{sec:problem-definition}
+
+The problem of \gls{portfoliooptimisation} is the task of finding an optimal allocation of financial assets in a portfolio to maximise expected returns while minimising risk. Thus, it is necessary to decide how to rebalance the portfolio at each time step in a highly stochastic and complex financial market. This can be formulated using a \acrfull{mdp} framework, where the agent interacts with the environment by deciding the optimal allocation based on the state of the environment at each time step to maximise the expected cumulative reward over time. \acrfull{drl} gives the agent the ability to learn the optimal policy directly from the environment by taking actions and receiving rewards. 
