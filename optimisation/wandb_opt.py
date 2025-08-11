@@ -127,7 +127,7 @@ class WandbOptimisation:
 
         return sweep_id
 
-    def get_best_sweep(
+    def get_best_sweep_run(
         self, sweep_id: str, model_name: str
     ) -> Tuple[str, dict]:
         """
