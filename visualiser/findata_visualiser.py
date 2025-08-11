@@ -51,7 +51,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
@@ -113,7 +113,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
@@ -183,6 +183,14 @@ class FinancialDataVisualiser:
         :param directory: Directory where the plot will be saved.
         :param filename: Name of the file to save the plot (without extension).
         """
+
+        # Sample the first 10 tickers if there are more than 10 unique tickers
+        if train_data["tic"].nunique() > 10:
+            sample_tickers = train_data["tic"].unique()[:10]
+            train_data = train_data[
+                train_data["tic"].isin(sample_tickers)
+            ].copy()
+            test_data = test_data[test_data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         train_data.sort_values(by="tic", inplace=True)
