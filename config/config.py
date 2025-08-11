@@ -1,3 +1,5 @@
+import re
+
 from config import config_indicators, config_tickers
 
 START_DATE = "2016-01-01"
@@ -46,7 +48,17 @@ if USE_TECHNICAL_INDICATORS:
     ENVIRONMENT_COLUMNS += list(config_indicators.TECHNICAL_INDICATORS.keys())
 
 if USE_MACROECONOMIC_INDICATORS:
-    ENVIRONMENT_COLUMNS += ["vix"]  # Volatility Index (VIX)
+    MACROECONOMIC_INDICATORS = (
+        config_indicators.MACROECONOMIC_INDICATORS_DEFAULT
+    )
+
+    # Remove non-letter characters from string
+    ENVIRONMENT_COLUMNS += list(
+        map(
+            lambda x: re.sub(r"\W+", "", x.split(".")[0].lower()),
+            list(config_indicators.MACROECONOMIC_INDICATORS_DEFAULT.keys()),
+        )
+    )
 
 # Tickers configurations
 TICKERS = config_tickers.TEST_TICKERS

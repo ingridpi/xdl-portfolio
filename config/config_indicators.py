@@ -19,6 +19,28 @@ TECHNICAL_INDICATORS = {
 }
 
 # List of macroeconomic indicators
-MACROECONOMIC_INDICATORS = {
+MACROECONOMIC_INDICATORS_DEFAULT = {
     "^VIX": "Volatility Index (VIX)",
+    "DX-Y.NYB": "US Dollar Index (DXY)",
+    "^IRX": "3-Month Treasury Yield (IRX)",
+    "^FVX": "5-Year Treasury Yield (FVX)",
+    "^TNX": "10-Year Treasury Yield (TNX)",
+}
+
+MACROECONOMIC_INDICATORS_DW30 = {
+    "^VXD": "Volatility Index (VXD)",
+    "DX-Y.NYB": "US Dollar Index (DXY)",
+    "^IRX": "3-Month Treasury Yield (IRX)",
+    "^FVX": "5-Year Treasury Yield (FVX)",
+    "^TNX": "10-Year Treasury Yield (TNX)",
+}
+
+MACROECONOMIC_INDICATORS_EUROSTOXX50 = {
+    "^V2TX.DE": "Volatility Index (VSTOXX)",
+    "^XDE": "Euro Currency Index (EXY)",
+}
+
+MACROECONOMIC_INDICATORS_FTSE100 = {
+    "VFTSE.AS": "Volatility Index (FTSE 100)",
+    "^XDB": "British Pound Currency Index (BXY)",
 }
