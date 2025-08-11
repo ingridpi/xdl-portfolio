@@ -5,3 +5,78 @@ This chapter covers the methodology and framework established to provide an expl
 \section{Problem Definition} \label{sec:problem-definition}
 
 The problem of \gls{portfoliooptimisation} is the task of finding an optimal allocation of financial assets in a portfolio to maximise expected returns while minimising risk. Thus, it is necessary to decide how to rebalance the portfolio at each time step in a highly stochastic and complex financial market. This can be formulated using a \acrfull{mdp} framework, where the agent interacts with the environment by deciding the optimal allocation based on the state of the environment at each time step to maximise the expected cumulative reward over time. \acrfull{drl} gives the agent the ability to learn the optimal policy directly from the environment by taking actions and receiving rewards. 
+
+\section{MDP Model} \label{sec:mdp-model}
+
+Due to the dynamic, stochastic and interactive nature of financial markets, a \acrlong{mdp} is a suitable framework to model the problem. The main elements of the \acrshort{mdp} model are defined as follows:
+\begin{itemize}
+    \item State space $\mathcal{S}$
+    \item Action space $\mathcal{A}$
+    \item Reward function $R: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$
+    \item Transition function $T: \mathcal{S} \times \mathcal{A} \to \mathcal{S}$
+    \item Discount factor $\gamma \in [0,1]$
+\end{itemize}
+
+The state space $\mathcal{S}$ is a vector representation of the financial environment. For a portfolio of $D$ assets, the features that describe the state include asset prices, technical indicators and macroeconomic indicators: 
+\begin{itemize}
+    \item Close price $p_t \in \mathbb{R}_+^D$: Adjusted close prices of the assets at time $t$.
+    \item Open price $o_t \in \mathbb{R}_+^D$: Opening prices of the assets at time $t$.
+    \item High price $h_t \in \mathbb{R}_+^D$: Highest prices of the assets at time $t$.
+    \item Low price $l_t \in \mathbb{R}_+^D$: Lowest prices of the assets at time $t$.
+    \item Volume $v_t \in \mathbb{R}_+^D$: Trading volume of the assets at time $t$.
+    \item Technical indicators $i_t \in \mathbb{R}_+^{D \times I}$: A vector of $I$ technical indicators, such as moving averages, relative strength index (RSI), and Bollinger Bands, calculated from the asset prices.
+    \item Macroeconomic indicators $m_t \in \mathbb{R}_+^{D \times M}$: A vector of $M$ macroeconomic indicators, such as volatility index and interest rates, which provide additional context about the financial environment.
+    \item Correlation matrix $C_t \in \mathbb{R}^{D \times D}$: A matrix representing the correlation between the assets in the portfolio at time $t$.
+\end{itemize}
+
+The description of technical and macroeconomic indicators is provided in more detail in appendix \ref{app:state_representation}.
+
+The action space $\mathcal{A}$ is the set of possible actions that the agent can take at each time step. For the portfolio optimisation problem, the actions correspond to portfolio weights and are defined as follows:
+\begin{equation}
+    a_t = w_t : w_t \in [0, 1]^D
+\end{equation}
+where $w_t$ is a vector of portfolio weights at time $t$, representing the allocation of the portfolio to each asset. The weights are constrained to be non-negative and sum to one:
+\begin{equation}
+    \sum_{d=1}^D w_{t,d} = 1, \quad w_{t,d} \geq 0 \quad \forall d \in \{1, \ldots, D\}
+\end{equation}
+Moreover, they are initialised to be equal for all assets, meaning that the agent starts with an equal allocation to each asset in the portfolio. The reason behind this is to avoid an initial bias and allowing the agent to learn an allocation from the environment rather than favour any particular asset.
+
+The transition function $T$ describes how the state of the environment changes in response to the action taken. It is defined as:
+\begin{equation}
+    s_{t+1} = T(s_t, a_t)
+\end{equation}
+where $s_{t+1}$ is the new state of the environment after taking action $a_t$ in state $s_t$. The transition function is determined by the dynamics of the financial market, which are influenced by the asset prices, trading volume and other factors.
+
+The reward function $R$ models the direct reward of taking an action $a_t$ in state $s_t$ and transitioning to a new state $s_{t+1}$. It is defined as the change in the portfolio value from time $t$ to time $t+1$:
+\begin{equation}
+    R_{t+1} = R(s_t, a_t, s_{t+1}) = V_{t+1} - V_t
+\end{equation}
+where the value of the portfolio at time $t$ is given by the dot product of the portfolio weights and the asset close prices:
+\begin{equation}
+    V_t = w_t \cdot p_t
+\end{equation}
+
+An alternative formulation of the reward function is to use the Sharpe ratio \cite{Sharpe1994}, which is defined as the ratio of the expected return to the standard deviation of the returns:
+\begin{equation}
+    R(s_t, a_t, s_{t+1}) = \frac{E[r_{t+1}]}{\sigma[r_{t+1}]}
+\end{equation}
+where $E[r_{t+1}]$ is the expected return of the portfolio at time $t+1$ and $\sigma[r_{t+1}]$ is the standard deviation of the returns at time $t+1$. This formulation encourages the agent to maximise the expected return while minimising the risk of the portfolio.
+
+Regardless of the choice of reward function, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
+\begin{equation}
+    J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right]
+\end{equation} 
+where $T$ is the time horizon and $\gamma$ is the discount factor that determines the importance of future rewards. 
+
+\section{DRL Models} \label{sec:drl-models}
+
+The proposed solution is based on the \acrshort{drl} framework, which allows the agent to learn the optimal policy directly from the environment by taking actions and receiving rewards. The algorithms used are:
+\begin{itemize}
+    \item \acrfull{a2c}
+    \item \acrfull{ppo}
+    \item \acrfull{ddpg}
+    \item \acrfull{td3}
+    \item \acrfull{sac}
+\end{itemize}
+
+The implementation is done using the Stable Baselines3 library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
