@@ -22,7 +22,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
