@@ -64,7 +64,7 @@ WANDB_PROJECT = "xdl-portfolio"
 
 SWEEP_CONFIG = {
     "method": "bayes",
-    "metric": {"name": "change_in_portfolio_value", "goal": "maximize"},
+    "metric": {"name": "sharpe_ratio", "goal": "maximize"},
     "early_terminate": {
         "type": "hyperband",
         "s": 2,
