@@ -60,7 +60,7 @@ axes.spines.bottom: True
 axes.spines.top:    True
 axes.spines.right:  True
 
-axes.prop_cycle: cycler('color', ['0079ff', 'ffb84c', '00dfa2', 'f266ab', 'a459d1', '5f264a', 'd4Adfc', '7f7f7f', 'b3E5be', '97deff'])
+axes.prop_cycle: cycler('color', ['ff85b6','ff8a91','ffbe88','fcea66','aaff99','8fd388','6de1c4','4aefff','84d1ff','bdb2ff'])
 
 
 
