@@ -39,7 +39,7 @@ where $w_t$ is a vector of portfolio weights at time $t$, representing the alloc
 \begin{equation}
     \sum_{d=1}^D w_{t,d} = 1, \quad w_{t,d} \geq 0 \quad \forall d \in \{1, \ldots, D\}
 \end{equation}
-Moreover, they are initialised to be equal for all assets, meaning that the agent starts with an equal allocation to each asset in the portfolio.
+Moreover, they are initialised to be equal for all assets, meaning that the agent starts with an equal allocation to each asset in the portfolio. The reason behind this is to avoid an initial bias and allowing the agent to learn an allocation from the environment rather than favour any particular asset.
 
 The transition function $T$ describes how the state of the environment changes in response to the action taken. It is defined as:
 \begin{equation}
@@ -62,7 +62,7 @@ An alternative formulation of the reward function is to use the Sharpe ratio \ci
 \end{equation}
 where $E[r_{t+1}]$ is the expected return of the portfolio at time $t+1$ and $\sigma[r_{t+1}]$ is the standard deviation of the returns at time $t+1$. This formulation encourages the agent to maximise the expected return while minimising the risk of the portfolio.
 
-Consequently, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
+Regardless of the choice of reward function, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
 \begin{equation}
     J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right]
 \end{equation} 
