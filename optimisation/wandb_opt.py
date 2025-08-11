@@ -2,7 +2,6 @@ from typing import Tuple
 
 import pandas as pd
 import wandb
-from matplotlib.pylab import f
 from wandb.integration.sb3 import WandbCallback
 
 from agents.drl_agent import DRLAgent
