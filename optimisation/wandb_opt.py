@@ -25,7 +25,7 @@ class WandbOptimisation:
         state_columns: list,
     ):
         """
-        Initialize the WANDBOptimisation class.
+        Initialize the WandbOptimisation class.
         :param entity: The entity name for Weights & Biases.
         :param project: The project name for Weights & Biases.
         :param train_data: The training data.
