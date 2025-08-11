@@ -1,3 +1,4 @@
+import re
 from typing import Optional
 
 import matplotlib.pyplot as plt
@@ -125,7 +126,9 @@ class FinancialDataVisualiser:
             plt.figure(figsize=(12, 5))
             indicator, name = list(indicators.items())[0]
             # Convert indicator to alphanumeric
-            indicator = indicator.lower().strip("^")
+            indicator = re.sub(
+                r"[^a-z0-9_]", "", indicator.split(".")[0].lower()
+            )
             if indicator in data.columns:
                 # Take the date and the indicator column
                 ind_df = data[["date", indicator]]
@@ -146,18 +149,30 @@ class FinancialDataVisualiser:
                 ind_size, 1, figsize=(12, 5 * ind_size), sharex=True
             )
 
+            colors = sns.color_palette().as_hex()[
+                :ind_size
+            ]  # Use distinct colors
+
             # Iterate over indicators to ind_size
             for i, (indicator, name) in enumerate(
                 list(indicators.items())[:ind_size]
             ):
                 # Convert indicator to alphanumeric
-                indicator = indicator.lower().strip("^")
+                indicator = re.sub(
+                    r"[^a-z0-9_]", "", indicator.split(".")[0].lower()
+                )
                 if indicator in data.columns:
                     # Take the date and the indicator column
                     ind_df = data[["date", indicator]]
                     # Remove duplicate dates
                     ind_df = ind_df.drop_duplicates(subset="date")
-                    sns.lineplot(data=ind_df, x="date", y=indicator, ax=ax[i])
+                    sns.lineplot(
+                        data=ind_df,
+                        x="date",
+                        y=indicator,
+                        ax=ax[i],
+                        color=colors[i],
+                    )
                     ax[i].set_title(name)
                     ax[i].set_xlabel("Date")
                     ax[i].set_ylabel(indicator)

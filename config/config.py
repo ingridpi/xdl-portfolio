@@ -56,7 +56,7 @@ if USE_MACROECONOMIC_INDICATORS:
     ENVIRONMENT_COLUMNS += list(
         map(
             lambda x: re.sub(r"\W+", "", x.split(".")[0].lower()),
-            list(config_indicators.MACROECONOMIC_INDICATORS_DEFAULT.keys()),
+            list(MACROECONOMIC_INDICATORS.keys()),
         )
     )
 

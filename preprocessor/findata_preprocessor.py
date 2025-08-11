@@ -152,17 +152,16 @@ class FinancialDataPreprocessor:
         :return: DataFrame with additional macroeconomic indicators.
         """
 
-        findownloader = FinancialDataDownloader(self.start_date, self.end_date)
-
         for indicator in indicators:
-            # Add volatility index (VIX) data by downloading it from the financial data downloader
-            if indicator == "^VIX":
-                vix = findownloader.download_data([indicator])
-                indicator_df = vix[["date", "close"]].rename(
-                    columns={"close": indicator}
-                )
+            findownloader = FinancialDataDownloader(
+                self.start_date, self.end_date
+            )
+            ind_df = findownloader.download_data([indicator])
+            indicator_df = ind_df[["date", "close"]].rename(
+                columns={"close": indicator}
+            )
 
-                data = data.merge(indicator_df, on=["date"])
+            data = data.merge(indicator_df, on=["date"])
 
         return data
 
@@ -173,9 +172,15 @@ class FinancialDataPreprocessor:
         :return: DataFrame with renamed columns.
         """
 
-        # Convert column names to lowercase and remove non alphanumeric characters
-        data.columns = data.columns.str.lower().str.replace(
-            r"[^a-z0-9_]", "", regex=True
+        # Convert column names
+        # 1. Split by dot and take the first part
+        # 2. Convert to lowercase
+        # 3. Remove non-alphanumeric characters
+        data.columns = (
+            data.columns.str.split(".")
+            .str[0]
+            .str.lower()
+            .str.replace(r"[^a-z0-9_]", "", regex=True)
         )
 
         return data
