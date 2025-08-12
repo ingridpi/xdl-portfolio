@@ -10,6 +10,7 @@ from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.vec_env.base_vec_env import VecEnvObs
 
 from config import config
+from pbenchmark.portfolio_benchmark import PortfolioBenchmark
 
 
 class PortfolioOptimisationEnv(gym.Env):
@@ -80,6 +81,9 @@ class PortfolioOptimisationEnv(gym.Env):
         self.actions_memory = [self.weights]
         self.date_memory = [self.__get_date()]
 
+        # Initialise the benchmark
+        self.benchmark = PortfolioBenchmark()
+
         # Set the random seed for reproducibility
         self._seed(seed)
 
@@ -107,22 +111,16 @@ class PortfolioOptimisationEnv(gym.Env):
         self.terminal = self.day >= len(self.df.index.unique()) - 1
 
         if self.terminal:
-            df_return = pd.DataFrame(self.return_memory)
-            df_return.columns = ["daily_return"]
+            df_return = self.save_asset_memory()
 
             # Print information if verbose
-            if self.episode % self.verbose == 0:
+            if self.verbose and self.episode % self.verbose == 0:
                 print("=================================")
                 print(f"day: {self.day}, episode: {self.episode}")
                 print(f"begin_total_asset:{self.asset_memory[0]:.2f}")
                 print(f"end_total_asset:{self.portfolio_value:.2f}")
-                if df_return["daily_return"].std() != 0:
-                    sharpe = (
-                        (252**0.5)
-                        * df_return["daily_return"].mean()
-                        / df_return["daily_return"].std()
-                    )
-                    print(f"sharpe_ratio: {sharpe:.2f}")
+                sharpe = self.benchmark.compute_sharpe_ratio(df_return)
+                print(f"sharpe_ratio: {sharpe:.2f}")
                 print("=================================")
 
         else:
@@ -235,9 +233,16 @@ class PortfolioOptimisationEnv(gym.Env):
         df_asset = pd.DataFrame(
             {"date": self.date_memory, "account_value": self.asset_memory}
         )
+
+        # Add daily return
         df_asset["daily_return"] = (
             df_asset["account_value"].pct_change().fillna(0)
         )
+
+        # Add cumulative return
+        df_asset["cumulative_return"] = (
+            1 + df_asset["daily_return"]
+        ).cumprod() - 1
 
         return df_asset
 
@@ -282,6 +287,7 @@ class PortfolioOptimisationEnvWrapper:
         initial_amount: float = config.INITIAL_AMOUNT,
         reward_scaling: float = 1e-1,
         normalisation_strategy: Literal["sum", "softmax"] = "softmax",
+        verbose: int = 10,
     ):
         """
         Initialises the trading environment.
@@ -291,6 +297,7 @@ class PortfolioOptimisationEnvWrapper:
         :param initial_amount: Initial cash available for trading.
         :param reward_scaling: Scaling factor for the reward.
         :param normalisation_strategy: Strategy (softmax, sum) to normalise the actions to sum to 1.
+        :param verbose: Verbosity level for logging.
         """
         self.stock_dim = train_data.tic.nunique()
         self.state_space = len(state_columns)
@@ -305,11 +312,13 @@ class PortfolioOptimisationEnvWrapper:
             "reward_scaling": reward_scaling,
             "state_columns": state_columns,
             "normalisation_strategy": normalisation_strategy,
+            "verbose": verbose,
         }
 
-        print(
-            f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
-        )
+        if verbose:
+            print(
+                f"Environment successfully created with \n\tStock dimension: {self.stock_dim} \n\tState space: {self.state_space}"
+            )
 
     def get_train_env(self) -> DummyVecEnv:
         """

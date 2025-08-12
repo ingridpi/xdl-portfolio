@@ -4,6 +4,7 @@ ipython==7.23.1
 ipywidgets==8.1.7
 lime==0.2.0.1
 matplotlib==3.10.3
+nbformat==5.10.4
 numpy==2.2.6
 pandas==2.3.1
 pyfolio-reloaded==0.9.9
@@ -13,4 +14,5 @@ shap==0.48.0
 stable-baselines3==2.6.0 
 stockstats==0.6.5
 tensorboard==2.20.0
+wandb==0.21.0
 yfinance==0.2.65

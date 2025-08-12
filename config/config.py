@@ -9,7 +9,7 @@ RESULTS_DIR = "results"
 MODELS_DIR = "models"
 LOGS_DIR = "logs"
 
-INITIAL_AMOUNT = 1000000  # Initial capital for the portfolio
+INITIAL_AMOUNT = 100000  # Initial capital for the portfolio
 
 TEST_NAME = "test"
 DOW_30_NAME = "dow30"
@@ -58,3 +58,17 @@ if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
     DATASET_NAME = "dataset-indicators"
 else:
     DATASET_NAME = "simple-dataset"
+
+WANDB_ENTITY = "xdl-team"
+WANDB_PROJECT = "xdl-portfolio"
+
+SWEEP_CONFIG = {
+    "method": "bayes",
+    "metric": {"name": "sharpe_ratio", "goal": "maximize"},
+    "early_terminate": {
+        "type": "hyperband",
+        "s": 2,
+        "eta": 2,
+        "max_iter": 10,
+    },
+}
