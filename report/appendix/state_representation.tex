@@ -23,11 +23,11 @@ The following technical indicators are used to represent the state of the financ
     where $k_1$ and $k_2$ are the look-back periods for the short-term (12 periods) and long-term (26 periods) EMAs, respectively, and $p_t$ is the close price at time $t$.
     \item \acrfull{rsi}: Momentum indicator that measures the magnitude of recent changes to identify overbought or oversold conditions in the market. It is computed using smoothed moving averages for the upward change in closing price $p_t$, defined as $u_t = \max {p_t - p_{t-1}, 0}$: 
     \begin{equation}
-        \text{SMMA}_t^k (u_t) = \frac{1}{k}p_t + \left(1 - \frac{1}{k}\right)\text{EMA}_{t-1}^k (u_{t-1})
+        \text{SMMA}_t^k (u_t) = \frac{1}{k}u_t + \left(1 - \frac{1}{k}\right)\text{SMMA}_{t-1}^k (u_{t-1})
     \end{equation}
     and for the downward change, defined as $d_t = \max {p_{t-1} - p_t, 0}$:
     \begin{equation}
-        \text{SMMA}_t^k (d_t) = \frac{1}{k}p_t + \left(1 - \frac{1}{k}\right)\text{EMA}_{t-1}^k (d_{t-1})
+        \text{SMMA}_t^k (d_t) = \frac{1}{k}d_t + \left(1 - \frac{1}{k}\right)\text{SMMA}_{t-1}^k (d_{t-1})
     \end{equation}
     Then, the \acrfull{rsi} is given by:
     \begin{equation}
