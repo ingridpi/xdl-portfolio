@@ -215,3 +215,6 @@ logs/*
 
 # VS Code settings
 .vscode/settings.json
+
+# WandB files
+**/wandb/*

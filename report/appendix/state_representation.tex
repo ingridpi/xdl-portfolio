@@ -1,0 +1,131 @@
+\chapter{State Representation} \label{app:state_representation}
+
+\section{Technical Indicators} \label{sec:technical-indicators}
+
+The following technical indicators are used to represent the state of the financial environment. They are calculated based on the historical price data of the assets in the portfolio:
+
+\begin{itemize}
+    \item \acrfull{sma}: Lagging indicator that smooths the price over a period of time. It is the unweighted mean of the previous $k$ data points and is computed following:
+    \begin{equation}
+        \text{SMA}_t^k = \frac{1}{k} \sum_{i=t-k+1}^{t} p_{i}
+    \end{equation}
+    where $t$ is the current time step, $k$ is the look-back period and $p_i$ is the close price at time $i$.
+    In this thesis, the \acrshort{sma} is calculated for 5, 10 and 20 days. 
+    \item \acrfull{ema}: Weighted moving average that gives more importance to recent prices with the goal of making it more responsive to new information. It is calculated using the formula:
+    \begin{equation}
+        \text{EMA}_t^k = \begin{cases} p_t & \text{if } t = 0 \\ \frac{2}{k+1} p_t + \left(1 - \frac{2}{k+1}\right) \text{EMA}_{t-1}^{k} & \text{if } t > 0 \end{cases}
+    \end{equation}
+    where $k$ is the look-back period, $p_t$ is the close price at time $t$ and $\frac{2}{k+1}$ is the smoothing factor. In this thesis, the \acrshort{ema} is calculated for 5 and 10 days.
+    \item \acrfull{macd}: Momentum indicator that shows the relationship between two moving average of an asset's price. The formula is:
+    \begin{equation}
+        \text{MACD}_t = \text{EMA}_t^{k_1} - \text{EMA}_t^{k_2}
+    \end{equation}
+    where $k_1$ and $k_2$ are the look-back periods for the short-term (12 periods) and long-term (26 periods) EMAs, respectively, and $p_t$ is the close price at time $t$.
+    \item \acrfull{rsi}: Momentum indicator that measures the magnitude of recent changes to identify overbought or oversold conditions in the market. It is computed using smoothed moving averages for the upward change in closing price $p_t$, defined as $u_t = \max {p_t - p_{t-1}, 0}$: 
+    \begin{equation}
+        \text{SMMA}_t^k (u_t) = \frac{1}{k}u_t + \left(1 - \frac{1}{k}\right)\text{SMMA}_{t-1}^k (u_{t-1})
+    \end{equation}
+    and for the downward change, defined as $d_t = \max {p_{t-1} - p_t, 0}$:
+    \begin{equation}
+        \text{SMMA}_t^k (d_t) = \frac{1}{k}d_t + \left(1 - \frac{1}{k}\right)\text{SMMA}_{t-1}^k (d_{t-1})
+    \end{equation}
+    Then, the \acrfull{rsi} is given by:
+    \begin{equation}
+        \text{RSI}_t = 100 - \frac{100}{1 + \text{RS}_t}
+    \end{equation}
+    where the relative strength $\text{RS}_t$ is defined as:
+    \begin{equation}
+        \text{RS}_t = \frac{\text{SMMA}_t^k (u_t)}{\text{SMMA}_t^k (d_t)}
+    \end{equation}
+    \item \acrfull{cci}: Momentum indicator that measures the deviation of the price from its historical average price over a period of time. It is calculated as:
+    \begin{equation}
+        \text{CCI}_t^k = \frac{\text{TP}_t^k - \text{MA}_t^k}{0.015 \cdot \text{MD}_t}
+    \end{equation}
+    where $k$ is the number of periods (14 days), the typical price $\text{TP}_t$ is:
+    \begin{equation}
+        \text{TP}_t = \sum_{i=t-k+1}^{t} \frac{p_{i} + h_{i} + l_{i}}{3}
+    \end{equation}
+    with $p_t$, $h_t$ and $l_t$ being the close, high and low prices at time step $t$, respectively, and the moving average $\text{MA}_t^k$ is:
+    \begin{equation}
+        \text{MA}_t^k = \frac{1}{k} \sum_{i=t-k+1}^{t} \text{TP}_i
+    \end{equation}
+    and the mean deviation $\text{MD}_t$ is:
+    \begin{equation}
+        \text{MD}_t = \frac{1}{k} \sum_{i=t-k+1}^{t} \left| \text{TP}_i - \text{MA}_i^k \right|
+    \end{equation}
+    \item Bollinger Bands: Volatility indicator that defines the trend-line for high and low prices based on the deviation of the asset from the moving average. The upper bands is calculated as:
+    \begin{equation}
+        \text{BOLLUB}_t^k = \text{MA}_t^k + m \cdot \text{SD}_t^k
+    \end{equation}
+    where $k$ is the number of periods (20 days), $m$ is the number of standard deviations away from the moving average (2 standard deviations) and $\text{SD}_t^k$ is the standard deviation of the typical price over the same period. Similarly, the lower band is calculated as:
+    \begin{equation}
+        \text{BOLLDB}_t^k = \text{MA}_t^k - m \cdot \text{SD}_t^k
+    \end{equation}
+    \item \acrfull{atr}: Volatility indicator that measures the average range of price movement over a period of time, usually 14 days. It is calculated as:
+    \begin{equation}
+        \text{ATR}_t^k = \frac{1}{k} \sum_{i=t-k+1}^{t} \text{TR}_i
+    \end{equation}
+    where the true range $\text{TR}_i$ is defined as:
+    \begin{equation}
+        \text{TR}_i = \max \left( h_i - l_i, \left|h_i - p_{i-1}\right|, \left|l_i - p_{i-1}\right| \right)
+    \end{equation}
+    where $h_i$ and $l_i$ are the high and low prices of the asset at time $i$, respectively, and $p_{i-1}$ is the close price of the asset at time $i-1$. The true range finds the maximum of the following three: 
+    \begin{itemize}
+        \item Most recent period high minus most recent period low.
+        \item Absolute value of the most recent period high minus the previous close.
+        \item Absolute value of the most recent period low minus the previous close.
+    \end{itemize}
+    \item \acrfull{adx}: Trend indicator used to measure the strength of a trend by quantifying the price movement. It is calculated as:
+    \begin{equation}
+        \text{ADX}_t^k = \frac{1}{k} \sum_{i=t-k+1}^{t} \text{DX}_i
+    \end{equation}
+    where the \acrfull{dx} is defined as:
+    \begin{equation}
+        \text{DX}_t = \frac{100 \cdot \left| \text{PDI}_t - \text{MDI}_t \right|}{\text{PDI}_t + \text{MDI}_t}
+    \end{equation}
+    with the \acrfull{pdi} and \acrfull{mdi} calculated as:
+    \begin{equation}
+        \text{PDI}_t = \frac{100 \cdot \text{SMMA}_t^k ( \text{DM}^+ )}{\text{ATR}_t^k}
+    \end{equation}
+    \begin{equation}
+        \text{MDI}_t = \frac{100 \cdot \text{SMMA}_t^k ( \text{DM}^- )}{\text{ATR}_t^k}
+    \end{equation}
+    where $\text{DM}^+$ and $\text{DM}^-$ are the positive and negative directional movements, respectively, calculated as:
+    \begin{equation}
+        \text{DM}^+ = \max \left( 0, h_t - h_{t-1} \right)
+    \end{equation}
+    \begin{equation}
+        \text{DM}^- = \max \left( 0, l_{t-1} - l_t \right)
+    \end{equation}
+    where $h_t$ and $l_t$ are the high and low prices of the asset at time $t$, respectively. 
+    \item \acrfull{roc}: Momentum indicator that measures the percentage change in price between the current price $p_t$ and the price $p_{t-k}$ periods ago. It is given by the formula:
+    \begin{equation}
+        \text{ROC}_t^k = \frac{p_t - p_{t-k}}{p_{t-k}} \cdot 100
+    \end{equation}
+    In this thesis, the \acrshort{roc} is calculated for $k=10$ days.
+\end{itemize}
+
+\section{Macroeconomic Indicators} \label{sec:macroeconomic-indicators}
+
+The following macroeconomic indicators are used to represent the state of the financial environment. They provide additional context about the market conditions and are calculated based on external data sources:
+\begin{itemize}
+    \item \acrfull{vix}: Measures the market's expectation of future volatility based on options prices.
+    \begin{itemize}
+        \item \acrshort{vix} is calculated using the implied volatility of \acrfull{sp500} options.
+        \item \acrshort{vftse} is calculated using the implied volatility of \acrfull{ftse100} options.
+        \item \acrshort{vstoxx} is calculated using the implied volatility of \acrlong{eurostoxx50} options.
+        \item \acrshort{vxd} is calculated using the implied volatility of \acrfull{dw30} options.
+    \end{itemize}
+    \item Currency index: Captures the impact from the monetary market on the stock market.
+    \begin{itemize}
+        \item \acrfull{dxy}: \acrfull{us} dollar's value relative to a basket of foreign currencies.
+        \item \acrfull{exy}: Euro's value relative to a basket of foreign currencies.
+        \item \acrfull{bxy}: British pound's value relative to a basket of foreign currencies.
+    \end{itemize}
+    \item Interest rates: Reflects the cost of borrowing money and the return on savings. This is only available for US markets.
+    \begin{itemize}
+        \item \acrfull{irx}: Reflects the return on investment for a 3-month government bond.
+        \item \acrfull{fvx}: Reflects the return on investment for a 5-year government bond.
+        \item \acrfull{tnx}: Reflects the return on investment for a 10-year government bond.
+    \end{itemize}
+\end{itemize}

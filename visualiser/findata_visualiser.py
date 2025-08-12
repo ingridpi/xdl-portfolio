@@ -230,3 +230,59 @@ class FinancialDataVisualiser:
         plt.tight_layout()
         plt.savefig(f"{self.directory}/train_test_close_prices.png")
         plt.show()
+
+    def plot_train_val_test_close_prices(
+        self,
+        train_data: pd.DataFrame,
+        val_data: pd.DataFrame,
+        test_data: pd.DataFrame,
+    ) -> None:
+        """
+        Plot closing prices for train, validation, and test datasets.
+        :param train_data: DataFrame containing training data with 'date', 'tic', and 'close' columns.
+        :param val_data: DataFrame containing validation data with 'date', 'tic', and 'close' columns.
+        :param test_data: DataFrame containing testing data with 'date', 'tic', and 'close' columns.
+        """
+
+        # Concatenate dataframes
+        data = pd.concat([train_data, val_data, test_data])
+
+        # Sort the data by 'tic' to ensure consistent plotting
+        data.sort_values(by="tic", inplace=True)
+
+        plt.figure(figsize=(12, 5))
+        sns.lineplot(data=data, x="date", y="close", hue="tic")
+
+        # Add vertical lines to indicate the split points
+        plt.axvline(
+            x=val_data["date"].min(),
+            color="black",
+            linestyle="--",
+        )
+        plt.axvline(x=test_data["date"].min(), color="black", linestyle="--")
+
+        # Add labels for the split points
+        plt.text(
+            val_data["date"].min() + pd.Timedelta(days=20),
+            data["close"].max(),
+            "Validation Start",
+            horizontalalignment="left",
+            verticalalignment="bottom",
+            color="black",
+        )
+        plt.text(
+            test_data["date"].min() + pd.Timedelta(days=20),
+            data["close"].max(),
+            "Test Start",
+            horizontalalignment="left",
+            verticalalignment="bottom",
+            color="black",
+        )
+
+        plt.title("Train, Validation, and Test Closing Prices of Tickers")
+        plt.xlabel("Date")
+        plt.ylabel("Closing Price")
+        plt.legend(title="Tickers")
+        plt.tight_layout()
+        plt.savefig(f"{self.directory}/train_val_test_close_prices.png")
+        plt.show()

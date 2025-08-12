@@ -12,31 +12,31 @@ MODELS = {
 # Training parameters for stock trading task
 MODEL_KWARGS_STOCK = {
     "a2c": {
-        "n_steps": 5,
-        "ent_coef": 0.01,
-        "learning_rate": 0.0007,
+        "n_steps": 40,
+        "ent_coef": 0.0003,
+        "learning_rate": 0.003,
     },
     "ppo": {
-        "n_steps": 2048,
-        "ent_coef": 0.01,
-        "learning_rate": 0.00025,
+        "n_steps": 512,
+        "ent_coef": 0.0005,
+        "learning_rate": 0.0015,
         "batch_size": 64,
     },
     "ddpg": {
-        "batch_size": 128,
-        "buffer_size": 50000,
-        "learning_rate": 0.001,
+        "batch_size": 256,
+        "buffer_size": 200000,
+        "learning_rate": 0.005,
     },
     "td3": {
-        "batch_size": 100,
-        "buffer_size": 1000000,
+        "batch_size": 128,
+        "buffer_size": 500000,
         "learning_rate": 0.001,
     },
     "sac": {
         "batch_size": 64,
-        "buffer_size": 1000000,
-        "learning_rate": 0.0001,
-        "learning_starts": 1000,
+        "buffer_size": 500000,
+        "learning_rate": 0.001,
+        "learning_starts": 2000,
         "ent_coef": "auto_0.1",
     },
 }
@@ -153,12 +153,12 @@ MODEL_SWEEP_CONFIG = {
     "a2c": {
         "n_steps": {"values": [5, 10, 20, 30, 40]},
         "ent_coef": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-8,
-            "max": 1,
+            "max": 1e-3,
         },
         "learning_rate": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-5,
             "max": 1e-2,
         },
@@ -166,12 +166,12 @@ MODEL_SWEEP_CONFIG = {
     "ppo": {
         "n_steps": {"values": [128, 256, 512, 1024, 2048]},
         "ent_coef": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-8,
-            "max": 1,
+            "max": 1e-3,
         },
         "learning_rate": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-5,
             "max": 1e-2,
         },
@@ -181,7 +181,7 @@ MODEL_SWEEP_CONFIG = {
         "batch_size": {"values": [64, 128, 256]},
         "buffer_size": {"values": [50000, 100000, 200000, 500000]},
         "learning_rate": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-5,
             "max": 1e-2,
         },
@@ -190,7 +190,7 @@ MODEL_SWEEP_CONFIG = {
         "batch_size": {"values": [64, 100, 128, 256]},
         "buffer_size": {"values": [500000, 1000000, 2000000]},
         "learning_rate": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-5,
             "max": 1e-2,
         },
@@ -199,7 +199,7 @@ MODEL_SWEEP_CONFIG = {
         "batch_size": {"values": [32, 64, 128]},
         "buffer_size": {"values": [100000, 500000, 1000000, 2000000]},
         "learning_rate": {
-            "distribution": "log_uniform",
+            "distribution": "uniform",
             "min": 1e-5,
             "max": 1e-2,
         },
