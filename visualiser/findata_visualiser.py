@@ -22,7 +22,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
@@ -51,7 +51,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
@@ -113,7 +113,7 @@ class FinancialDataVisualiser:
         # Sample the first 10 tickers if there are more than 10 unique tickers
         if data["tic"].nunique() > 10:
             sample_tickers = data["tic"].unique()[:10]
-            data = data[data["tic"].isin(sample_tickers)]
+            data = data[data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
@@ -125,7 +125,11 @@ class FinancialDataVisualiser:
             plt.figure(figsize=(12, 5))
             indicator, name = list(indicators.items())[0]
             # Convert indicator to alphanumeric
-            indicator = indicator.lower().strip("^")
+            indicator = "".join(
+                ch
+                for ch in indicator.split(".", 1)[0].lower()
+                if ch.isalnum() or ch == "_"
+            )
             if indicator in data.columns:
                 # Take the date and the indicator column
                 ind_df = data[["date", indicator]]
@@ -146,18 +150,32 @@ class FinancialDataVisualiser:
                 ind_size, 1, figsize=(12, 5 * ind_size), sharex=True
             )
 
+            colors = sns.color_palette().as_hex()[
+                :ind_size
+            ]  # Use distinct colors
+
             # Iterate over indicators to ind_size
             for i, (indicator, name) in enumerate(
                 list(indicators.items())[:ind_size]
             ):
                 # Convert indicator to alphanumeric
-                indicator = indicator.lower().strip("^")
+                indicator = "".join(
+                    ch
+                    for ch in indicator.split(".", 1)[0].lower()
+                    if ch.isalnum() or ch == "_"
+                )
                 if indicator in data.columns:
                     # Take the date and the indicator column
                     ind_df = data[["date", indicator]]
                     # Remove duplicate dates
                     ind_df = ind_df.drop_duplicates(subset="date")
-                    sns.lineplot(data=ind_df, x="date", y=indicator, ax=ax[i])
+                    sns.lineplot(
+                        data=ind_df,
+                        x="date",
+                        y=indicator,
+                        ax=ax[i],
+                        color=colors[i],
+                    )
                     ax[i].set_title(name)
                     ax[i].set_xlabel("Date")
                     ax[i].set_ylabel(indicator)
@@ -183,6 +201,14 @@ class FinancialDataVisualiser:
         :param directory: Directory where the plot will be saved.
         :param filename: Name of the file to save the plot (without extension).
         """
+
+        # Sample the first 10 tickers if there are more than 10 unique tickers
+        if train_data["tic"].nunique() > 10:
+            sample_tickers = train_data["tic"].unique()[:10]
+            train_data = train_data[
+                train_data["tic"].isin(sample_tickers)
+            ].copy()
+            test_data = test_data[test_data["tic"].isin(sample_tickers)].copy()
 
         # Sort the data by 'tic' to ensure consistent plotting
         train_data.sort_values(by="tic", inplace=True)

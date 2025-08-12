@@ -12,10 +12,32 @@ TECHNICAL_INDICATORS = {
     "boll_lb": "Bollinger Bands Lower Band",
     "atr": "Average True Range",
     "adx": "Average Directional Index",
-    "close_10_roc": "Rate of Change over 10 days (1 week)",
+    "close_10_roc": "Rate of Change over 10 days (2 weeks)",
 }
 
 # List of macroeconomic indicators
-MACROECONOMIC_INDICATORS = {
+MACROECONOMIC_INDICATORS_DEFAULT = {
     "^VIX": "Volatility Index (VIX)",
+    "DX-Y.NYB": "US Dollar Index (DXY)",
+    "^IRX": "3-Month Treasury Yield (IRX)",
+    "^FVX": "5-Year Treasury Yield (FVX)",
+    "^TNX": "10-Year Treasury Yield (TNX)",
+}
+
+MACROECONOMIC_INDICATORS_DW30 = {
+    "^VXD": "Volatility Index (VXD)",
+    "DX-Y.NYB": "US Dollar Index (DXY)",
+    "^IRX": "3-Month Treasury Yield (IRX)",
+    "^FVX": "5-Year Treasury Yield (FVX)",
+    "^TNX": "10-Year Treasury Yield (TNX)",
+}
+
+MACROECONOMIC_INDICATORS_EUROSTOXX50 = {
+    "^V2TX.DE": "Volatility Index (VSTOXX)",
+    "^XDE": "Euro Currency Index (EXY)",
+}
+
+MACROECONOMIC_INDICATORS_FTSE100 = {
+    "VFTSE.AS": "Volatility Index (FTSE 100)",
+    "^XDB": "British Pound Currency Index (BXY)",
 }

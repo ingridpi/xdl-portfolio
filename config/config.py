@@ -31,8 +31,9 @@ TEST_START_DATE = "2024-01-01"
 TEST_END_DATE = END_DATE
 
 # Configuration for technical indicators
-USE_TECHNICAL_INDICATORS = False
-USE_MACROECONOMIC_INDICATORS = False
+USE_TECHNICAL_INDICATORS = True
+USE_MACROECONOMIC_INDICATORS = True
+USE_COVARIANCE_FEATURES = True
 
 # Environment representation columns
 ENVIRONMENT_COLUMNS = [
@@ -46,11 +47,25 @@ if USE_TECHNICAL_INDICATORS:
     ENVIRONMENT_COLUMNS += list(config_indicators.TECHNICAL_INDICATORS.keys())
 
 if USE_MACROECONOMIC_INDICATORS:
-    ENVIRONMENT_COLUMNS += ["vix"]  # Volatility Index (VIX)
+    MACROECONOMIC_INDICATORS = (
+        config_indicators.MACROECONOMIC_INDICATORS_DEFAULT
+    )
+
+    # Remove non-letter characters from string
+    ENVIRONMENT_COLUMNS += list(
+        map(
+            lambda x: "".join(
+                ch
+                for ch in x.split(".", 1)[0].lower()
+                if ch.isalnum() or ch == "_"
+            ),
+            list(MACROECONOMIC_INDICATORS.keys()),
+        )
+    )
 
 # Tickers configurations
-TICKERS = config_tickers.TEST_TICKERS
-TICKERS_NAME = TEST_NAME
+TICKERS = config_tickers.DOW_30_TICKERS
+TICKERS_NAME = DOW_30_NAME
 EXCHANGE = EXCHANGE_NYSE
 
 # Set dataset name based on the configuration
