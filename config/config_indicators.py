@@ -12,7 +12,7 @@ TECHNICAL_INDICATORS = {
     "boll_lb": "Bollinger Bands Lower Band",
     "atr": "Average True Range",
     "adx": "Average Directional Index",
-    "close_10_roc": "Rate of Change over 10 days (1 week)",
+    "close_10_roc": "Rate of Change over 10 days (2 weeks)",
 }
 
 # List of macroeconomic indicators
