@@ -4,6 +4,7 @@ from typing import List, Optional
 
 import exchange_calendars as ecals
 import pandas as pd
+from sklearn import covariance
 from stockstats import StockDataFrame
 
 from preprocessor.findata_downloader import FinancialDataDownloader
@@ -27,6 +28,8 @@ class FinancialDataPreprocessor:
         tech_indicators: Optional[List[str]] = None,
         use_macro_indicators: bool = False,
         macro_indicators: Optional[List[str]] = None,
+        use_covariance: bool = False,
+        lookback_period: int = 252,
     ) -> pd.DataFrame:
         """
         Preprocess financial data by cleaning it and adding additional features.
@@ -36,6 +39,8 @@ class FinancialDataPreprocessor:
         :param tech_indicators: List of technical indicators to add.
         :param use_macro_indicators: Whether to add macroeconomic indicators (Default is False).
         :param macro_indicators: List of macroeconomic indicators to add.
+        :param use_covariance: Whether to add covariance features (Default is False).
+        :param lookback_period: The lookback period for calculating covariance features (Default is 252).
         :return: Processed DataFrame with additional features.
         """
         df = data.copy()
@@ -50,6 +55,9 @@ class FinancialDataPreprocessor:
 
         if use_macro_indicators and macro_indicators:
             df = self.__add_macroeconomic_indicators(df, macro_indicators)
+
+        if use_covariance:
+            df = self.__add_covariance_features(df, lookback_period)
 
         df = self.__rename_columns(df)
 
@@ -162,6 +170,66 @@ class FinancialDataPreprocessor:
             )
 
             data = data.merge(indicator_df, on=["date"])
+
+        return data
+
+    def __add_covariance_features(
+        self, data: pd.DataFrame, lookback_period: int = 252
+    ) -> pd.DataFrame:
+        """
+        Add covariance features to the DataFrame.
+        :param data: DataFrame containing financial data.
+        :param lookback_period: The lookback period for calculating covariance features.
+        :return: DataFrame with additional covariance features.
+        """
+        covariance_df = pd.DataFrame()
+
+        for i in range(len(data.date.unique())):
+            # If the date is smaller than the lookback period,
+            # do not calculate the covariance and set it to 0
+            if i < lookback_period:
+                cov_df = pd.DataFrame(
+                    {
+                        "date": data.date.unique()[i],
+                        "tic": data.tic.unique(),
+                        "covariance": [
+                            [0] * len(data.tic.unique())
+                            for _ in range(len(data.tic.unique()))
+                        ],
+                    }
+                )
+            # Calculate the covariance features for the current lookback period
+            else:
+                # Get the start and end dates for the lookback period
+                start_date = data["date"].unique()[i - lookback_period]
+                end_date = data["date"].unique()[i]
+
+                # Retrieve the relevant data for the lookback period
+                window = data[
+                    (data.date >= start_date) & (data.date < end_date)
+                ]
+                # Pivot the table to get the price data for the lookback period
+                price_lookback = window.pivot_table(
+                    index="date", columns="tic", values="close"
+                )
+
+                # Compute the covariance matrix
+                cov_matrix = price_lookback.cov()
+                cov_df = pd.DataFrame(
+                    {
+                        "date": data.date.unique()[i],
+                        "tic": cov_matrix.columns.tolist(),
+                        "covariance": cov_matrix.values.tolist(),
+                    }
+                )
+
+            # Append to the covariance dataframe
+            covariance_df = pd.concat(
+                [covariance_df, cov_df], ignore_index=True
+            )
+
+        # Merge the data on date and tic
+        data = data.merge(covariance_df, on=["date", "tic"])
 
         return data
 
