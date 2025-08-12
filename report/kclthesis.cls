@@ -53,8 +53,6 @@
 
 \renewcommand*{\maketitle}{
 
-% Second Cover Page
-
 \begin{titlepage}
 \thispagestyle{empty}
 \null\vskip0.2in%
@@ -85,14 +83,6 @@ United Kingdom
 \nointerlineskip
 \end{center}
 
-% \begin{center}
-%     \@version
-%     \\
-%     \vspace{0.2cm}
-%     \vskip\bigskipamount
-%     \nointerlineskip
-% \end{center}
-
 \vspace{0.2cm}
 
 \begin{center}
@@ -100,7 +90,8 @@ United Kingdom
 {Name: \bf \@author}\\
 Student Number: \@studentnumber\\
 Course: \@programme \\ 
-Supervisor: \bf \@supervisor
+{Supervisor: \bf \@supervisor} \\
+{Word count: \@wordcount} \\
 \end{center}
 
 \vspace{1.2cm}
