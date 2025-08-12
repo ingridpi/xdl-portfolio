@@ -1,5 +1,3 @@
-import re
-
 from config import config_indicators, config_tickers
 
 START_DATE = "2016-01-01"
@@ -56,7 +54,11 @@ if USE_MACROECONOMIC_INDICATORS:
     # Remove non-letter characters from string
     ENVIRONMENT_COLUMNS += list(
         map(
-            lambda x: re.sub(r"\W+", "", x.split(".")[0].lower()),
+            lambda x: "".join(
+                ch
+                for ch in x.split(".", 1)[0].lower()
+                if ch.isalnum() or ch == "_"
+            ),
             list(MACROECONOMIC_INDICATORS.keys()),
         )
     )

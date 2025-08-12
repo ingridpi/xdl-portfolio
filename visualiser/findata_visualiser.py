@@ -1,4 +1,3 @@
-import re
 from typing import Optional
 
 import matplotlib.pyplot as plt
@@ -126,8 +125,10 @@ class FinancialDataVisualiser:
             plt.figure(figsize=(12, 5))
             indicator, name = list(indicators.items())[0]
             # Convert indicator to alphanumeric
-            indicator = re.sub(
-                r"[^a-z0-9_]", "", indicator.split(".")[0].lower()
+            indicator = "".join(
+                ch
+                for ch in indicator.split(".", 1)[0].lower()
+                if ch.isalnum() or ch == "_"
             )
             if indicator in data.columns:
                 # Take the date and the indicator column
@@ -158,8 +159,10 @@ class FinancialDataVisualiser:
                 list(indicators.items())[:ind_size]
             ):
                 # Convert indicator to alphanumeric
-                indicator = re.sub(
-                    r"[^a-z0-9_]", "", indicator.split(".")[0].lower()
+                indicator = "".join(
+                    ch
+                    for ch in indicator.split(".", 1)[0].lower()
+                    if ch.isalnum() or ch == "_"
                 )
                 if indicator in data.columns:
                     # Take the date and the indicator column

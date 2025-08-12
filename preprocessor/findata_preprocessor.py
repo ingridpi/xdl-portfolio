@@ -4,7 +4,6 @@ from typing import List, Optional
 
 import exchange_calendars as ecals
 import pandas as pd
-from sklearn import covariance
 from stockstats import StockDataFrame
 
 from preprocessor.findata_downloader import FinancialDataDownloader
@@ -184,25 +183,27 @@ class FinancialDataPreprocessor:
         """
         covariance_df = pd.DataFrame()
 
-        for i in range(len(data.date.unique())):
+        dates = data.date.unique()
+        tics = data.tic.unique()
+
+        for i in range(len(dates)):
             # If the date is smaller than the lookback period,
             # do not calculate the covariance and set it to 0
             if i < lookback_period:
                 cov_df = pd.DataFrame(
                     {
-                        "date": data.date.unique()[i],
-                        "tic": data.tic.unique(),
+                        "date": dates[i],
+                        "tic": tics,
                         "covariance": [
-                            [0] * len(data.tic.unique())
-                            for _ in range(len(data.tic.unique()))
+                            [0] * len(tics) for _ in range(len(tics))
                         ],
                     }
                 )
             # Calculate the covariance features for the current lookback period
             else:
                 # Get the start and end dates for the lookback period
-                start_date = data["date"].unique()[i - lookback_period]
-                end_date = data["date"].unique()[i]
+                start_date = dates[i - lookback_period]
+                end_date = dates[i]
 
                 # Retrieve the relevant data for the lookback period
                 window = data[
@@ -217,8 +218,8 @@ class FinancialDataPreprocessor:
                 cov_matrix = price_lookback.cov()
                 cov_df = pd.DataFrame(
                     {
-                        "date": data.date.unique()[i],
-                        "tic": cov_matrix.columns.tolist(),
+                        "date": dates[i],
+                        "tic": tics,
                         "covariance": cov_matrix.values.tolist(),
                     }
                 )
