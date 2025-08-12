@@ -11,7 +11,7 @@ RESULTS_DIR = "results"
 MODELS_DIR = "models"
 LOGS_DIR = "logs"
 
-INITIAL_AMOUNT = 1000000  # Initial capital for the portfolio
+INITIAL_AMOUNT = 100000  # Initial capital for the portfolio
 
 TEST_NAME = "test"
 DOW_30_NAME = "dow30"
@@ -62,8 +62,8 @@ if USE_MACROECONOMIC_INDICATORS:
     )
 
 # Tickers configurations
-TICKERS = config_tickers.TEST_TICKERS
-TICKERS_NAME = TEST_NAME
+TICKERS = config_tickers.DOW_30_TICKERS
+TICKERS_NAME = DOW_30_NAME
 EXCHANGE = EXCHANGE_NYSE
 
 # Set dataset name based on the configuration
