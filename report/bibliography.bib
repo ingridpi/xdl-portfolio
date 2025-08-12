@@ -4,6 +4,14 @@
   url    = {https://spinningup.openai.com/en/latest/spinningup/rl_intro2.html},
   year   = {2018}
 }
+@article{AIAct2024,
+  author  = {European Parliament and Council of the European Union},
+  journal = {Publications Office of the European Union},
+  month   = {6},
+  title   = {Regulation (EU) 2024/1689},
+  url     = {https://eur-lex.europa.eu/legal-content/EN/LSU/?uri=CELEX:32024R1689},
+  year    = {2024}
+}
 @article{Amirshahi2023,
   abstract  = {In recent years, cryptocurrencies' price prediction has attracted the interest of many people including investors, researchers and practitioners. In this study, we proposed a hybrid model for predicting the daily close price of cryptocurrencies based on different neural networks such as long short-term memory, convolutional neural network and attention mechanism. Using an ensemble of three pre-trained language models, we extracted sentiment of cryptocurrency-related tweets posted between 1 January 2021 and 31 December 2021. We constructed 20 different versions of our model and evaluated their performance on data of 27 most traded cryptocurrencies using a history of previous days' sentiment data along with close prices as input data. The flexible input layer of our model enables different ways of feeding data into the model to adjust it for different cryptocurrencies to obtain better predictions. Our analysis revealed several important findings. We showed that longer sequences of input data achieve most accurate predictions on average. More specifically, using a history of 14- and 21-days' data results in lowest RMSE values on average compared to using a history of 7 days. However, there is no significant difference between the results related to the input sequences with lengths of 14 and 21. In addition, our findings suggest that sentiment data can be useful in predicting prices for more than 70% of the studied cryptocurrencies. Thus, peoples' emotions, opinions, and sentiment that are expressed through their posts on Twitter platform play a significant role in prediction of cryptocurrencies' prices.},
   author    = {Bahareh Amirshahi and Salim Lahmiri},
@@ -121,6 +129,17 @@
   url       = {https://www.sciencedirect.com/science/article/pii/B9780123747556000042},
   year      = {2014}
 }
+@article{Chaudhary2025,
+  abstract = {Predicting stock market movements remains a persistent challenge due to the inherently volatile, non-linear, and stochastic nature of financial time series data. This paper introduces a deep learning-based framework employing Long Short-Term Memory (LSTM) networks to forecast the closing stock prices of major technology firms: Apple, Google, Microsoft, and Amazon, listed on NASDAQ. Historical data was sourced from Yahoo Finance and processed using normalization and feature engineering techniques. The proposed model achieves a Mean Absolute Percentage Error (MAPE) of 2.72 on unseen test data, significantly outperforming traditional models like ARIMA. To further enhance predictive accuracy, sentiment scores were integrated using real-time news articles and social media data, analyzed through the VADER sentiment analysis tool. A web application was also developed to provide real-time visualizations of stock price forecasts, offering practical utility for both individual and institutional investors. This research demonstrates the strength of LSTM networks in modeling complex financial sequences and presents a novel hybrid approach combining time series modeling with sentiment analysis.},
+  author   = {Rajneesh Chaudhary},
+  isbn     = {2505.05325v1},
+  keywords = {Deep Learning,Financial Modeling,Long Short-Term Memory (LSTM),Sentiment Analysis,Stock Market Prediction,Time Series Forecasting,Web Application},
+  month    = {5},
+  title    = {Advanced Stock Market Prediction Using Long Short-Term Memory Networks: A Comprehensive Deep Learning Framework},
+  url      = {http://arxiv.org/abs/2505.05325},
+  year     = {2025},
+  journal  = {Journal of Financial Data Science}
+}
 @article{Cortes2024,
   abstract  = {While machine learning's role in financial trading has advanced considerably, algorithmic transparency and explainability challenges still exist. This research enriches prior studies focused on high-frequency financial data prediction by introducing an explainable reinforcement learning model for portfolio management. This model transcends basic asset prediction, formulating concrete, actionable trading strategies. The methodology is applied in a custom trading environment mimicking the CAC-40 index's financial conditions, allowing the model to adapt dynamically to market changes based on iterative learning from historical data. Empirical findings reveal that the model outperforms an equally weighted portfolio in out-of-sample tests. The study offers a dual contribution: it elevates algorithmic planning while significantly boosting transparency and interpretability in financial machine learning. This approach tackles the enduring ‘black-box’ issue and provides a holistic, transparent framework for managing investment portfolios.},
   author    = {Daniel González Cortés and Enrique Onieva and Iker Pastor and Laura Trinchera and Jian Wu},
@@ -136,6 +155,24 @@
   volume    = {41},
   url       = {https://onlinelibrary.wiley.com/doi/full/10.1111/exsy.13667 https://onlinelibrary.wiley.com/doi/abs/10.1111/exsy.13667 https://onlinelibrary.wiley.com/doi/10.1111/exsy.13667},
   year      = {2024}
+}
+@article{de-La-Rica-Escudero2025,
+  abstract  = {Financial portfolio management investment policies computed quantitatively by modern portfolio theory techniques like the Markowitz model rely on a set of assumptions that are not supported by data in high volatility markets such as the technological sector or cryptocurrencies. Hence, quantitative researchers are looking for alternative models to tackle this problem. Concretely, portfolio management (PM) is a problem that has been successfully addressed recently by Deep Reinforcement Learning (DRL) approaches. In particular, DRL algorithms train an agent by estimating the distribution of the expected reward of every action performed by an agent given any financial state in a simulator, also called gymnasium. However, these methods rely on Deep Neural Networks model to represent such a distribution, that although they are universal approximator models, capable of representing this distribution over time, they cannot explain its behaviour, given by a set of parameters that are not interpretable. Critically, financial investors policies require predictions to be interpretable, to assess whether they follow a reasonable behaviour, so DRL agents are not suited to follow a particular policy or explain their actions. In this work, driven by the motivation of making DRL explainable, we developed a novel Explainable DRL (XDRL) approach for PM, integrating the Proximal Policy Optimization (PPO) DRL algorithm with the model agnostic explainable machine learning techniques of feature importance, SHAP and LIME to enhance transparency in prediction time. By executing our methodology, we can interpret in prediction time the actions of the agent to assess whether they follow the requisites of an investment policy or to assess the risk of following the agent’s suggestions. We empirically illustrate it by successfully identifying key features influencing investment decisions, which demonstrate the ability to explain the agent actions in prediction time. We propose the first explainable post hoc PM financial policy of a DRL agent.},
+  author    = {Alejandra de-La-Rica-Escudero and Eduardo C. Garrido-Merchán and María Coronado-Vaca},
+  doi       = {10.1371/JOURNAL.PONE.0315528},
+  isbn      = {1111111111},
+  issn      = {1932-6203},
+  issue     = {1},
+  journal   = {PLOS ONE},
+  keywords  = {Algorithms,Decision making,Finance,Financial management,Financial markets,Monetary policy,Neural networks,Optimization},
+  month     = {1},
+  pages     = {e0315528},
+  pmid      = {39820096},
+  publisher = {Public Library of Science},
+  title     = {Explainable post hoc portfolio management financial policy of a Deep Reinforcement Learning agent},
+  volume    = {20},
+  url       = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0315528},
+  year      = {2025}
 }
 @article{Francois-Lavet2018,
   abstract  = {Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning. This field of research has been able to solve a wide range of complex decision-making tasks that were previously out of reach for a machine. Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more. This manuscript provides an introduction to deep reinforcement learning models, algorithms and techniques. Particular focus is on the aspects related to generalization and how deep RL can be used for practical applications. We assume the reader is familiar with basic machine learning concepts.},
@@ -274,6 +311,21 @@
   url    = {https://www.ibm.com/think/topics/machine-learning},
   year   = {2021}
 }
+@article{Jiang2016,
+  abstract  = {Portfolio management is the decision-making process of allocating an amount of fund into different financial investment products. Cryptocurrencies are electronic and decentralized alternatives to government-issued money, with Bitcoin as the best-known example of a cryptocurrency. This paper presents a model-less convolutional neural network with historic prices of a set of financial assets as its input, outputting portfolio weights of the set. The network is trained with 0.7 years' price data from a cryptocurrency exchange. The training is done in a reinforcement manner, maximizing the accumulative return, which is regarded as the reward function of the network. Backtest trading experiments with trading period of 30 minutes is conducted in the same market, achieving 10-fold returns in 1.8 months' periods. Some recently published portfolio selection strategies are also used to perform the same back-tests, whose results are compared with the neural network. The network is not limited to cryptocurrency, but can be applied to any other financial markets.},
+  author    = {Zhengyao Jiang and Jinjun Liang},
+  doi       = {10.1109/IntelliSys.2017.8324237},
+  isbn      = {9781509064359},
+  journal   = {2017 Intelligent Systems Conference, IntelliSys 2017},
+  keywords  = {Machine learning,algorithmic trading,convolutional neural networks,cryptocurrency,deep reinforcement learning,deterministic policy gradient,portfolio management,quantitative finance},
+  month     = {12},
+  pages     = {905-913},
+  publisher = {Institute of Electrical and Electronics Engineers Inc.},
+  title     = {Cryptocurrency Portfolio Management with Deep Reinforcement Learning},
+  volume    = {2018-January},
+  url       = {https://arxiv.org/abs/1612.01277v5},
+  year      = {2016}
+}
 @misc{kent,
   author = {Financial Mathematics Clinic},
   editor = {University of Kent},
@@ -281,6 +333,7 @@
   title  = {Mean Variance Portfolio Theory},
   url    = {https://www.kent.ac.uk/learning/documents/slas-documents/mean-variance-portfolio.pdf}
 }
+
 @article{Lei2020,
   abstract  = {Algorithmic trading is a continuous perception and decision making problem, where environment perception requires to learn feature representation from highly non-stationary and noisy financial time series, and decision making requires the algorithm to explore the environment and simultaneously make correct decisions in an online manner without any supervised information. To address these two problems, we propose a time-driven feature-aware jointly deep reinforcement learning model (TFJ-DRL) that integrates deep learning model and reinforcement learning model to improve the financial signal representation learning and action decision making in algorithmic trading. Concretely, we learn the environmental representation by adaptively selecting and re-weighting various features of financial signals and summarize the attention values between historical information and changing trend depending on the current state. Besides, the supervised deep learning and reinforcement learning are jointly and iteratively trained to make full use of the supervised signals in the training data, and obtain more update information and stricter loss function constraints, thereby increasing investment returns. TFJ-DRL is evaluated on real-world financial data with different price trends (rising, falling and no obvious direction). A series of analysis show the robust superiority and the extensive applicability of the proposed method.},
   author    = {Kai Lei and Bing Zhang and Yu Li and Min Yang and Ying Shen},
@@ -324,7 +377,17 @@
   url      = {https://arxiv.org/abs/1811.07522v3},
   year     = {2018}
 }
-
+@article{Liu2020,
+  author    = {Xiao-Yang Liu},
+  doi       = {10.2139/SSRN.3737257},
+  journal   = {SSRN Electronic Journal},
+  keywords  = {FinRL,FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance,SSRN,Xiao-Yang Liu,finance,reinforcement learning},
+  month     = {11},
+  publisher = {Elsevier BV},
+  title     = {FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance},
+  url       = {https://papers.ssrn.com/abstract=3737257},
+  year      = {2020}
+}
 @article{Lundberg2017,
   abstract  = {Understanding why a model makes a certain prediction can be as crucial as the prediction's accuracy in many applications. However, the highest accuracy for large modern datasets is often achieved by complex models that even experts struggle to interpret, such as ensemble or deep learning models, creating a tension between accuracy and interpretability. In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. Its novel components include: (1) the identification of a new class of additive feature importance measures, and (2) theoretical results showing there is a unique solution in this class with a set of desirable properties. The new class unifies six existing methods, notable because several recent methods in the class lack the proposed desirable properties. Based on insights from this unification, we present new methods that show improved computational performance and/or better consistency with human intuition than previous approaches.},
   author    = {Scott M. Lundberg and Su In Lee},
@@ -359,6 +422,18 @@
   title     = {A parallel multi-module deep reinforcement learning algorithm for stock trading},
   volume    = {449},
   year      = {2021}
+}
+@article{Mandeep2022,
+  abstract  = {The non-linear nature of the stock market prices and trends make it one of the most highly researched areas in the financial domain. People invest in the stock market based on multiple prediction techniques, classified into two main categories: classic methods like fundamental and technical analysis and AI-based prediction models. Both these techniques have their benefits and shortcomings. While the classical methods provide high interpretability, they may not be able to predict the complex trends of the stock market. AI-based models like random forests and neural networks can predict the trends with higher accuracy but provide little to no interpretability for their predictions, making them an uncertain tool for investment advice. In this paper, we use explainable artificial intelligence XAI to predict stock market trends and explain the predictions using two of the most prominent XAI tools, LIME and SHAP. The proof of concept and the experimental results are presented which show the promising application of machine learning in financial forecasting.},
+  author    = {Mandeep and Abhishek Agarwal and Amrita Bhatia and Avleen Malhi and Priyal Kaler and Husanbir Singh Pannu},
+  doi       = {10.1109/ICCCI55554.2022.9850272},
+  isbn      = {9781665469920},
+  journal   = {2022 4th International Conference on Computer Communication and the Internet, ICCCI 2022},
+  keywords  = {LIME,Machine learning,SHAP,explainable artificial intelligence,financial forecasting},
+  pages     = {34-38},
+  publisher = {Institute of Electrical and Electronics Engineers Inc.},
+  title     = {Machine Learning Based Explainable Financial Forecasting},
+  year      = {2022}
 }
 @article{Markowitz1952,
   author    = {Harry Markowitz},
@@ -709,65 +784,42 @@
   url       = {https://dl.acm.org/doi/10.1145/3383455.3422540},
   year      = {2020}
 }
-@article{Zhang2023,
-   abstract = {Accurately predicting the prices of financial time series is essential and challenging for the financial sector. Owing to recent advancements in deep learning techniques, deep learning models are gradually replacing traditional statistical and machine learning models as the first choice for price forecasting tasks. This shift in model selection has led to a notable rise in research related to applying deep learning models to price forecasting, resulting in a rapid accumulation of new knowledge. Therefore, we conducted a literature review of relevant studies over the past 3 years with a view to aiding researchers and practitioners in the field. This review delves deeply into deep learning-based forecasting models, presenting information on model architectures, practical applications, and their respective advantages and disadvantages. In particular, detailed information is provided on advanced models for price forecasting, such as Transformers, generative adversarial networks (GANs), graph neural networks (GNNs), and deep quantum neural networks (DQNNs). The present contribution also includes potential directions for future research, such as examining the effectiveness of deep learning models with complex structures for price forecasting, extending from point prediction to interval prediction using deep learning models, scrutinizing the reliability and validity of decomposition ensembles, and exploring the influence of data volume on model performance. This article is categorized under: Technologies > Prediction Technologies > Artificial Intelligence.},
-   author = {Cheng Zhang and Nilam Nur Amir Sjarif and Roslina Ibrahim},
-   doi = {10.1002/WIDM.1519},
-   issn = {1942-4795},
-   issue = {1},
-   journal = {Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery},
-   keywords = {deep learning,financial market,neural network,price forecast,time series},
-   month = {9},
-   pages = {e1519},
-   publisher = {John Wiley \& Sons, Ltd},
-   title = {Deep learning models for price forecasting of financial time series: A review of recent advancements: 2020–2022},
-   volume = {14},
-   url = {https://onlinelibrary.wiley.com/doi/full/10.1002/widm.1519 https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1519 https://wires.onlinelibrary.wiley.com/doi/10.1002/widm.1519},
-   year = {2023}
-}
-@article{Chaudhary2025,
-   abstract = {Predicting stock market movements remains a persistent challenge due to the inherently volatile, non-linear, and stochastic nature of financial time series data. This paper introduces a deep learning-based framework employing Long Short-Term Memory (LSTM) networks to forecast the closing stock prices of major technology firms: Apple, Google, Microsoft, and Amazon, listed on NASDAQ. Historical data was sourced from Yahoo Finance and processed using normalization and feature engineering techniques. The proposed model achieves a Mean Absolute Percentage Error (MAPE) of 2.72 on unseen test data, significantly outperforming traditional models like ARIMA. To further enhance predictive accuracy, sentiment scores were integrated using real-time news articles and social media data, analyzed through the VADER sentiment analysis tool. A web application was also developed to provide real-time visualizations of stock price forecasts, offering practical utility for both individual and institutional investors. This research demonstrates the strength of LSTM networks in modeling complex financial sequences and presents a novel hybrid approach combining time series modeling with sentiment analysis.},
-   author = {Rajneesh Chaudhary},
-   isbn = {2505.05325v1},
-   keywords = {Deep Learning,Financial Modeling,Long Short-Term Memory (LSTM),Sentiment Analysis,Stock Market Prediction,Time Series Forecasting,Web Application},
-   month = {5},
-   title = {Advanced Stock Market Prediction Using Long Short-Term Memory Networks: A Comprehensive Deep Learning Framework},
-   url = {http://arxiv.org/abs/2505.05325},
-   year = {2025},
-   journal = {Journal of Financial Data Science}
-}
-@article{Liu2020,
-   author = {Xiao-Yang Liu},
-   doi = {10.2139/SSRN.3737257},
-   journal = {SSRN Electronic Journal},
-   keywords = {FinRL,FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance,SSRN,Xiao-Yang Liu,finance,reinforcement learning},
-   month = {11},
-   publisher = {Elsevier BV},
-   title = {FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance},
-   url = {https://papers.ssrn.com/abstract=3737257},
-   year = {2020}
-}
-@article{Jiang2016,
-   abstract = {Portfolio management is the decision-making process of allocating an amount of fund into different financial investment products. Cryptocurrencies are electronic and decentralized alternatives to government-issued money, with Bitcoin as the best-known example of a cryptocurrency. This paper presents a model-less convolutional neural network with historic prices of a set of financial assets as its input, outputting portfolio weights of the set. The network is trained with 0.7 years' price data from a cryptocurrency exchange. The training is done in a reinforcement manner, maximizing the accumulative return, which is regarded as the reward function of the network. Backtest trading experiments with trading period of 30 minutes is conducted in the same market, achieving 10-fold returns in 1.8 months' periods. Some recently published portfolio selection strategies are also used to perform the same back-tests, whose results are compared with the neural network. The network is not limited to cryptocurrency, but can be applied to any other financial markets.},
-   author = {Zhengyao Jiang and Jinjun Liang},
-   doi = {10.1109/IntelliSys.2017.8324237},
-   isbn = {9781509064359},
-   journal = {2017 Intelligent Systems Conference, IntelliSys 2017},
-   keywords = {Machine learning,algorithmic trading,convolutional neural networks,cryptocurrency,deep reinforcement learning,deterministic policy gradient,portfolio management,quantitative finance},
-   month = {12},
-   pages = {905-913},
-   publisher = {Institute of Electrical and Electronics Engineers Inc.},
-   title = {Cryptocurrency Portfolio Management with Deep Reinforcement Learning},
-   volume = {2018-January},
-   url = {https://arxiv.org/abs/1612.01277v5},
-   year = {2016}
-}
 @article{Zhang2019,
-   abstract = {We adopt Deep Reinforcement Learning algorithms to design trading strategies for continuous futures contracts. Both discrete and continuous action spaces are considered and volatility scaling is incorporated to create reward functions which scale trade positions based on market volatility. We test our algorithms on the 50 most liquid futures contracts from 2011 to 2019, and investigate how performance varies across different asset classes including commodities, equity indices, fixed income and FX markets. We compare our algorithms against classical time series momentum strategies, and show that our method outperforms such baseline models, delivering positive profits despite heavy transaction costs. The experiments show that the proposed algorithms can follow large market trends without changing positions and can also scale down, or hold, through consolidation periods.},
-   author = {Zihao Zhang and Stefan Zohren and Stephen Roberts},
-   journal = {Papers},
-   publisher = {arXiv.org},
-   title = {Deep Reinforcement Learning for Trading},
-   url = {https://ideas.repec.org/p/arx/papers/1911.10107.html https://ideas.repec.org//p/arx/papers/1911.10107.html},
-   year = {2019}
+  abstract  = {We adopt Deep Reinforcement Learning algorithms to design trading strategies for continuous futures contracts. Both discrete and continuous action spaces are considered and volatility scaling is incorporated to create reward functions which scale trade positions based on market volatility. We test our algorithms on the 50 most liquid futures contracts from 2011 to 2019, and investigate how performance varies across different asset classes including commodities, equity indices, fixed income and FX markets. We compare our algorithms against classical time series momentum strategies, and show that our method outperforms such baseline models, delivering positive profits despite heavy transaction costs. The experiments show that the proposed algorithms can follow large market trends without changing positions and can also scale down, or hold, through consolidation periods.},
+  author    = {Zihao Zhang and Stefan Zohren and Stephen Roberts},
+  journal   = {Papers},
+  publisher = {arXiv.org},
+  title     = {Deep Reinforcement Learning for Trading},
+  url       = {https://ideas.repec.org/p/arx/papers/1911.10107.html https://ideas.repec.org//p/arx/papers/1911.10107.html},
+  year      = {2019}
+}
+@article{Zhang2022,
+  abstract  = {Artificial Intelligence (AI) and Machine Learning (ML) are gaining increasing attention regarding their potential applications in auditing. One major challenge of their adoption in auditing is the lack of explainability of their results. As AI/ML matures, so do techniques that can enhance the interpretability of AI, a.k.a., Explainable Artificial Intelligence (XAI). This paper introduces XAI techniques to auditing practitioners and researchers. We discuss how different XAI techniques can be used to meet the requirements of audit documentation and audit evidence standards. Furthermore, we demonstrate popular XAI techniques, especially Local Interpretable Model-agnostic Explanations (LIME) and Shapley Additive exPlanations (SHAP), using an auditing task of assessing the risk of material misstatement. This paper contributes to accounting information systems research and practice by introducing XAI techniques to enhance the transparency and interpretability of AI applications applied to auditing tasks.},
+  author    = {Chanyuan (Abigail) Zhang and Soohyun Cho and Miklos Vasarhelyi},
+  doi       = {10.1016/J.ACCINF.2022.100572},
+  issn      = {1467-0895},
+  journal   = {International Journal of Accounting Information Systems},
+  keywords  = {Auditing,Explainable Artificial Intelligence (XAI),LIME,Machine learning,Material restatement,SHAP},
+  month     = {9},
+  pages     = {100572},
+  publisher = {Pergamon},
+  title     = {Explainable Artificial Intelligence (XAI) in auditing},
+  volume    = {46},
+  year      = {2022}
+}
+@article{Zhang2023,
+  abstract  = {Accurately predicting the prices of financial time series is essential and challenging for the financial sector. Owing to recent advancements in deep learning techniques, deep learning models are gradually replacing traditional statistical and machine learning models as the first choice for price forecasting tasks. This shift in model selection has led to a notable rise in research related to applying deep learning models to price forecasting, resulting in a rapid accumulation of new knowledge. Therefore, we conducted a literature review of relevant studies over the past 3 years with a view to aiding researchers and practitioners in the field. This review delves deeply into deep learning-based forecasting models, presenting information on model architectures, practical applications, and their respective advantages and disadvantages. In particular, detailed information is provided on advanced models for price forecasting, such as Transformers, generative adversarial networks (GANs), graph neural networks (GNNs), and deep quantum neural networks (DQNNs). The present contribution also includes potential directions for future research, such as examining the effectiveness of deep learning models with complex structures for price forecasting, extending from point prediction to interval prediction using deep learning models, scrutinizing the reliability and validity of decomposition ensembles, and exploring the influence of data volume on model performance. This article is categorized under: Technologies > Prediction Technologies > Artificial Intelligence.},
+  author    = {Cheng Zhang and Nilam Nur Amir Sjarif and Roslina Ibrahim},
+  doi       = {10.1002/WIDM.1519},
+  issn      = {1942-4795},
+  issue     = {1},
+  journal   = {Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery},
+  keywords  = {deep learning,financial market,neural network,price forecast,time series},
+  month     = {9},
+  pages     = {e1519},
+  publisher = {John Wiley \& Sons, Ltd},
+  title     = {Deep learning models for price forecasting of financial time series: A review of recent advancements: 2020–2022},
+  volume    = {14},
+  url       = {https://onlinelibrary.wiley.com/doi/full/10.1002/widm.1519 https://onlinelibrary.wiley.com/doi/abs/10.1002/widm.1519 https://wires.onlinelibrary.wiley.com/doi/10.1002/widm.1519},
+  year      = {2023}
 }
