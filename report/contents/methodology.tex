@@ -26,7 +26,7 @@ The state space $\mathcal{S}$ is a vector representation of the financial enviro
     \item Volume $v_t \in \mathbb{R}_+^D$: Trading volume of the assets at time $t$.
     \item Technical indicators $i_t \in \mathbb{R}_+^{D \times I}$: For each of the $D$ assets, a vector of $I$ technical indicators, such as moving averages, relative strength index (RSI), and Bollinger Bands, calculated from the asset prices.
     \item Macroeconomic indicators $m_t \in \mathbb{R}_+^{D \times M}$: For each of the $D$ assets, a vector of $M$ macroeconomic indicators, such as volatility index and interest rates, which provide additional context about the financial environment.
-    \item Correlation matrix $C_t \in \mathbb{R}^{D \times D}$: A matrix representing the correlation between the assets in the portfolio at time $t$.
+    \item Covariance matrix $C_t \in \mathbb{R}^{D \times D}$: For each of the $D$ assets, a vector of $D$ values representing the covariance between the assets in the portfolio at time $t$.
 \end{itemize}
 
 The description of technical and macroeconomic indicators is provided in more detail in appendix \ref{app:state_representation}.
