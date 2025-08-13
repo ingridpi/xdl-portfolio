@@ -174,6 +174,19 @@
   url       = {https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0315528},
   year      = {2025}
 }
+@article{Falkner2018,
+  abstract  = {Modern deep learning methods are very sensitive to many hyperparameters, and, due to the long training times of state-of-the-art models, vanilla Bayesian hyperparameter optimization is typically computationally infeasible. On the other hand, bandit-based configuration evaluation approaches based on random search lack guidance and do not converge to the best configurations as quickly. Here, we propose to combine the benefits of both Bayesian optimization and bandit-based methods, in order to achieve the best of both worlds: strong anytime performance and fast convergence to optimal configurations. We propose a new practical state-of-the-art hyperparameter optimization method, which consistently outperforms both Bayesian optimization and Hyperband on a wide range of problem types, including high-dimensional toy functions, support vector machines, feed-forward neural networks, Bayesian neural networks, deep reinforcement learning, and convolutional neural networks. Our method is robust and versatile, while at the same time being conceptually simple and easy to implement.},
+  author    = {Stefan Falkner and Aaron Klein and Frank Hutter},
+  isbn      = {9781510867963},
+  journal   = {35th International Conference on Machine Learning, ICML 2018},
+  month     = {7},
+  pages     = {2323-2341},
+  publisher = {International Machine Learning Society (IMLS)},
+  title     = {BOHB: Robust and Efficient Hyperparameter Optimization at Scale},
+  volume    = {4},
+  url       = {https://arxiv.org/abs/1807.01774v1},
+  year      = {2018}
+}
 @article{Francois-Lavet2018,
   abstract  = {Deep reinforcement learning is the combination of reinforcement learning (RL) and deep learning. This field of research has been able to solve a wide range of complex decision-making tasks that were previously out of reach for a machine. Thus, deep RL opens up many new applications in domains such as healthcare, robotics, smart grids, finance, and many more. This manuscript provides an introduction to deep reinforcement learning models, algorithms and techniques. Particular focus is on the aspects related to generalization and how deep RL can be used for practical applications. We assume the reader is familiar with basic machine learning concepts.},
   author    = {Vincent François-Lavet and Peter Henderson and Riashat Islam and Marc G. Bellemare and Joelle Pineau},
@@ -326,6 +339,7 @@
   url       = {https://arxiv.org/abs/1612.01277v5},
   year      = {2016}
 }
+
 @misc{kent,
   author = {Financial Mathematics Clinic},
   editor = {University of Kent},
@@ -333,7 +347,6 @@
   title  = {Mean Variance Portfolio Theory},
   url    = {https://www.kent.ac.uk/learning/documents/slas-documents/mean-variance-portfolio.pdf}
 }
-
 @article{Lei2020,
   abstract  = {Algorithmic trading is a continuous perception and decision making problem, where environment perception requires to learn feature representation from highly non-stationary and noisy financial time series, and decision making requires the algorithm to explore the environment and simultaneously make correct decisions in an online manner without any supervised information. To address these two problems, we propose a time-driven feature-aware jointly deep reinforcement learning model (TFJ-DRL) that integrates deep learning model and reinforcement learning model to improve the financial signal representation learning and action decision making in algorithmic trading. Concretely, we learn the environmental representation by adaptively selecting and re-weighting various features of financial signals and summarize the attention values between historical information and changing trend depending on the current state. Besides, the supervised deep learning and reinforcement learning are jointly and iteratively trained to make full use of the supervised signals in the training data, and obtain more update information and stricter loss function constraints, thereby increasing investment returns. TFJ-DRL is evaluated on real-world financial data with different price trends (rising, falling and no obvious direction). A series of analysis show the robust superiority and the extensive applicability of the proposed method.},
   author    = {Kai Lei and Bing Zhang and Yu Li and Min Yang and Ying Shen},
@@ -793,6 +806,21 @@
   volume    = {36},
   url       = {https://journals.aps.org/pr/abstract/10.1103/PhysRev.36.823},
   year      = {1930}
+}
+@misc{wandb,
+  title  = {Experiment Tracking with Weights and Biases},
+  year   = {2020},
+  note   = {Software available from wandb.com},
+  url    = {https://www.wandb.com/},
+  author = {Biewald, Lukas}
+}
+@misc{WeightsBiases2025,
+  author  = {Weights & Biases},
+  journal = {Documentation},
+  month   = {8},
+  title   = {Stable Baselines 3 | Weights \& Biases Documentation},
+  url     = {https://docs.wandb.ai/guides/integrations/stable-baselines-3/},
+  year    = {2025}
 }
 @article{Wu2017,
   abstract  = {In this work, we propose to apply trust region optimization to deep reinforcement learning using a recently proposed Kronecker-factored approximation to the curvature. We extend the framework of natural policy gradient and propose to optimize both the actor and the critic using Kronecker-factored approximate curvature (K-FAC) with trust region; hence we call our method Actor Critic using Kronecker-Factored Trust Region (ACKTR). To the best of our knowledge, this is the first scalable trust region natural gradient method for actor-critic methods. It is also a method that learns non-trivial tasks in continuous control as well as discrete control policies directly from raw pixel inputs. We tested our approach across discrete domains in Atari games as well as continuous domains in the MuJoCo environment. With the proposed methods, we are able to achieve higher rewards and a 2- to 3-fold improvement in sample efficiency on average, compared to previous state-of-the-art on-policy actor-critic methods. Code is available at https://github.com/openai/baselines},

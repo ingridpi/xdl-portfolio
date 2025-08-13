@@ -79,7 +79,15 @@ The proposed solution is based on the \acrshort{drl} framework, which allows the
     \item \acrfull{sac}
 \end{itemize}
 
-The implementation is done using the Stable Baselines3 library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
+The implementation is done using the \texttt{Stable Baselines3} library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
+
+\subsection{Hyper-parameter tuning} \label{subsec:hyperparameter-tuning}
+
+Hyper-parameter tuning is a crucial step in the training process of \acrshort{drl} models, as the right choice of hyper-parameters can significantly impact the model's performance. In this thesis, hyper-parameter tuning refers to the process of optimising the training parameters of the \acrshort{drl} algorithms to maximise their performance in the task of portfolio optimisation. The hyper-parameters that are tuned include the learning rate, batch size, number of training steps, and other algorithm-specific parameters, which are summarised in appendix \ref{app:hyperparameter_tuning}. 
+
+To implement hyper-parameter tuning in Python, the \texttt{Wandb} \cite{wandb} library is used, which provides a simple and efficient way to track experiments, visualise results, and manage hyper-parameter sweeps. A sweep is defined as a search for hyper-parameters that optimises a cost function, in our case, the Sharpe ratio, by testing various combinations. In particular, given that the models were implemented using the \texttt{Stable Baselines3} library, the integration with \texttt{Wandb} allows for seamless tracking of hyper-parameter configurations and their corresponding performance metrics \cite{WeightsBiases2025}. 
+
+Moreover, in order to simplify the hyper-parameter search and avoid testing every possible combination, a Bayesian optimisation approach is taken \cite{Falkner2018}. This approach uses a probabilistic model to estimate the performance of different hyper-parameter configurations and selects the next configuration to test based on the expected improvement over the current best configuration. This allows for a more efficient search of the hyper-parameter space and reduces the number of configurations that need to be tested. Another option to reduce the time taken to find the optimal hyper-parameters is to use early termination. This method will stop a poorly performing run before it has fully completed, saving computational resources.
 
 \section{Post-hoc Explainability} \label{sec:post_hoc_explainability}
 
