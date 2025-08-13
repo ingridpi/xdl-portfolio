@@ -19,6 +19,11 @@ SP_500_NAME = "sp500"
 FX_NAME = "currencies"
 COMMODITY_NAME = "futures"
 
+DOW_30_INDEX = "^DJI"
+EURO_STOXX_50_INDEX = "^STOXX50E"
+FTSE_100_INDEX = "^FTSE"
+SP_500_INDEX = "^GSPC"
+
 EXCHANGE_NYSE = "XNYS"  # New York Stock Exchange
 EXCHANGE_LSE = "XLON"  # London Stock Exchange
 EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
@@ -48,7 +53,7 @@ if USE_TECHNICAL_INDICATORS:
 
 if USE_MACROECONOMIC_INDICATORS:
     MACROECONOMIC_INDICATORS = (
-        config_indicators.MACROECONOMIC_INDICATORS_DEFAULT
+        config_indicators.MACROECONOMIC_INDICATORS_EUROSTOXX50
     )
 
     # Remove non-letter characters from string
@@ -64,9 +69,10 @@ if USE_MACROECONOMIC_INDICATORS:
     )
 
 # Tickers configurations
-TICKERS = config_tickers.DOW_30_TICKERS
-TICKERS_NAME = DOW_30_NAME
-EXCHANGE = EXCHANGE_NYSE
+TICKERS = config_tickers.EURO_STOXX_50_TICKERS
+INDEX = EURO_STOXX_50_INDEX
+TICKERS_NAME = EURO_STOXX_50_NAME
+EXCHANGE = EXCHANGE_DAX
 
 # Set dataset name based on the configuration
 if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
