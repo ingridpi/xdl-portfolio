@@ -91,7 +91,7 @@ As mentioned above, sweeps can optimise a cost function to avoid naively testing
 
 \section{Post-hoc Explainability} \label{sec:post_hoc_explainability}
 
-Given the goal of improving the explainability of the \acrshort{drl} models, this thesis adopts explainability techniques to interpret the model's decision-making process in a transparent manner. By using post-hoc methods, rather than modifying each model's architecture to enhance their transparency, the proposal is model-agnostic and can be applied to any \acrshort{drl} model. Consequently, it combines the ability to find the most suitable architecture while maintaining the interpretability regardless of the choice of model. 
+Given the goal of improving the explainability of the \acrshort{drl} models, this thesis adopts explainability techniques to interpret the model's decision-making process in a transparent manner. By using post-hoc methods, rather than modifying each model's architecture to enhance their transparency, the proposal is model-agnostic and can be applied to any \acrshort{drl} model. Consequently, it combines the ability to find the most suitable architecture while maintaining the interpretability.
 
 The explainability techniques implemented are: 
 \begin{itemize}
@@ -116,6 +116,6 @@ The \acrshort{lime} implementation is done using the \texttt{LimeTabularExplaine
 
 \subsection{Direct Model Explainability} \label{subsec:direct_model_explainability}
 
-Undoubtedly, a surrogate model adds an additional layer of complexity and it may obscure the understanding of the original model's decisions. Therefore, the \acrshort{shap} and \acrshort{lime} techniques are also applied directly to the prediction function of \acrshort{drl} model. This approach allows for a more direct interpretation of the model's decision-making process, without the need of a supplementary level. 
+Undoubtedly, a surrogate model adds an additional layer of complexity and may obscure the understanding of the original model's decisions. Therefore, the \acrshort{shap} and \acrshort{lime} techniques are also applied directly to the prediction function of \acrshort{drl} model. This approach allows for a more direct interpretation of the model's decision-making process, without the need of a supplementary level. 
 
 For \acrshort{lime}, the implementation is again done using \texttt{LimeTabularExplainer}, but the prediction function is now obtained from the relevant \acrshort{drl} algorithm. For \acrshort{shap}, the \texttt{KernelExplainer} is used, which is a model-agnostic method that randomly samples feature coalitions to approximate \acrshort{shap} values to reduce computation \ref{sec:kernelshap} \cite{ShapKernelExplainer}.
