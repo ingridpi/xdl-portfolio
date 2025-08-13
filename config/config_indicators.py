@@ -33,11 +33,9 @@ MACROECONOMIC_INDICATORS_DW30 = {
 }
 
 MACROECONOMIC_INDICATORS_EUROSTOXX50 = {
-    "^V2TX.DE": "Volatility Index (VSTOXX)",
     "^XDE": "Euro Currency Index (EXY)",
 }
 
 MACROECONOMIC_INDICATORS_FTSE100 = {
-    "VFTSE.AS": "Volatility Index (FTSE 100)",
     "^XDB": "British Pound Currency Index (BXY)",
 }
