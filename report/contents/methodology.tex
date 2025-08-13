@@ -80,3 +80,16 @@ The proposed solution is based on the \acrshort{drl} framework, which allows the
 \end{itemize}
 
 The implementation is done using the Stable Baselines3 library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
+
+\section{Post-hoc Explainability} \label{sec:post_hoc_explainability}
+
+Given the goal of improving the explainability of the \acrshort{drl} models, this thesis adopts explainability techniques to interpret the model's decision-making process in a transparent manner. By using post-hoc methods, rather than modifying each model's architecture to enhance their transparency, the proposal is model-agnostic and can be applied to any \acrshort{drl} model. Consequently, it combines the ability to find the most suitable architecture while maintaining the interpretability regardless of the choice of model. 
+
+The explainability techniques implemented are: 
+\begin{itemize}
+    \item \acrfull{shap}
+    \item \acrfull{lime}
+    \item \Gls{featureimportance}
+\end{itemize}
+
+Following the work from de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}, the implementation of these techniques follows two directions. Firstly, as in their paper, the use of a surrogate model to map the state space to the action space is used as a proxy for the model's decisions. The second direction is to use the \acrshort{shap} and \acrshort{lime} techniques directly on the \acrshort{drl} model to interpret its decisions.
