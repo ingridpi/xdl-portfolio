@@ -93,3 +93,16 @@ The explainability techniques implemented are:
 \end{itemize}
 
 Following the work from de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}, the implementation of these techniques follows two directions. Firstly, as in their paper, the use of a surrogate model to map the state space to the action space is used as a proxy for the model's decisions. The second direction is to use the \acrshort{shap} and \acrshort{lime} techniques directly on the \acrshort{drl} model to interpret its decisions.
+
+\subsection{Surrogate Model Explainability} \label{subsec:surrogate_model_explainability}
+
+The surrogate model is trained to approximate the behaviour of the \acrshort{drl} model by learning from its inputs, the environment representation, and outputs, the portfolio weights. The reason behind using a surrogate model is the complexity of the \acrshort{drl} model and the difficulty in interpreting its decisions directly. 
+
+Given that the action space is continuous, the surrogate model is implemented using a \texttt{RandomForestRegressor} \cite{sklearnRandomForest}, which is a non-parametric model that can capture complex relationships between the inputs and outputs. The model is trained on the state-actions pairs of the test data, which is the object of the explanations. However, since the model has a number of hyper-parameters, it requires careful tuning to achieve optimal performance. Consequently, the decision was taken to use hyperparameter tuning to find the optimal architecture. This was done using 
+\texttt{HalvingGridSearchCV} \cite{sklearnHalvingGridSearch}, which is a method that iteratively narrows down the search space by evaluating a subset of hyper-parameters and discarding the less promising ones. Once the optimal hyper-parameters have been found and the surrogate model has been trained, its prediction function is used as a proxy to interpret the original model's decisions. 
+
+Firstly, feature importance \ref{sec:featureimportance} is built-in for Random Forest Regressors, and can be easily accessed with the built-in property \texttt{feature\_importances\_} \cite{sklearnFeatureImportance}. This method provides the importance of each feature in the state representation by using a combination of the fraction of the samples a feature contributes to and the mean decrease in impurity.
+
+Secondly, \acrshort{lime} and \acrshort{shap} are applied to the surrogate model via the predict function to provide local explanations for individual predictions. Both of these techniques provide insights into the model's decisions by perturbing the input data and observing the changes in the output. 
+
+The \acrshort{lime} implementation is done using the \texttt{LimeTabularExplainer} \cite{LimeTabularExplainer}, which is designed to work with tabular data and provides a way to explain individual predictions by approximating the model's behaviour locally with a linear model. Similarly, for \acrshort{shap}, the framework provides a particular implementation for tree-based models, which is used to compute the \acrshort{shap} values efficiently by exploiting the structure of the trees. Consequently, the \texttt{TreeExplainer} \cite{ShapTreeExplainer} is used to compute the \acrshort{shap} values for the surrogate model.
