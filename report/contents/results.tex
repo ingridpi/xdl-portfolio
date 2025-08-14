@@ -13,9 +13,9 @@ Given the general difficulty in finding the appropriate \acrshort{drl} algorithm
 
 The constituents of each of the indexes were retrieved in April 2025 and can be found in Appendix \ref{sec:datasets-equities}. It is important to note that the datasets were chosen to illustrate different currencies, as this introduces another factor of changing market conditions. 
 
-Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regards to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. The currency pairs were selected based on their trading volume and liquidity, with all pairs having \acrfull{usd} as the quote currency.
+Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regards to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. The currency pairs were selected based on their trading volume and liquidity, with all pairs quoted in \acrfull{usd}.
 
-The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \insertref{Aroussi 2017}, which retrieves it from Yahoo Finance \insertref{Yahoo, 1997}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set containing data from January 2024 to July 2025. The training set is used to train the \acrshort{drl} models, while the testing set is used to evaluate their performance. Then again, for the hyper-parameter tuning, the training set is further split into a training and validation set, with the validation set containing data from January 2023 to December 2023. The validation set is used to evaluate the performance of the models during hyper-parameter tuning. The train-validation-test split is summarised in Table \ref{tab:dataset-split}.
+The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \cite{yfinance}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set containing data from January 2024 to July 2025. The training set is used to train the \acrshort{drl} models, while the testing set is used to evaluate their performance. Then again, for the hyper-parameter tuning, the training set is further split into a training and validation set, with the validation set containing data from January 2023 to December 2023. The validation set is used to evaluate the performance of the models during hyper-parameter tuning. The train-validation-test split is summarised in Table \ref{tab:dataset-split}.
 
 \input{tables/dataset_split.tex}
 
@@ -56,7 +56,7 @@ As outlined in the previous section, the experiments are designed to evaluate th
 
 \subsection{Performance Metrics} \label{sec:performance-metrics}
 
-The performance metrics are provided through the \texttt{pyfolio} library, which includes a \texttt{perf\_stats} method to calculate various performance metrics of a strategy. 
+The performance metrics are provided through the \texttt{pyfolio} library \cite{pyfolio}, which includes a \texttt{perf\_stats} method to calculate various performance metrics of a strategy. 
 
 The main metrics for comparison are:
 \begin{itemize}
