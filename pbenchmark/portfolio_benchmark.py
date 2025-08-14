@@ -221,8 +221,8 @@ class PortfolioBenchmark:
 
         # Compute the account value
         index_df["account_value"] = (
-            index_df["cumulative_return"] * config.INITIAL_AMOUNT
-        )
+            1 + index_df["daily_return"]
+        ).cumprod() * config.INITIAL_AMOUNT
         # Set the model name and drop price column
         index_df["model"] = "Index"
         index_df.drop(columns=["close"], inplace=True)
