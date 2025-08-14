@@ -17,7 +17,7 @@
 \usepackage{graphbox}
 \usepackage{pgfgantt}
 \usepackage{nomencl}
-\usepackage[acronym]{glossaries}
+\usepackage[acronym,nonumberlist]{glossaries}
 \usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
@@ -97,6 +97,7 @@
 
 %%%%% List of acronyms
 \include{contents/glossary}
+\setglossarystyle{list}
 \printglossary
 \printglossary[type=\acronymtype]
 \newpage
