@@ -398,12 +398,6 @@ The advantage of Shapley values is that it is the only attribution method that r
 
 The algorithm for approximating Shapley values is outlined in \ref{alg:shapley}. However, the method is computationally expensive, as it requires evaluating the model for all possible coalitions of features.
 
-\begin{algorithm}
-\caption{Shapley Value Approximation}
-\input{algorithms/alg_shapley_values.tex}
-\label{alg:shapley}
-\end{algorithm}
-
 The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining black-box regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method. The explanation is given as:
 \begin{equation}
     g(\mathbf{z}') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j
