@@ -1,1 +1,16 @@
 \chapter{Results} \label{ch:results}
+
+This chapter presents the results of conducting experiments under the methodology proposed in Chapter \ref{ch:methodology}. The experiments were designed to evaluate the performance of the implemented \acrshort{drl} models for portfolio optimisation in changing environment representations and market conditions. Moreover, to analyse the interpretability of the model's decisions, a framework using post-hoc explainability techniques is outlined.
+
+\section{Dataset} \label{sec:dataset}
+
+Given the general difficulty in finding the appropriate \acrshort{drl} algorithm with a suitable \gls{rewardfunction} for portfolio optimisation, the five implemented algorithms were tested on five different datasets. Each dataset consists of a different set of financial assets, ranging from three different asset classes. First, three datasets were constructed using the stock constituents of three renowned indexes:
+\begin{itemize}
+    \item \acrfull{djia} with 30 stocks,
+    \item \acrfull{eurostoxx50} with 50 stocks,
+    \item \acrfull{ftse100} with 100 stocks.
+\end{itemize}
+
+The constituents of each of the indexes were retrieved in April 2025 and can be found in Appendix \ref{sec:datasets-equities}. It is important to note that the datasets were chosen to illustrate different currencies, as this introduces another factor of changing market conditions. 
+
+Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regards to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. The currency pairs were selected based on their trading volume and liquidity, with all pairs having \acrfull{usd} as the quote currency.
