@@ -14,3 +14,34 @@ Given the general difficulty in finding the appropriate \acrshort{drl} algorithm
 The constituents of each of the indexes were retrieved in April 2025 and can be found in Appendix \ref{sec:datasets-equities}. It is important to note that the datasets were chosen to illustrate different currencies, as this introduces another factor of changing market conditions. 
 
 Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regards to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. The currency pairs were selected based on their trading volume and liquidity, with all pairs having \acrfull{usd} as the quote currency.
+
+\section{Experiment Design} \label{sec:experiment-design}
+
+To address the challenge of finding a suitable algorithm for portfolio optimisation, the five implemented \acrshort{drl} algorithms were tested on the five datasets described in Section \ref{sec:dataset}, with the goal being to evaluate the performance of each algorithm in different scenarios and market conditions. Moreover, the environment representation will also be varied to assess the impact of more information on the model's performance. Four environment representations were considered, each with a different number of features:
+\begin{itemize}
+    \item Simple dataset: \acrfull{ohlcv} prices of the assets.
+    \item Covariance dataset: To the simple dataset, the covariance matrix of the assets is added to explicitly model the relationships between the assets.
+    \item Indicators dataset: Technical and macroeconomic indicators are added to the simple dataset.
+    \item Complete dataset: The complete dataset includes the simple dataset, the covariance matrix and the technical and macroeconomic indicators.
+\end{itemize}
+
+The strength of \acrshort{drl} algorithms lies in their ability to learn from high-dimensional data, which is why the goal is to evaluate whether a more explicit environment representation leads to better performance. Additionally, with higher dimensionality, the computational cost is higher.
+
+Another particular challenge is the choice of suitable reward function, which is crucial for the success of the algorithms in the user-defined task of portfolio optimisation. The reward function is designed to encourage the model to learn an investment strategy that maximises returns while minimising risk. As a result, two choices of reward function were considered:
+\begin{itemize}
+    \item Change in portfolio value: The reward is the change in portfolio value at each time step, which encourages the model to maximise returns.
+    \item Sharpe ratio: The reward is the Sharpe ratio of the portfolio, which measures the risk-adjusted return.
+\end{itemize}
+
+Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. As such, the hyper-parameters were tuned using Bayesian optimisation, to find the optimal hyper-parameters for each algorithm and dataset combination.
+
+All in all, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing 5 algorithms on 5 distinct datasets with 4 possible environment representations and 2 potential reward functions would result in a total of 40 different experiments. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
+\begin{itemize}
+    \item Hyper-parameter tuning was performed only for the Dow Jones 30 dataset, as it is the smallest dataset and requires less computational time.
+    \item Since the covariance matrix, significantly increases the dimensionality of the environment representation, it was only included in the experiments with the Dow Jones 30 dataset, the currencies dataset and the commodities dataset.
+    \item The reward function was set to the change in portfolio value for all experiments, as it is the most straightforward and intuitive choice for portfolio optimisation. However, the Sharpe ratio was also tested in the Dow Jones 30 dataset to evaluate its performance.
+\end{itemize}
+
+The final experimental design consists of 18 experiments, which are summarised in Table \ref{tab:experiments-summary}, where each row represents a unique combination of dataset, environment representation, reward function and whether hyper-parameter tuning is performed for this combination.
+
+\input{tables/experiments_summary.tex}
