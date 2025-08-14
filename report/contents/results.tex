@@ -125,3 +125,17 @@ Other metrics available through the \texttt{pyfolio} library include:
     \end{equation}
     where $R_p$ is the expected daily return, $z$ is the z-score of the desired level of confidence, $\sigma_p$ is the daily standard deviation of portfolio returns, and $V_p$ is the value of the portfolio.
 \end{itemize}
+
+\subsection{Benchmark Strategies} \label{sec:benchmark-strategies}
+
+Aside from computing relevant performance metrics, the algorithms will be benchmarked against traditional portfolio optimisation methods. The benchmarks are designed to provide a baseline for comparison and to evaluate the performance of the \acrshort{drl} algorithms in relation to established methods. The following benchmark strategies were considered:
+\begin{itemize}
+    \item Equal\-weighted portfolio: A simple strategy that allocates an equal weight to each asset in the portfolio.
+    \item Mean\-variance optimisation: A classic portfolio optimisation method that aims to maximise Sharpe ratio. 
+    \item Min\-variance portfolio: A classic portfolio optimisation method that seeks to minimise the portfolio's volatility. 
+    \item Momentum portfolio: A strategy that invests in assets with positive momentum, i.e. those that have performed well in the previous time step, and avoids those with negative momentum.
+\end{itemize}
+
+The implementation of the mean\-variance and the min\-variance portfolio allocation strategies has been done using the \texttt{PyPortfolioOpt} Python library \cite{Martin2021}, whereas the equal\-weighted and momentum strategies have been implemented using custom code. 
+
+Additionally, if the portfolio is made up of equities of a relevant index, the benchmark will also include the index itself, which serves as a reference point for the performance of the portfolio. 
