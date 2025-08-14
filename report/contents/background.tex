@@ -302,22 +302,7 @@ The five algorithms presented above are among the most widely used in the field 
 
 An overview of the algorithms and their key characteristics is summarised in Table \ref{tab:drl_algorithms_comparison}. 
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l|l|l|l|}
-        \hline
-        Algorithm & Policy Type & On/Off Policy & Key Idea \\
-        \hline
-        \acrshort{a2c} & Stochastic & On-Policy & Advantage Actor-Critic \\
-        \acrshort{ppo} & Stochastic & On-Policy & Clipped Policy Updates \\
-        \acrshort{ddpg} & Deterministic & Off-Policy & Actor-Critic + Replay buffer \\
-        \acrshort{td3} & Deterministic & Off-Policy & Double critics + Delayed updates \\
-        \acrshort{sac} & Stochastic & Off-Policy & Max-entropy \acrshort{rl} \\
-        \hline
-    \end{tabular}
-    \caption{Comparison of Deep Reinforcement Learning Algorithms}
-    \label{tab:drl_algorithms_comparison}
-\end{table}
+\input{tables/drl_algorithms_comparison.tex}
 
 \section{Explainable Artificial Intelligence} \label{sec:explainableai}
 
