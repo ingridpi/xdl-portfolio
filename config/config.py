@@ -79,7 +79,13 @@ TICKERS_NAME = EURO_STOXX_50_NAME
 EXCHANGE = EXCHANGE_DAX
 
 # Set dataset name based on the configuration
-if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
+if (
+    USE_TECHNICAL_INDICATORS
+    and USE_MACROECONOMIC_INDICATORS
+    and USE_COVARIANCE_FEATURES
+):
+    DATASET_NAME = "dataset-indicators-covariance"
+elif USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
     DATASET_NAME = "dataset-indicators"
 else:
     DATASET_NAME = "simple-dataset"
