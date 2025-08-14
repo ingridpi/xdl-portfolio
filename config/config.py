@@ -46,6 +46,7 @@ ENVIRONMENT_COLUMNS = [
     "high",
     "low",
     "close",
+    "volume",
 ]
 
 if USE_TECHNICAL_INDICATORS:
@@ -67,6 +68,9 @@ if USE_MACROECONOMIC_INDICATORS:
             list(MACROECONOMIC_INDICATORS.keys()),
         )
     )
+
+if USE_COVARIANCE_FEATURES:
+    ENVIRONMENT_COLUMNS += ["covariance"]
 
 # Tickers configurations
 TICKERS = config_tickers.EURO_STOXX_50_TICKERS
