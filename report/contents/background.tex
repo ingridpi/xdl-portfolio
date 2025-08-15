@@ -302,22 +302,7 @@ The five algorithms presented above are among the most widely used in the field 
 
 An overview of the algorithms and their key characteristics is summarised in Table \ref{tab:drl_algorithms_comparison}. 
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l|l|l|l|}
-        \hline
-        Algorithm & Policy Type & On/Off Policy & Key Idea \\
-        \hline
-        \acrshort{a2c} & Stochastic & On-Policy & Advantage Actor-Critic \\
-        \acrshort{ppo} & Stochastic & On-Policy & Clipped Policy Updates \\
-        \acrshort{ddpg} & Deterministic & Off-Policy & Actor-Critic + Replay buffer \\
-        \acrshort{td3} & Deterministic & Off-Policy & Double critics + Delayed updates \\
-        \acrshort{sac} & Stochastic & Off-Policy & Max-entropy \acrshort{rl} \\
-        \hline
-    \end{tabular}
-    \caption{Comparison of Deep Reinforcement Learning Algorithms}
-    \label{tab:drl_algorithms_comparison}
-\end{table}
+\input{tables/drl_algorithms_comparison.tex}
 
 \section{Explainable Artificial Intelligence} \label{sec:explainableai}
 
@@ -397,12 +382,6 @@ The advantage of Shapley values is that it is the only attribution method that r
 \end{itemize}
 
 The algorithm for approximating Shapley values is outlined in \ref{alg:shapley}. However, the method is computationally expensive, as it requires evaluating the model for all possible coalitions of features.
-
-\begin{algorithm}
-\caption{Shapley Value Approximation}
-\input{algorithms/alg_shapley_values.tex}
-\label{alg:shapley}
-\end{algorithm}
 
 The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining black-box regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method. The explanation is given as:
 \begin{equation}

@@ -1,0 +1,44 @@
+\chapter{Evaluation Metrics} \label{app:evaluation_metrics}
+
+The following list outlines additional evaluation metrics that can be used to assess the performance of trading strategies.
+
+\begin{itemize}
+    \item Calmar ratio: A risk-adjusted performance measure that compares the average annual compounded rate of return to the maximum drawdown, providing insight into how much return an investor receives for each unit of risk taken.
+    \begin{equation}
+        \text{Calmar Ratio} = \frac{\text{Average Annualised Return}}{\text{Max Drawdown}}
+    \end{equation}
+    \item Stability: A measure that determines the R-square of a linear fit to the cumulative log returns, to indicate how well returns follow a linear trend over time.
+    \begin{equation}
+        \text{Stability} = R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+    \end{equation}
+    where $y_i$ is the observed cumulative log return, $\hat{y}_i$ is the predicted cumulative log return from the linear fit, $\bar{y}$ is the mean of the observed cumulative log returns and $n$ is the number of observations.
+    \item Omega ratio: A probability-weighted ratio that compares the gains versus losses relative to a threshold return target, either set to zero or the risk-free rate. It is a proxy for the likelihood of achieving returns above a certain threshold compared to the likelihood of experiencing losses below that threshold.
+    \begin{equation}
+        \text{Omega Ratio} = \Omega\left(\theta\right) = \frac{\int_{\theta}^{\infty} \left(1-F(r)\right) dr}{\int_{-\infty}^{\theta} F(r) dr}
+    \end{equation}
+    where $\theta$ is the threshold return and $F(r)$ is the cumulative distribution function of returns. 
+    \item Sortino ratio: A modification of the Sharpe ratio that only considers downside risk, measuring the risk-adjusted return of an investment by comparing the excess return to the downside deviation.
+    \begin{equation}
+        \text{Sortino Ratio} = \frac{R_p - R_f}{\sigma_d}
+    \end{equation}
+    where \(R_p\) is the annualised return of the portfolio, \(R_f\) is the annualised risk-free rate, and \(\sigma_d\) is the downside deviation of the portfolio returns, i.e. the standard deviation of only the negative returns.
+    \item Skewness: A measure of the asymmetry of the return distribution, indicating whether returns have a tendency toward positive or negative extremes.
+    \begin{equation}
+        \text{Skewness} = \frac{\sum_{i=1}^{n} (R_i - \mu)^3}{(n-1) \cdot \sigma^3}
+    \end{equation}
+    where $R_i$ is the return of the portfolio at time $i$, $\mu$ is the mean return, $\sigma$ is the standard deviation of returns, and $n$ is the number of observations.
+    \item Kurtosis: A measure of the "tailedness" of the return distribution, indicating the frequency of extreme values compared to a normal distribution. 
+    \begin{equation}
+        \text{Kurtosis} = \frac{\sum_{i=1}^{n} (R_i - \mu)^4}{(n-1) \cdot \sigma^4}
+    \end{equation}
+    where $R_i$ is the return of the portfolio at time $i$, $\mu$ is the mean return, $\sigma$ is the standard deviation of returns, and $n$ is the number of observations.
+    \item Tail ratio: A measure of the relative magnitude of extreme positive returns compared to extreme negative returns, calculated as the ratio between the right (95th percentile) and the left (5th percentile) tails of the distribution of returns. 
+    \begin{equation}
+        \text{Tail Ratio} = \frac{\text{Right Tail (95th Percentile)}}{\text{Left Tail (5th Percentile)}}
+    \end{equation}
+    \item Daily \acrfull{var}: A measure of the potential loss that could occur in a portfolio over a single day at a specified confidence level, typically 95\%. The computation is done using the variance-covariance calculation:
+    \begin{equation}
+        \text{Daily VaR} = \left(R_p - z \cdot \sigma_p \right) \times V_p
+    \end{equation}
+    where $R_p$ is the expected daily return, $z$ is the z-score of the desired level of confidence, $\sigma_p$ is the daily standard deviation of portfolio returns, and $V_p$ is the value of the portfolio.
+\end{itemize}
