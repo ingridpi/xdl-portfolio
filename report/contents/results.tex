@@ -37,7 +37,7 @@ Another particular challenge is the choice of suitable reward function, which is
     \item Sharpe ratio: The reward is the Sharpe ratio of the portfolio, which measures the risk-adjusted return.
 \end{itemize}
 
-Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. As such, the hyper-parameters were tuned using Bayesian optimisation, to find the optimal hyper-parameters for each algorithm and dataset combination.
+Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. As such, the hyper-parameters were tuned using Bayesian optimisation, to find the optimal configuration for each algorithm and dataset combination.
 
 Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing 5 algorithms on 5 distinct datasets with 4 possible environment representations and 2 potential reward functions would result in a total of 40 different experiments. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
 \begin{itemize}
