@@ -64,7 +64,7 @@ Solving the mean-variance optimisation problem for varying levels of target retu
     \label{fig:efficient_frontier}
 \end{figure}
 
-Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do not reflect the behaviour of real markets. Moreover, modern markets are dynamic, non-stationary, and feature non-linear relationships, which have driven research into other approaches better suited to capture the complexities of modern financial markets. 
+Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do not reflect the behaviour of real markets. Modern financial markets are dynamic, non-stationary, and feature non-linear relationships, which have driven research into other approaches better suited to capture their complexities. 
  
 \section{Deep Reinforcement Learning} \label{sec:deepreinforcementlearning}
 
@@ -190,16 +190,16 @@ Although explicitly solving the Bellman equations would lead to the optimal poli
 
 \subsection{Deep Reinforcement Learning Algorithms} \label{sec:drlalgorithms}
 
-A \acrlong{rl} agent includes one or more of the following components \cite{Francois-Lavet2018}:
+A \acrfull{rl} agent includes one or more of the following components \cite{Francois-Lavet2018}:
 \begin{itemize}
     \item a representation of the value function that provides a prediction of the value of each state or state-action pair,
     \item a direct representation of the policy $\pi$, and
     \item a model of the environment, consisting of estimates of transition and reward functions.
 \end{itemize}
 
-Depending on the components, the main \acrlong{rl} paradigms are: 
+Depending on the components, the main \acrshort{rl} paradigms are: 
 \begin{itemize}
-    \item \textbf{Model-free} algorithms do not learn a representation of the environment, but focus on either the value function or the policy. 
+    \item \textbf{Model-free} algorithms do not learn a representation of the environment, but focus on either the value function or the policy. These algorithms can be further divided into:
     \begin{itemize}
         \item \textbf{Value-based} algorithms learn an approximation of the value function, which is used to compute the state or state-action values. The policy is not learnt explicitly but can be derived from the value function. Examples include \acrfull{dqn} \cite{Mnih2013} and C51 \cite{Bellemare2017}. 
         \item \textbf{Policy-based} algorithms learn a direct representation of the policy, which is used to select actions. \acrfull{a2c}, \acrfull{a3c} \cite{Mnih2016} and \acrfull{ppo} \cite{Schulman2017} are examples of policy-based algorithms.
@@ -216,7 +216,7 @@ The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxo
     \label{fig:rl_taxonomy}
 \end{figure}
 
-The full potential of \acrlong{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. This thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.
+The full potential of \acrshort{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrshort{dnn}s to approximate the value functions, or use gradient ascent to find the optimal policy parameters. This thesis will focus on the following \acrshort{drl} algorithms on policy-based and actor-critic algorithms.
 
 \subsubsection{Advantage Actor-Critic (A2C)} \label{sec:a2c}
 
