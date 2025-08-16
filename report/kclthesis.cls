@@ -35,13 +35,31 @@
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \RequirePackage{longtable}
-
-% Cover Page
 \RequirePackage{graphicx}
 \RequirePackage[paper=a4paper]{geometry}
 \RequirePackage{setspace}
 \RequirePackage{framed}
 
+%% Nomenclature
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+    \ifstrequal{#1}{A}{Numbers and Arrays}{%
+      \ifstrequal{#1}{B}{Sets}{%
+        \ifstrequal{#1}{C}{Indexing}{%
+          \ifstrequal{#1}{D}{Algebra Operations}{%
+            \ifstrequal{#1}{E}{Probability}{%
+              \ifstrequal{#1}{F}{Functions}{%
+                \ifstrequal{#1}{G}{Markov Decision Process}{%
+                  \ifstrequal{#1}{Z}{Other Symbols}{}
+                }
+              }%
+            }%
+          }%
+        }%
+      }%
+    }%
+  ]
+}
 
 % Macros
 \newcommand*{\modulecode}[1]{\gdef\@modulecode{#1}}
