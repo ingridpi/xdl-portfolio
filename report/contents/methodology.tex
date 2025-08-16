@@ -68,6 +68,8 @@ Regardless of the choice of reward function, the goal of the agent is to learn a
 \end{equation} 
 where $T$ is the time horizon and $\gamma$ is the discount factor that determines the importance of future rewards. 
 
+The environment is implemented in \Gls{python} \footnote{https://www.python.org/} using the \texttt{Gym} library \cite{Brockman2016}, which provides a standard interface for reinforcement learning environments. The environment is defined as a class that inherits from the \texttt{gym.Env} class and implements the required methods: \texttt{reset}, \texttt{step} and \texttt{render}.
+
 \section{Deep Reinforcement Learning (DRL) Algorithms} \label{sec:drl-algorithms}
 
 The proposed solution is based on the \acrshort{drl} framework, which allows the agent to learn the optimal policy directly from the environment by taking actions and receiving rewards. The algorithms used are:
