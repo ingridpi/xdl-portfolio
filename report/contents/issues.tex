@@ -6,18 +6,18 @@ The development and deployment of \acrfull{drl} algorithms to perform profitable
 
 When deploying \acrfull{ml} algorithms in finance, the \acrfull{eu}'s \acrfull{aiact} \cite{AIAct2024} classifies them as high-risk under Article 6 \footnote{https://artificialintelligenceact.eu/article/6/} due to their potential impact on an individual's economic well-being. Consequently, high-risk systems must comply with Chapter 3 - Section 2, Articles 9-15 \footnote{https://artificialintelligenceact.eu/section/3-2/}, which include the obligations for risk management, data governance, documentation, transparency and human supervision. In particular, Article 13 \footnote{https://artificialintelligenceact.eu/article/13/} requires that high-risk AI systems "enable deployers to interpret a system's output". The use of explainability techniques ensures that the decision-making process of the algorithm can be understood and justified, thus adhering to the legal requirements set forth by the \acrshort{aiact}.
 
-In addition, \Gls{algorithmictrading} systems must adhere to the \acrlong{eu} directive on \acrfull{mifid} \cite{MiFIDII} and the \acrlong{uk} \acrfull{fca} guidance on \textit{Algorithmic Trading Compliance in Wholesale Markets}. These regulations require robust governance and oversight frameworks, risk controls and thorough testing infrastructure. In this project, back-testing has been carried out to assess the algorithm's performance under varying market conditions followed by explainability techniques to enable auditability of the system.
+In addition, \gls{algorithmictrading} systems must adhere to the \acrlong{eu} directive on \acrfull{mifid} \cite{MiFIDII} and the \acrfull{uk} \acrfull{fca} guidance on \textit{Algorithmic Trading Compliance in Wholesale Markets}. These regulations require robust governance and oversight frameworks, risk controls and thorough testing infrastructure. In this project, back-testing has been carried out to assess the algorithm's performance under varying market conditions followed by explainability techniques to enable auditability of the system.
 
 \section{Social Issues} \label{sec:social-issues}
 
-Despite the growing exposure to \acrfull{ai} systems with the rise of \acrfull{llm}, there is still a significant lack of understanding and trust in these systems. Some of the reasons behind this mistrust include:
+Despite the growing exposure to \acrfull{ai} systems with the rise of \acrfullpl{llm}, there is still a significant lack of understanding and trust in these systems. Some of the reasons behind this mistrust include:
 \begin{itemize}
     \item The “black box” nature of models, making outputs hard to interpret.
     \item Lack of human-like qualities in the models.
     \item Perceived limitations to adapt to new situations and learn from previous mistakes.
 \end{itemize}
 
-In the context of this work, the integration of explainability techniques addresses the black box behaviour of the implemented technology by offering clear, data-driven justifications. However, transparency must also be accessible. It is essential to provide a user-friendly interface to easily access the explanations and generate plain language descriptions of those.
+In the context of this work, the integration of explainability techniques addresses the black box behaviour of the implemented technology by offering clear, data-driven justifications. However, transparency must also be accessible. It is essential to provide a user-friendly interface to easily access the explanations and generate plain language descriptions for non-technical audiences.
 
 \section{Ethical Issues} \label{sec:ethical-issues}
 
@@ -27,10 +27,9 @@ The ethical implications of \acrshort{drl} in portfolio optimisation are multifa
     \item the environment's representation can be expanded to include ethical dimensions, like social impact or environmental sustainability metrics.
 \end{enumerate}
 
-With regard to the environment representation, it was not possible to incorporate such data as it is not readily available nor in a standardised format. 
+Regarding the environment representation, it was not possible to incorporate such data as it is not readily available nor in a standardised format. This is why, although there was an interest to broaden the environment representation to include other sources outside of the financial domain, it was not feasible to do so given the available resources.
 
-A critical point in portfolio allocation is risk management. One of the reward functions used in this research balances return maximisation with risk minimisation, ensuring that the agent learns to avoid overly risky investments.
-Additionally, the inclusion of a risk-free asset enables a safe-guard mechanism. The agent can be implemented to allocate all the resources to cash when market volatility exceeds a pre-defined threshold and resume only when said volatility decreases.
+A critical point in portfolio allocation is risk management. One of the reward functions used in this research balances return maximisation with risk minimisation, ensuring that the agent learns to avoid overly risky investments. Additionally, the inclusion of a risk-free asset enables a safe-guard mechanism. The agent can be implemented to allocate all the resources to cash when market volatility exceeds a pre-defined threshold and resume only when said volatility decreases.
 
 Finally, potential biases in the training data or model structure could result in allocations favouring certain industries or assets classes. This thesis mitigates such biases by constructing a portfolio from diversified indices (Appendix \ref{sec:datasets-equities}) and using explainability techniques to audit the decisions for systematic biases.
 
@@ -38,4 +37,4 @@ Finally, potential biases in the training data or model structure could result i
 
 This work has been conducted in accordance with the \acrfull{bcs} Code of Conduct \cite{BCSCodeConduct} and the \acrfull{iet} Rules of Conduct \cite{IETRules}. All the work in this report is original unless stated otherwise, and all external contributions are explicitly acknowledged, following the principles of the \acrfull{bcs} Code of Conduct \cite{BCSCodeConduct}. Moreover, all third-party libraries, datasets and code have been explicitly acknowledged and their use complies with the respective licences and guidelines. 
 
-Moreover, the project has been conducted within my own area of expertise: computational finance, \acrlong{rl}, and \acrlong{xai}. If any aspects of the project were beyond these, proper academic sources have been consulted to ensure the integrity and quality of the work. 
+Most importantly, the project has been conducted within my own area of expertise: computational finance, \acrlong{rl}, and \acrlong{xai}. If any aspects of the project were beyond these, proper academic sources have been consulted to ensure the integrity and quality of the work. 
