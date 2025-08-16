@@ -1,6 +1,6 @@
 \chapter{Methodology} \label{ch:methodology}
 
-This chapter covers the methodology and framework established to provide an explainable \acrfull{drl} model capable of optimising a portfolio. The chapter is structured as follows: first, it describes the architecture and components of the proposed \acrshort{drl} model, including the state representation, reward function and training process. Second, it discusses the evaluation metrics and experimental setup used to assess the performance of the proposed solution. Finally, it outlines the implementation of the post-hoc explainability techniques used to interpret the model's decisions. 
+This chapter covers the methodology and framework established to provide an explainable \acrfull{drl} model capable of optimising a portfolio of financial assets. The chapter is structured as follows: first, it describes the architecture and components of the proposed \acrshort{drl} model, including the state representation, reward function and training process. Second, it discusses the evaluation metrics and experimental setup used to assess the performance of the proposed solution. Finally, it outlines the implementation of the explainability techniques used to interpret the model's decisions. 
 
 \section{Problem Definition} \label{sec:problem-definition}
 
@@ -19,52 +19,52 @@ Due to the dynamic, stochastic and interactive nature of financial markets, a \a
 
 The state space $\mathcal{S}$ is a vector representation of the financial environment. For a portfolio of $D$ assets, the features that describe the state include asset prices, technical indicators and macroeconomic indicators: 
 \begin{itemize}
-    \item Close price $p_t \in \mathbb{R}_+^D$: Adjusted close prices of the assets at time $t$.
-    \item Open price $o_t \in \mathbb{R}_+^D$: Opening prices of the assets at time $t$.
-    \item High price $h_t \in \mathbb{R}_+^D$: Highest prices of the assets at time $t$.
-    \item Low price $l_t \in \mathbb{R}_+^D$: Lowest prices of the assets at time $t$.
-    \item Volume $v_t \in \mathbb{R}_+^D$: Trading volume of the assets at time $t$.
-    \item Technical indicators $i_t \in \mathbb{R}_+^{D \times I}$: For each of the $D$ assets, a vector of $I$ technical indicators, such as moving averages, relative strength index (RSI), and Bollinger Bands, calculated from the asset prices.
-    \item Macroeconomic indicators $m_t \in \mathbb{R}_+^{D \times M}$: For each of the $D$ assets, a vector of $M$ macroeconomic indicators, such as volatility index and interest rates, which provide additional context about the financial environment.
-    \item Covariance matrix $C_t \in \mathbb{R}^{D \times D}$: For each of the $D$ assets, a vector of $D$ values representing the covariance between the assets in the portfolio at time $t$.
+    \item Close price $\mathbf{p}_t \in \mathbb{R}^D$: Adjusted close prices of the assets at time $t$.
+    \item Open price $\mathbf{o}_t \in \mathbb{R}^D$: Opening prices of the assets at time $t$.
+    \item High price $\mathbf{h}_t \in \mathbb{R}^D$: Highest prices of the assets at time $t$.
+    \item Low price $\mathbf{l}_t \in \mathbb{R}^D$: Lowest prices of the assets at time $t$.
+    \item Volume $\mathbf{v}_t \in \mathbb{R}^D$: Trading volume of the assets at time $t$.
+    \item Technical indicators $\mathbf{I}_t \in \mathbb{R}^{D \times I}$: For each of the $D$ assets, a vector $\mathbf{i}_t$ of $I$ technical indicators, such as moving averages, relative strength index (RSI), and Bollinger Bands, calculated from the asset prices.
+    \item Macroeconomic indicators $\mathbf{M}_t \in \mathbb{R}^{D \times M}$: For each of the $D$ assets, a vector $\mathbf{m}_t$ of $M$ macroeconomic indicators, such as volatility index and interest rates, which provide additional context about the financial environment.
+    \item Covariance matrix $\mathbf{C}_t \in \mathbb{R}^{D \times D}$: For each of the $D$ assets, a vector of $D$ values representing the covariance between the assets in the portfolio at time $t$.
 \end{itemize}
 
-The description of technical and macroeconomic indicators is provided in more detail in appendix \ref{app:state_representation}.
+The description of technical and macroeconomic indicators is provided in more detail in Appendix \ref{app:state_representation}.
 
 The action space $\mathcal{A}$ is the set of possible actions that the agent can take at each time step. For the portfolio optimisation problem, the actions correspond to portfolio weights and are defined as follows:
 \begin{equation}
-    a_t = w_t : w_t \in [0, 1]^D
+    \mathbf{a}_t = \mathbf{w}_t : w_{t,d} \in [0, 1] \quad \forall d \in \{1, \ldots, D\},
 \end{equation}
-where $w_t$ is a vector of portfolio weights at time $t$, representing the allocation of the portfolio to each asset. The weights are constrained to be non-negative and sum to one:
+where $\mathbf{w}_t$ is a vector of portfolio weights at time $t$, representing the allocation of the portfolio to each asset. The weights are constrained to be non-negative and sum to one:
 \begin{equation}
-    \sum_{d=1}^D w_{t,d} = 1, \quad w_{t,d} \geq 0 \quad \forall d \in \{1, \ldots, D\}
+    \sum_{d=1}^D w_{t,d} = 1, \quad w_{t,d} \geq 0 \quad \forall d \in \{1, \ldots, D\}.
 \end{equation}
-Moreover, they are initialised to be equal for all assets, meaning that the agent starts with an equal allocation to each asset in the portfolio. The reason behind this is to avoid an initial bias and allowing the agent to learn an allocation from the environment rather than favour any particular asset.
+Moreover, they are initialised to be equal for all assets, meaning that the agent starts with an equal allocation to each asset in the portfolio. The reason behind this is to avoid an initial bias and allow the agent to learn an allocation from the environment rather than favour any particular asset.
 
 The transition function $T$ describes how the state of the environment changes in response to the action taken. It is defined as:
 \begin{equation}
-    s_{t+1} = T(s_t, a_t)
+    s_{t+1} = T(s_t, a_t),
 \end{equation}
 where $s_{t+1}$ is the new state of the environment after taking action $a_t$ in state $s_t$. The transition function is determined by the dynamics of the financial market, which are influenced by the asset prices, trading volume and other factors.
 
 The reward function $R$ models the direct reward of taking an action $a_t$ in state $s_t$ and transitioning to a new state $s_{t+1}$. It is defined as the change in the portfolio value from time $t$ to time $t+1$:
 \begin{equation}
-    R_{t+1} = R(s_t, a_t, s_{t+1}) = V_{t+1} - V_t
+    R_{t+1} = R(s_t, a_t, s_{t+1}) = V_{t+1} - V_t,
 \end{equation}
 where the value of the portfolio at time $t$ is given by the dot product of the portfolio weights and the asset close prices:
 \begin{equation}
-    V_t = w_t \cdot p_t
+    V_t = \mathbf{w}_t \cdot \mathbf{p}_t.
 \end{equation}
 
 An alternative formulation of the reward function is to use the Sharpe ratio \cite{Sharpe1994}, which is defined as the ratio of the expected return to the standard deviation of the returns:
 \begin{equation}
-    R(s_t, a_t, s_{t+1}) = \frac{E[r_{t+1}]}{\sigma[r_{t+1}]}
+    R(s_t, a_t, s_{t+1}) = \frac{E[r_{t+1}]}{\sigma[r_{t+1}]},
 \end{equation}
 where $E[r_{t+1}]$ is the expected return of the portfolio at time $t+1$ and $\sigma[r_{t+1}]$ is the standard deviation of the returns at time $t+1$. This formulation encourages the agent to maximise the expected return while minimising the risk of the portfolio.
 
 Regardless of the choice of reward function, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
 \begin{equation}
-    J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right]
+    J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right],
 \end{equation} 
 where $T$ is the time horizon and $\gamma$ is the discount factor that determines the importance of future rewards. 
 
@@ -81,15 +81,15 @@ The proposed solution is based on the \acrshort{drl} framework, which allows the
     \item \acrfull{sac}
 \end{itemize}
 
-The implementation is done using the \texttt{Stable Baselines3} library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in appendix \ref{app:drl_algorithms}.
+The implementation is done using the \texttt{Stable Baselines3} library \cite{Raffin2021}, which provides a set of state-of-the-art \acrshort{drl} algorithms with a consistent interface and easy-to-use API. The pseudo-code for each algorithm is provided in Appendix \ref{app:drl_algorithms}.
 
 \subsection{Hyper-parameter tuning} \label{subsec:hyperparameter-tuning}
 
-Hyper-parameter tuning is a crucial step in the training process of \acrshort{drl} models, as the right choice of hyper-parameters can significantly impact the model's performance. In this thesis, hyper-parameter tuning refers to the process of optimising the training parameters of the \acrshort{drl} algorithms to maximise their performance in the task of portfolio optimisation. The hyper-parameters that are tuned include the learning rate, batch size, number of training steps, and other algorithm-specific parameters, which are summarised in appendix \ref{app:hyperparameter_tuning}. 
+Hyper-parameter tuning is a crucial step in the training process of \acrshort{drl} models, as the right choice of hyper-parameters can significantly impact the model's performance. In this thesis, hyper-parameter tuning refers to the process of optimising the training parameters of the \acrshort{drl} algorithms to maximise their performance in the task of portfolio optimisation. The hyper-parameters tuned include the learning rate, batch size, number of training steps, and other algorithm-specific parameters, which are summarised in Appendix \ref{app:hyperparameter_tuning}. 
 
-To implement hyper-parameter tuning in Python, the \texttt{wandb} \cite{wandb} library is used, which provides a simple and efficient way to track experiments, visualise results, and manage hyper-parameter sweeps. A sweep is defined as a search for hyper-parameters that optimises a cost function, in our case, the Sharpe ratio. Given that the models were implemented using the \texttt{Stable Baselines3} library, the integration with \texttt{W\&B} allows for seamless tracking of hyper-parameter configurations and their corresponding performance metrics \cite{WeightsBiases2025}. 
+To implement hyper-parameter tuning in Python, the \texttt{wandb} \cite{wandb} library is used, which provides a simple and efficient way to track experiments, visualise results, and manage hyper-parameter sweeps. A sweep is defined as a search for hyper-parameters that optimises a cost function, in our case, the Sharpe ratio. Given that the models were implemented using the \texttt{Stable Baselines3} library, the integration with \texttt{wandb} allows for seamless tracking of hyper-parameter configurations and their corresponding performance metrics \cite{WeightsBiases2025}.
 
-As mentioned above, sweeps can optimise a cost function to avoid naively testing every possible combination. Using \texttt{W\&B}, a Bayesian optimisation approach is taken \cite{Falkner2018}, which uses a probabilistic model to estimate the performance of different hyper-parameter configurations and selects the next configuration to test based on the expected improvement over the current best configuration. This allows for a more efficient search of the hyper-parameter space and reduces the number of configurations that need to be tested. Another option to reduce the time taken to find the optimal hyper-parameters is to use early termination. This method will stop a poorly performing run before it has fully completed, saving computational resources.
+As mentioned above, sweeps can optimise a cost function to avoid naively testing every possible combination. Using \texttt{wandb}, a Bayesian optimisation approach is taken \cite{Falkner2018}, which uses a probabilistic model to estimate the performance of different hyper-parameter configurations and selects the next configuration to test based on the expected improvement over the current best configuration. This allows for a more efficient search of the hyper-parameter space and reduces the number of configurations that need to be tested. Another option to reduce the time taken to find the optimal hyper-parameters is to use early termination. This method will stop a poorly performing run before it has fully completed, saving computational resources.
 
 \section{Post-hoc Explainability} \label{sec:post_hoc_explainability}
 
@@ -97,12 +97,12 @@ Given the goal of improving the explainability of the \acrshort{drl} models, thi
 
 The explainability techniques implemented are: 
 \begin{itemize}
-    \item \acrfull{shap}
-    \item \acrfull{lime}
     \item \Gls{featureimportance}
+    \item \acrfull{lime}
+    \item \acrfull{shap}
 \end{itemize}
 
-Following the work from de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}, the implementation of these techniques follows two directions. First, as in their paper, a surrogate model maps the state space to the action space as a proxy for the model's decisions. The second direction is to use the \acrshort{shap} and \acrshort{lime} techniques directly on the \acrshort{drl} model to interpret its decisions.
+Following the work from de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}, the implementation of these techniques follows two directions. First, as in their paper, a surrogate model maps the state space to the action space as a proxy for the model's decisions. The second direction is to use the \acrshort{lime} and \acrshort{shap} techniques directly on the \acrshort{drl} model to interpret its decisions.
 
 \subsection{Surrogate Model Explainability} \label{subsec:surrogate_model_explainability}
 
@@ -110,14 +110,14 @@ The surrogate model is trained to approximate the behaviour of the \acrshort{drl
 
 Given that the action space is continuous, the surrogate model is implemented using a \texttt{RandomForestRegressor} \cite{sklearnRandomForest}, which is a non-parametric model that can capture complex relationships between the inputs and outputs. The model is trained on the state-actions pairs of the test data, which is the object of the explanations. However, since the model has a number of hyper-parameters, it requires careful tuning to achieve optimal performance. Consequently, hyperparameter tuning was used find the optimal architecture using \texttt{HalvingGridSearchCV} \cite{sklearnHalvingGridSearch}, which is a method that iteratively narrows down the search space by evaluating a subset of hyper-parameters and discarding the less promising ones. The use of grid search rather than Bayesian Optimisation, as was done for \acrshort{drl} hyper-parameter tuning \ref{subsec:hyperparameter-tuning}, is to replicate the approach taken in \cite{de-La-Rica-Escudero2025}. Once the optimal hyper-parameters have been found and the surrogate model has been trained, its prediction function is used as a proxy to interpret the original model's decisions.
 
-Firstly, feature importance \ref{sec:featureimportance} is built-in for Random Forest Regressors, and can be easily accessed with the built-in property \texttt{feature\_importances\_} \cite{sklearnFeatureImportance}. This method provides the importance of each feature in the state representation by using a combination of the fraction of the samples a feature contributes to and the mean decrease in impurity.
+Firstly, feature importance is built-in for Random Forest Regressors, and can be easily accessed with the built-in property \texttt{feature\_importances\_} \cite{sklearnFeatureImportance}. This method provides the importance of each feature in the state representation by using a combination of the fraction of the samples a feature contributes to and the mean decrease in impurity.
 
 Secondly, \acrshort{lime} and \acrshort{shap} are applied to the surrogate model via the predict function to provide local explanations for individual predictions. Both of these techniques provide insights into the model's decisions by perturbing the input data and observing the changes in the output. 
 
-The \acrshort{lime} implementation is done using the \texttt{LimeTabularExplainer} \cite{LimeTabularExplainer}, which is designed to work with tabular data and provides a way to explain individual predictions by approximating the model's behaviour locally with a linear model \ref{sec:lime}. Similarly, for \acrshort{shap}, the framework provides a particular implementation for tree-based models \ref{sec:treeshap}, which is used to compute the \acrshort{shap} values efficiently by exploiting the structure of the trees. Consequently, the \texttt{TreeExplainer} \cite{ShapTreeExplainer} is used to compute the \acrshort{shap} values for the surrogate model.
+The \acrshort{lime} implementation is done using the \texttt{LimeTabularExplainer} \cite{LimeTabularExplainer}, which is designed to work with tabular data and provides a way to explain individual predictions by approximating the model's behaviour locally with a linear model. Similarly, for \acrshort{shap}, the framework provides a particular implementation for tree-based models, which is used to compute the \acrshort{shap} values efficiently by exploiting the structure of the trees. Consequently, the \texttt{TreeExplainer} \cite{ShapTreeExplainer} is used to compute the \acrshort{shap} values for the surrogate model.
 
 \subsection{Direct Model Explainability} \label{subsec:direct_model_explainability}
 
-Undoubtedly, a surrogate model adds an additional layer of complexity and may obscure the understanding of the original model's decisions. Therefore, the \acrshort{shap} and \acrshort{lime} techniques are also applied directly to the prediction function of \acrshort{drl} model. This approach allows for a more direct interpretation of the model's decision-making process, without the need of a supplementary level. 
+Undoubtedly, a surrogate model adds an additional layer of complexity and may obscure the understanding of the original model's decisions. Therefore, the \acrshort{lime} and \acrshort{shap} techniques are also applied directly to the prediction function of \acrshort{drl} model. This approach allows for a more direct interpretation of the model's decision-making process, without the need of a supplementary level. 
 
-For \acrshort{lime}, the implementation is again done using \texttt{LimeTabularExplainer}, but the prediction function is now obtained from the relevant \acrshort{drl} algorithm. For \acrshort{shap}, the \texttt{KernelExplainer} is used, which is a model-agnostic method that randomly samples feature coalitions to approximate \acrshort{shap} values to reduce computation \ref{sec:kernelshap} \cite{ShapKernelExplainer}.
+For \acrshort{lime}, the implementation is again done using \texttt{LimeTabularExplainer}, but the prediction function is now obtained from the relevant \acrshort{drl} algorithm. For \acrshort{shap}, the \texttt{KernelExplainer} is used, which is a model-agnostic method that randomly samples feature coalitions to approximate \acrshort{shap} values to reduce computation \cite{ShapKernelExplainer}.
