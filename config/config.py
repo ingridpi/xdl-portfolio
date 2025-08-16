@@ -35,9 +35,10 @@ VAL_END_DATE = "2023-12-31"
 TEST_START_DATE = "2024-01-01"
 TEST_END_DATE = END_DATE
 
-# Configuration for technical indicators
+# Configuration for indicators
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
+# Configuration for covariance features
 USE_COVARIANCE_FEATURES = True
 
 # Environment representation columns
@@ -54,7 +55,7 @@ if USE_TECHNICAL_INDICATORS:
 
 if USE_MACROECONOMIC_INDICATORS:
     MACROECONOMIC_INDICATORS = (
-        config_indicators.MACROECONOMIC_INDICATORS_EUROSTOXX50
+        config_indicators.MACROECONOMIC_INDICATORS_DEFAULT
     )
 
     # Remove non-letter characters from string
@@ -73,10 +74,10 @@ if USE_COVARIANCE_FEATURES:
     ENVIRONMENT_COLUMNS += ["covariance"]
 
 # Tickers configurations
-TICKERS = config_tickers.EURO_STOXX_50_TICKERS
-INDEX = EURO_STOXX_50_INDEX
-TICKERS_NAME = EURO_STOXX_50_NAME
-EXCHANGE = EXCHANGE_DAX
+TICKERS = config_tickers.TEST_TICKERS
+INDEX = None
+TICKERS_NAME = TEST_NAME
+EXCHANGE = EXCHANGE_NYSE
 
 # Set dataset name based on the configuration
 if (
@@ -87,6 +88,8 @@ if (
     DATASET_NAME = "dataset-indicators-covariance"
 elif USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
     DATASET_NAME = "dataset-indicators"
+elif USE_COVARIANCE_FEATURES:
+    DATASET_NAME = "dataset-covariance"
 else:
     DATASET_NAME = "simple-dataset"
 
