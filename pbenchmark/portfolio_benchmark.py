@@ -208,7 +208,7 @@ class PortfolioBenchmark:
         self, start_date: str, end_date: str, index_ticker: str
     ):
         findownloader = FinancialDataDownloader(start_date, end_date)
-        index_df = findownloader.download_data([config.INDEX])
+        index_df = findownloader.download_data([index_ticker])
         index_df = index_df[["date", "close"]].copy()
 
         # Compute daily returns
