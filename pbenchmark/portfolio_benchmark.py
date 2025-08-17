@@ -5,6 +5,7 @@ from pyfolio import timeseries
 from pypfopt import EfficientFrontier, expected_returns, risk_models
 
 from config import config
+from preprocessor.findata_downloader import FinancialDataDownloader
 
 
 class PortfolioBenchmark:
@@ -202,6 +203,31 @@ class PortfolioBenchmark:
         ef = EfficientFrontier(mu, S)
         _ = ef.min_volatility()
         return ef.clean_weights()
+
+    def get_index_performance(
+        self, start_date: str, end_date: str, index_ticker: str
+    ):
+        findownloader = FinancialDataDownloader(start_date, end_date)
+        index_df = findownloader.download_data([index_ticker])
+        index_df = index_df[["date", "close"]].copy()
+
+        # Compute daily returns
+        index_df["daily_return"] = index_df["close"].pct_change().fillna(0)
+
+        # Compute the cumulative returns
+        index_df["cumulative_return"] = (
+            1 + index_df["daily_return"]
+        ).cumprod() - 1
+
+        # Compute the account value
+        index_df["account_value"] = (
+            1 + index_df["daily_return"]
+        ).cumprod() * config.INITIAL_AMOUNT
+        # Set the model name and drop price column
+        index_df["model"] = "Index"
+        index_df.drop(columns=["close"], inplace=True)
+
+        return index_df
 
     def compute_perf_stats(self, df_account: pd.DataFrame) -> pd.Series:
         """

@@ -19,6 +19,11 @@ SP_500_NAME = "sp500"
 FX_NAME = "currencies"
 COMMODITY_NAME = "futures"
 
+DOW_30_INDEX = "^DJI"
+EURO_STOXX_50_INDEX = "^STOXX50E"
+FTSE_100_INDEX = "^FTSE"
+SP_500_INDEX = "^GSPC"
+
 EXCHANGE_NYSE = "XNYS"  # New York Stock Exchange
 EXCHANGE_LSE = "XLON"  # London Stock Exchange
 EXCHANGE_DAX = "XFRA"  # Frankfurt Stock Exchange
@@ -30,10 +35,11 @@ VAL_END_DATE = "2023-12-31"
 TEST_START_DATE = "2024-01-01"
 TEST_END_DATE = END_DATE
 
-# Configuration for technical indicators
+# Configuration for indicators
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
-USE_COVARIANCE_FEATURES = True
+# Configuration for covariance features
+USE_COVARIANCE_FEATURES = False
 
 # Environment representation columns
 ENVIRONMENT_COLUMNS = [
@@ -41,6 +47,7 @@ ENVIRONMENT_COLUMNS = [
     "high",
     "low",
     "close",
+    "volume",
 ]
 
 if USE_TECHNICAL_INDICATORS:
@@ -63,14 +70,26 @@ if USE_MACROECONOMIC_INDICATORS:
         )
     )
 
+if USE_COVARIANCE_FEATURES:
+    ENVIRONMENT_COLUMNS += ["covariance"]
+
 # Tickers configurations
-TICKERS = config_tickers.DOW_30_TICKERS
-TICKERS_NAME = DOW_30_NAME
+TICKERS = config_tickers.TEST_TICKERS
+INDEX = None
+TICKERS_NAME = TEST_NAME
 EXCHANGE = EXCHANGE_NYSE
 
 # Set dataset name based on the configuration
-if USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
+if (
+    USE_TECHNICAL_INDICATORS
+    and USE_MACROECONOMIC_INDICATORS
+    and USE_COVARIANCE_FEATURES
+):
+    DATASET_NAME = "dataset-indicators-covariance"
+elif USE_TECHNICAL_INDICATORS and USE_MACROECONOMIC_INDICATORS:
     DATASET_NAME = "dataset-indicators"
+elif USE_COVARIANCE_FEATURES:
+    DATASET_NAME = "dataset-covariance"
 else:
     DATASET_NAME = "simple-dataset"
 

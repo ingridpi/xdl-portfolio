@@ -250,6 +250,10 @@ class FinancialDataVisualiser:
         # Concatenate dataframes
         data = pd.concat([train_data, val_data, test_data])
 
+        if data.tic.nunique() > 10:
+            sample_tickers = data["tic"].unique()[:10]
+            data = data[data["tic"].isin(sample_tickers)].copy()
+
         # Sort the data by 'tic' to ensure consistent plotting
         data.sort_values(by="tic", inplace=True)
 

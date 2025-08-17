@@ -54,7 +54,12 @@ class PortfolioOptimisationEnv(gym.Env):
             low=-np.inf,
             high=np.inf,
             shape=(
-                self.state_space,
+                self.state_space
+                + (
+                    self.stock_dimension - 1
+                    if "covariance" in state_columns
+                    else 0
+                ),
                 self.stock_dimension,
             ),
         )
@@ -92,7 +97,25 @@ class PortfolioOptimisationEnv(gym.Env):
         Get the current state representation from the data.
         :return: Current state as a list of values for each column in state_columns.
         """
-        return [self.data[col].values.tolist() for col in self.state_columns]
+        if "covariance" in self.state_columns:
+            covariance = np.array(
+                self.data["covariance"]
+                .apply(lambda x: np.array(eval(x)))  # type: ignore
+                .values.tolist()
+            )
+            return np.append(
+                covariance,
+                [
+                    self.data[col].values.tolist()
+                    for col in self.state_columns
+                    if col != "covariance"
+                ],
+                axis=0,
+            ).tolist()
+        else:
+            return [
+                self.data[col].values.tolist() for col in self.state_columns
+            ]
 
     def __get_date(self) -> datetime:
         """
