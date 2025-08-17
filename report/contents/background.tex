@@ -326,7 +326,7 @@ The taxonomy of the \acrshort{xai} methods is shown in Figure \ref{fig:xai_taxon
 
 An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing an impurity measure at each node, normally Gini impurity for classification tasks or \acrfull{mse} for regression. As such, a variable responsible for a split with a large decrease in impurity is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and trees in the forest where the particular feature was used to split the data. While powerful, this method suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that importance is computed on the training set. 
 
-\subsection{Local Interpretable Model-agnostic Explanations (LIME)} \label{sec:lime}
+\subsection{Local Interpretable Model-agnostic Explanations} \label{sec:lime}
 
 \acrfull{lime} is a model-agnostic explanation method that interprets individual predictions of a \acrlong{ml} model by analysing the model locally around the prediction of interest. The method, introduced by Ribeiro et al. (2016) in their paper on \textit{Why should I trust you? Explaining the predictions of any classifier} \cite{Ribeiro2016}, utilises the black box model to understand what happens to the outputs when the input data is slightly modified, then fits a simpler, interpretable model to the perturbed data to approximate the black box model's behaviour in that local region.
 
@@ -348,7 +348,7 @@ The method works as follows:
 
 Its main advantages are its ability to work across different types of data and models, due to its model-agnostic nature, and the fact that its explanations are human-friendly and include a fidelity measure that indicates how well the explanation approximates the black box model's local behaviour. Nonetheless, the method offers only local explanations, which may not generalise well to the entire dataset; it relies on the choice of neighbourhood; and the complexity of the surrogate model needs to be defined in advance and can compromise the interpretability of the explanation \cite{Molnar2025}.
 
-\subsection{SHapley Additive exPlanations (SHAP)} \label{sec:shap}
+\subsection{Shapley Additive Explanations} \label{sec:shap}
 
 Another model-agnostic technique is \acrfull{shap}, which was introduced by Lundberg and Lee (2017) in their paper on \textit{A unified approach to interpreting model predictions} \cite{Lundberg2017}. The method is based on cooperative game theory and the concept of Shapley values \cite{Shapley1953}.
 

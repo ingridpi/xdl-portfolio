@@ -6,7 +6,7 @@ This chapter covers the methodology and framework established to provide an expl
 
 The problem of \gls{portfoliooptimisation} is the task of finding an optimal allocation of financial assets in a portfolio to maximise expected returns while minimising risk. Thus, it is necessary to decide how to rebalance the portfolio at each time step in a highly stochastic and complex financial market. This can be formulated using a \acrfull{mdp} framework, where the agent interacts with the environment by deciding the optimal allocation based on the state of the environment at each time step to maximise the expected cumulative reward over time. \acrfull{drl} gives the agent the ability to learn the optimal policy directly from the environment by taking actions and receiving rewards. 
 
-\section{Markov Decision Process (MDP) Model} \label{sec:mdp-model}
+\section{Markov Decision Process Model} \label{sec:mdp-model}
 
 Due to the dynamic, stochastic and interactive nature of financial markets, a \acrlong{mdp} is a suitable framework to model the problem. The main elements of the \acrshort{mdp} model are defined as follows:
 \begin{itemize}
@@ -70,7 +70,7 @@ where $T$ is the time horizon and $\gamma$ is the discount factor that determine
 
 The environment is implemented in \Gls{python} \footnote{https://www.python.org/} using the \texttt{Gym} library \cite{Brockman2016}, which provides a standard interface for reinforcement learning environments. The environment is defined as a class that inherits from the \texttt{gym.Env} class and implements the required methods: \texttt{reset}, \texttt{step} and \texttt{render}.
 
-\section{Deep Reinforcement Learning (DRL) Algorithms} \label{sec:drl-algorithms}
+\section{Deep Reinforcement Learning Algorithms} \label{sec:drl-algorithms}
 
 The proposed solution is based on the \acrshort{drl} framework, which allows the agent to learn the optimal policy directly from the environment by taking actions and receiving rewards. The algorithms used are:
 \begin{itemize}
