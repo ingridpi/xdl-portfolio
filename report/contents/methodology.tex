@@ -14,7 +14,7 @@ Due to the dynamic, stochastic and interactive nature of financial markets, a \a
     \item Action space $\mathcal{A}$
     \item Reward function $R: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \to \mathbb{R}$
     \item Transition function $T: \mathcal{S} \times \mathcal{A} \to \mathcal{S}$
-    \item Discount factor $\gamma \in [0,1]$
+    \item Discount factor $\gamma \in [0,1)$
 \end{itemize}
 
 The state space $\mathcal{S}$ is a vector representation of the financial environment. For a portfolio of $D$ assets, the features that describe the state include asset prices, technical indicators and macroeconomic indicators: 
