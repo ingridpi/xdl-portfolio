@@ -13,15 +13,15 @@ Given the general difficulty in finding the appropriate \acrshort{drl} algorithm
 
 The constituents of each of the indexes were retrieved in April 2025 and can be found in Appendix \ref{sec:datasets-equities}. It is important to note that the datasets were chosen to illustrate different currencies, as this introduces another factor of changing market conditions. 
 
-Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regard to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. The currency pairs were selected based on their trading volume and liquidity, with all pairs quoted in \acrfull{usd}.
+Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regard to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. These were selected based on their trading volume and liquidity, with all pairs quoted in \acrfull{usd}.
 
-The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \cite{yfinance}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set containing data from January 2024 to July 2025. The training set is used to train the \acrshort{drl} models, while the testing set is used to evaluate their performance. For hyper-parameter tuning, the training set is further split into a training and validation set, with the validation set containing data from January 2023 to December 2023. The validation set is used to evaluate the performance of the models for each hyper-parameter combination. The train-validation-test split is summarised in Table \ref{tab:dataset-split}.
+The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \cite{yfinance}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set starting on January 2024 until July 2025. The training set is used to train the \acrshort{drl} models, while the testing set is used to evaluate their performance. For hyper-parameter tuning, the training set is further split into a training and validation set, with the validation set corresponding to the period between January 2023 and December 2023. The validation set is used to evaluate the performance of the models for each hyper-parameter combination. The train-validation-test split is summarised in Table \ref{tab:dataset-split}.
 
 \input{tables/dataset_split.tex}
 
 \section{Experiment Design} \label{sec:experiment-design}
 
-To address the challenge of finding a suitable algorithm for portfolio optimisation, the five implemented \acrshort{drl} algorithms were tested on the five datasets described in Section \ref{sec:dataset}, with the goal being to evaluate the performance of each algorithm in different scenarios and market conditions. Moreover, the environment representation will also be varied to assess the impact of more information on the model's performance. Four environment representations were considered, each with a different number of features:
+To address the challenge of finding a suitable algorithm for portfolio optimisation, the five implemented \acrshort{drl} algorithms were tested on the five datasets described in Section \ref{sec:dataset}, with the goal of evaluating the performance of each algorithm in different scenarios and market conditions. Moreover, the environment representation will also be varied to assess the impact of more information on the model's performance. Four environment representations were considered, each with a different number of features:
 \begin{itemize}
     \item Simple dataset: \acrfull{ohlcv} prices of the assets.
     \item Covariance dataset: To the simple dataset, the covariance matrix of the assets is added to explicitly model the relationships between the assets.
@@ -41,9 +41,9 @@ Finally, the performance of the algorithms is closely related to the choice of h
 
 Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing 5 algorithms on 5 distinct datasets with 4 possible environment representations and 2 potential reward functions would result in a total of 40 different experiments. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
 \begin{itemize}
-    \item Hyper-parameter tuning was performed only for the Dow Jones 30 dataset, as it is the smallest dataset and requires less computational time.
+    \item Hyper-parameter tuning was performed only for the Dow Jones 30 dataset with simple and indicators environment representation, as it is the smallest equities dataset and requires less computational time.
     \item Since the covariance matrix, significantly increases the dimensionality of the environment representation, it was only included in the experiments with the Dow Jones 30, the currencies and the commodities datasets.
-    \item The reward function was set to the change in portfolio value for all experiments, as it is the most straightforward and intuitive choice for portfolio optimisation. However, the Sharpe ratio was also tested in the Dow Jones 30 dataset to evaluate its performance.
+    \item The reward function was set to the change in portfolio value for all experiments, as it is the most straightforward and intuitive choice for portfolio optimisation. However, the Sharpe ratio performance was evaluated in the Dow Jones 30 dataset, with environment representations that exclude the covariance.
 \end{itemize}
 
 The final experimental design consists of 18 experiments, which are summarised in Table \ref{tab:experiments-summary}, where each row represents a unique combination of dataset, environment representation, reward function and whether hyper-parameter tuning is performed for this combination.
@@ -60,27 +60,27 @@ The performance metrics are provided through the \texttt{pyfolio} library \cite{
 
 The main metrics for comparison are:
 \begin{itemize}
-    \item Cumulative return: The total change in investment price over a period of time, representing the overall percentage gain or loss from the initial investment value.
+    \item The cumulative return is the total change in investment price over a period of time, representing the overall percentage gain or loss from the initial investment value. The formula is given by:
     \begin{equation}
-        \text{Cumulative return} = \frac{\text{Final portfolio value} - \text{Initial portfolio value}}{\text{Initial portfolio value}}
+        \text{Cumulative return} = \frac{\text{Final portfolio value} - \text{Initial portfolio value}}{\text{Initial portfolio value}}.
     \end{equation}
-    \item Annualised return: The geometric average of the amount of money earned by an investment each year over a given period of time, providing a standardised measure of annual performance.
+    \item The annualised return is the geometric average of the amount of money earned by an investment each year over a given period of time, providing a standardised measure of annual performance. It is calculated as follows:
     \begin{equation}
-        \text{Annualised Return} = \left(\frac{\text{Final portfolio value}}{\text{Initial portfolio value}}\right)^{\frac{1}{\text{Number of years}}} - 1
+        \text{Annualised Return} = \left(\frac{\text{Final portfolio value}}{\text{Initial portfolio value}}\right)^{\frac{1}{\text{Number of years}}} - 1.
     \end{equation}
-    \item Annualised volatility: The standard deviation of returns annualised to provide a measure of investment risk on a yearly basis.
+    \item The annualised volatility is the standard deviation of returns annualised to provide a measure of investment risk on a yearly basis and can be computed with the following formula:
     \begin{equation}
-        \text{Annualised Volatility} = \text{Standard Deviation of Returns} \times \sqrt{\text{Yearly trading days}}
+        \text{Annualised Volatility} = \text{Standard Deviation of Returns} \times \sqrt{\text{Yearly trading days}},
     \end{equation}
     where the number of trading days per year is typically assumed to be 252.
-    \item Sharpe ratio: A measure of risk-adjusted performance that compares the excess return of an investment to a risk-free asset against its volatility.
+    \item The Sharpe ratio is a measure of risk-adjusted performance that compares the excess return of an investment to a risk-free asset against its volatility. The ratio is given by:
     \begin{equation}
-        \text{Sharpe Ratio} = \frac{R_p - R_f}{\sigma_p}
+        \text{Sharpe Ratio} = \frac{R_p - R_f}{\sigma_p},
     \end{equation}
-    where \(R_p\) is the annualised return of the portfolio, \(R_f\) is the annualised risk-free rate, and \(\sigma_p\) is the annualised volatility of the portfolio.
-    \item Max drawdown: The maximum percentage loss from a peak to a trough during a specified period, indicating the worst-case scenario for portfolio decline.
+    where $R_p$ is the annualised return of the portfolio, $R_f$ is the annualised risk-free rate, and $\sigma_p$ is the annualised volatility of the portfolio.
+    \item The max drawdown is the maximum percentage loss from a peak to a trough during a specified period, indicating the worst-case scenario for portfolio decline. Its formula is:
     \begin{equation}
-        \text{Max Drawdown} = \frac{\text{Peak Value} - \text{Trough Value}}{\text{Peak Value}}
+        \text{Max Drawdown} = \frac{\text{Peak Value} - \text{Trough Value}}{\text{Peak Value}}.
     \end{equation}
 \end{itemize}
 
@@ -88,14 +88,14 @@ Other metrics available through the \texttt{pyfolio} library are outlined in App
 
 \subsection{Benchmark Strategies} \label{sec:benchmark-strategies}
 
-Aside from computing relevant performance metrics, the algorithms will be benchmarked against traditional portfolio optimisation methods. The benchmarks are designed to provide a baseline for comparison and to evaluate the performance of the \acrshort{drl} algorithms in relation to established methods. The following benchmark strategies were considered:
+Aside from computing relevant performance metrics, the algorithms will be benchmarked against traditional portfolio optimisation methods. The benchmarks are designed to provide a baseline for comparison and to evaluate the performance of the \acrshort{drl} algorithms in relation to established methods. The following benchmark strategies were considered.
 \begin{itemize}
-    \item Equal\-weighted portfolio: A simple strategy that allocates an equal weight to each asset in the portfolio.
-    \item Mean\-variance optimisation: A classic portfolio optimisation method that aims to maximise Sharpe ratio. 
-    \item Min\-variance portfolio: A classic portfolio optimisation method that seeks to minimise the portfolio's volatility. 
+    \item Equal-weighted portfolio: A simple strategy that allocates an equal weight to each asset in the portfolio.
+    \item Mean-variance optimisation: A classic portfolio optimisation method that aims to maximise Sharpe ratio.
+    \item Min-variance portfolio: A classic portfolio optimisation method that seeks to minimise the portfolio's volatility.
     \item Momentum portfolio: A strategy that invests in assets with positive momentum, i.e. those that have performed well in the previous time step, and avoids those with negative momentum.
 \end{itemize}
 
-The implementation of the mean\-variance and the min\-variance portfolio allocation strategies has been done using the \texttt{PyPortfolioOpt} Python library \cite{Martin2021}, whereas the equal\-weighted and momentum strategies have been implemented using custom code. 
+The implementation of the mean-variance and the min-variance portfolio allocation strategies has been done using the \texttt{PyPortfolioOpt} Python library \cite{Martin2021}, whereas the equal-weighted and momentum strategies have been implemented using custom code.
 
 Finally, if the portfolio is made up of equities of a relevant index, the benchmark will also include the index itself, which serves as a reference point for the performance of the portfolio. 
