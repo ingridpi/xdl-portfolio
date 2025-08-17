@@ -14,24 +14,52 @@
 
 \LoadClass[11pt, a4paper]{report}
 
-% Mathfonts
 \RequirePackage{amsmath, amsfonts, amsthm, amssymb}
 \RequirePackage{wasysym}
-
-%Additional Packages
 \RequirePackage{color}
 \RequirePackage[nottoc,notlot,notlof]{tocbibind}
 \RequirePackage{hyperref}
 \RequirePackage{fancyhdr}
 \RequirePackage{subfigure}
 \RequirePackage[textsize=tiny,figwidth=8cm]{todonotes}
-
-% Cover Page
+\RequirePackage{float}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{graphbox}
+\RequirePackage{pgfgantt}
+\RequirePackage{nomencl}
+\RequirePackage[acronym,nonumberlist]{glossaries}
+\RequirePackage{amsmath}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+\RequirePackage{bm}
+\RequirePackage{multirow}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
 \RequirePackage{graphicx}
 \RequirePackage[paper=a4paper]{geometry}
 \RequirePackage{setspace}
 \RequirePackage{framed}
 
+%% Nomenclature
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+    \ifstrequal{#1}{A}{Numbers and Arrays}{%
+      \ifstrequal{#1}{B}{Sets}{%
+        \ifstrequal{#1}{C}{Indexing}{%
+          \ifstrequal{#1}{D}{Algebra Operations}{%
+            \ifstrequal{#1}{E}{Probability}{%
+              \ifstrequal{#1}{F}{Functions}{%
+                \ifstrequal{#1}{G}{Markov Decision Process}{%
+                  \ifstrequal{#1}{Z}{Other Symbols}{}
+                }
+              }%
+            }%
+          }%
+        }%
+      }%
+    }%
+  ]
+}
 
 % Macros
 \newcommand*{\modulecode}[1]{\gdef\@modulecode{#1}}

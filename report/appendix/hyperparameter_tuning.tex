@@ -2,39 +2,4 @@
 
 For the five implemented \acrlong{drl} algorithms, the following table summarises the hyper-parameters that were tuned during the training process.
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|p{8cm}|}
-\hline
-\textbf{Model} & \textbf{Hyperparameter} & \textbf{Values / Range} \\ \hline
-\multirow{3}{*}{\textbf{A2C}} 
- & Number of steps & \{5, 10, 20, 30, 40\} \\
- & Entropy coefficient & Uniform[1$\times$10$^{-8}$, 1$\times$10$^{-3}$] \\ 
- & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ \hline
-
-\multirow{4}{*}{\textbf{PPO}} 
- & Number of steps & \{128, 256, 512, 1024, 2048\} \\ 
- & Entropy coefficient & Uniform[1$\times$10$^{-8}$, 1$\times$10$^{-3}$] \\ 
- & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ 
- & Batch size & \{32, 64, 128, 256, 512\} \\ \hline
-
-\multirow{3}{*}{\textbf{DDPG}} 
- & Batch size & \{64, 128, 256\} \\ 
- & Buffer size & \{50000, 100000, 200000, 500000\} \\ 
- & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ \hline
-
-\multirow{3}{*}{\textbf{TD3}} 
- & Batch size & \{64, 100, 128, 256\} \\ 
- & Buffer size & \{500000, 1000000, 2000000\} \\ 
- & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ \hline
-
-\multirow{5}{*}{\textbf{SAC}} 
- & Batch size & \{32, 64, 128\} \\ 
- & Buffer size & \{100000, 500000, 1000000, 2000000\} \\ 
- & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ 
- & Learning starts & \{500, 1000, 2000, 5000\} \\ 
- & Entropy coefficient & \{"auto", "auto\_0.1", "auto\_0.01"\} \\ \hline
-\end{tabular}
-\caption{Hyperparameter configurations for different RL algorithms.}
-\label{tab:model_hyperparameters}
-\end{table}
+\input{tables/hyperparameter_tuning.tex}

@@ -1,3 +1,78 @@
-% All abbreviations and symbols used in the report must be listed and defined in alphabetic order.
-\nomenclature{\(c\)}{Speed of light in a vacuum}
-\nomenclature{\(h\)}{Planck constant}
+%% Numbers and Arrays
+\nomenclature[A, 01]{$a$}{Scalar}
+\nomenclature[A, 02]{$\mathbf{a}$}{Vector}
+\nomenclature[A, 03]{$\mathbf{A}$}{Matrix}
+\nomenclature[A, 04]{$\mathbf{1}$}{Matrix of $1$'s}
+
+%% Sets
+\nomenclature[B, 01]{$\mathbb{A}$}{Set}
+\nomenclature[B, 02]{$\mathbb{R}$}{Set of real numbers}
+\nomenclature[B, 03]{$[a, b]$}{Real interval including $a$ and $b$}
+\nomenclature[B, 04]{$(a, b)$}{Real interval excluding $a$ and $b$}
+\nomenclature[B, 05]{$[a, b)$}{Real interval including $a$ but excluding $b$}
+\nomenclature[B, 06]{$(a, b]$}{Real interval excluding $a$ but including $b$}
+\nomenclature[B, 07]{$\{0, 1\}$}{Set containing $0$ and $1$}
+\nomenclature[B, 08]{$\{0, 1, ..., n\}$}{Set of all integers between $0$ and $n$ inclusive}
+\nomenclature[B, 09]{$\emptyset$}{Empty set}
+\nomenclature[B, 10]{$\mathbb{A}\subset\mathbb{B}$}{Set $\mathbb{A}$ is a subset of set $\mathbb{B}$}
+\nomenclature[B, 11]{$\mathbb{A}\subseteq\mathbb{B}$}{Set $\mathbb{A}$ is a subset or equal to set $\mathbb{B}$}
+\nomenclature[B, 12]{$\mathbb{A}\cap\mathbb{B}$}{Intersection of sets $\mathbb{A}$ and $\mathbb{B}$}
+\nomenclature[B, 13]{$\mathbb{A}\cup\mathbb{B}$}{Union of sets $\mathbb{A}$ and $\mathbb{B}$}
+\nomenclature[B, 14]{$\mathbb{A}\setminus\mathbb{B}$}{Set difference of sets $\mathbb{A}$ and $\mathbb{B}$}
+\nomenclature[B, 15]{$|\mathbb{A}|$}{Cardinality of set $\mathbb{A}$}
+
+%% Indexing
+\nomenclature[C, 01]{$a_i$}{Element $i$ of vector $\mathbf{a}$, with indexing start at 1}
+\nomenclature[C, 02]{$A_{i,j}$}{Element $i,j$ of matrix $\mathbf{A}$, with indexing start at 1}
+
+%% Algebra Operations
+\nomenclature[D, 01]{$\mathbf{A}^T$}{Transpose of matrix $\mathbf{A}$}
+\nomenclature[D, 02]{$\mathbf{A}^{-1}$}{Inverse of matrix $\mathbf{A}$}
+
+%% Probability
+\nomenclature[E, 01]{$P(x)$}{Probability distribution over a random variable $x$}
+\nomenclature[E, 02]{$P(x|y)$}{Conditional probability of $x$ given $y$}
+\nomenclature[E, 03]{$E[x]$}{Expected value of random variable $x$}
+\nomenclature[E, 04]{$Var[x]$}{Variance of random variable $x$}
+\nomenclature[E, 05]{$Cov[x,y]$}{Covariance of random variables $x$ and $y$}
+\nomenclature[E, 06]{$\mu$}{Mean}
+\nomenclature[E, 07]{$\sigma$}{Standard deviation}
+\nomenclature[E, 08]{$\sigma^2$}{Variance}
+\nomenclature[E, 09]{$\Sigma$}{Covariance matrix}
+\nomenclature[E, 10]{$\mathcal{N}(\mu, \sigma^2)$}{Normal distribution with mean $\mu$ and variance $\sigma^2$}
+\nomenclature[E, 11]{$\mathcal{N}(0, 1)$}{Standard normal distribution}
+
+%% Functions
+\nomenclature[F, 01]{$f: \mathbb{A} \to \mathbb{B}$}{Function $f$ with domain $\mathbb{A}$ and range $\mathbb{B}$}
+\nomenclature[F, 02]{$f(x)$}{Function $f$ evaluated at $x$}
+\nomenclature[F, 03]{$f(x;\theta)$}{Function $f$ with parameters $\theta$ evaluated at $x$}
+\nomenclature[F, 04]{$f'(x)$}{Derivative of function $f$}
+\nomenclature[F, 05]{$\int f(x) \, dx$}{Integral of function $f$ with respect to $x$}
+\nomenclature[F, 06]{$\min f(x)$}{Minimum of function $f$}
+\nomenclature[F, 07]{$\min_x f(x)$}{Minimum of function $f$ with respect to $x$}
+\nomenclature[F, 08]{$\max f(x)$}{Maximum of function $f$}
+\nomenclature[F, 09]{$\max_x f(x)$}{Maximum of function $f$ with respect to $x$}
+\nomenclature[F, 10]{$\log x$}{Natural logarithm of $x$}
+\nomenclature[F, 11]{$x%!$}{Factorial of $x$}
+
+%% Markov Decision Process
+\nomenclature[G, 01]{$t$}{Time step}
+\nomenclature[G, 02]{$\mathcal{S}$}{State space}
+\nomenclature[G, 03]{$s_t$}{Observation of the state at time step $t$}
+\nomenclature[G, 04]{$\mathcal{A}$}{Action space}
+\nomenclature[G, 05]{$a_t$}{Action taken at time step $t$}
+\nomenclature[G, 06]{$R(s,a,s')$}{Reward function}
+\nomenclature[G, 07]{$r_t$}{Reward received at time step $t$}
+\nomenclature[G, 08]{$T(s,a,s')$}{Transition function}
+\nomenclature[G, 09]{$\gamma$}{Discount factor}
+\nomenclature[G, 10]{$\pi$}{Policy}
+\nomenclature[G, 11]{$G$}{Long-term reward}
+\nomenclature[G, 12]{$V^\pi$}{State Value function for policy $\pi$}
+\nomenclature[G, 13]{$Q^\pi$}{State-Action Value function for policy $\pi$}
+\nomenclature[G, 14]{$A^\pi$}{Advantage function for policy $\pi$}
+
+%% Other symbols
+\nomenclature[Z]{$\forall$}{For all}
+\nomenclature[Z]{$\in$}{Element of}
+\nomenclature[Z]{$\nabla$}{Gradient}
+\nomenclature[Z]{$\sum$}{Summation symbol}

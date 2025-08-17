@@ -1,9 +1,16 @@
 \begin{longtable}{|l|l|l|l|}
     \hline
-    \textbf{Algorithm} & \textbf{Policy Type} & \textbf{On/Off Policy} & \textbf{Key Idea} \\
+    \textbf{Algorithm} & \textbf{Policy Type} & \textbf{On/Off Policy} & \textbf{Key Idea} \\ \midrule
+    \endfirsthead
+
     \hline
+    \textbf{Algorithm} & \textbf{Policy Type} & \textbf{On/Off Policy} & \textbf{Key Idea} \\ \midrule
     \endhead
-    \acrshort{a2c} & Stochastic & On-Policy & Advantage Actor-Critic \\ \hline
+
+    \endfoot
+
+    \hline
+    \acrshort{a2c} & Stochastic & On-Policy & Advantage Function Estimation \\ \hline
     \acrshort{ppo} & Stochastic & On-Policy & Clipped Policy Updates \\ \hline
     \acrshort{ddpg} & Deterministic & Off-Policy & Actor-Critic + Replay buffer \\ \hline
     \acrshort{td3} & Deterministic & Off-Policy & Double critics + Delayed updates \\ \hline
