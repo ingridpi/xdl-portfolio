@@ -37,7 +37,9 @@ Another particular challenge is the choice of suitable reward function, which is
     \item Sharpe ratio: The reward is the Sharpe ratio of the portfolio, which measures the risk-adjusted return.
 \end{itemize}
 
-Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. As such, the hyper-parameters were tuned using Bayesian optimisation, to find the optimal configuration for each algorithm and dataset combination.
+Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. Ideally, the hyper-parameters should be tuned to find the optimal configuration for each algorithm and dataset combination. However, it is not feasible to perform hyper-parameter tuning for all combinations of algorithms, datasets, environment representations and reward functions. Consequently, the default hyper-parameters for all the experiments are outlined in Table \ref{tab:default_hyperparameters}. The hyper-parameters were chosen based on those from a testing run that was done on a small dataset of five tickers with indicators as environment representation. Those results can be seen in Appendix \ref{app:experiment_hyperparameters}.
+
+\input{tables/default_hyperparameters.tex}
 
 Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing five algorithms on five distinct datasets with four possible environment representations and two potential reward functions would result in a total of forty different experiments. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
 \begin{itemize}

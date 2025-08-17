@@ -1,0 +1,44 @@
+\begin{longtable}{|l|l|p{8cm}|}
+    \hline
+    \textbf{Model} & \textbf{Hyperparameter} & \textbf{Values / Range} \\ \midrule
+    \endfirsthead
+
+    \hline
+    \textbf{Model} & \textbf{Hyperparameter} & \textbf{Values / Range} \\ \midrule
+    \endhead
+
+    \caption{Default hyper-parameter configurations.}
+    \label{tab:default_hyperparameters}
+    \endfoot
+
+    \multirow{3}{*}{\textbf{A2C}}
+    & Number of steps & 40 \\
+    & Entropy coefficient & 0.0003 \\ 
+    & Learning rate & 0.003 \\ \hline
+
+
+    \multirow{4}{*}{\textbf{PPO}}
+    & Number of steps & 512 \\ 
+    & Entropy coefficient & 0.0005 \\ 
+    & Learning rate & 0.0015 \\ 
+    & Batch size & 64 \\ \hline
+
+    \multirow{3}{*}{\textbf{DDPG}}
+    & Batch size & 256 \\ 
+    & Buffer size & 200000 \\ 
+    & Learning rate & 0.005 \\ \hline
+
+    \pagebreak
+    \multirow{3}{*}{\textbf{TD3}}
+    & Batch size & 128 \\ 
+    & Buffer size & 500000 \\ 
+    & Learning rate & 0.001 \\ \hline
+
+    \multirow{5}{*}{\textbf{SAC}}
+    & Batch size & 64 \\ 
+    & Buffer size & 500000 \\ 
+    & Learning rate & 0.001 \\ 
+    & Learning starts & 2000 \\ 
+    & Entropy coefficient & "auto\_0.1" \\ \hline
+    
+\end{longtable}
