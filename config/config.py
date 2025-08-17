@@ -39,7 +39,7 @@ TEST_END_DATE = END_DATE
 USE_TECHNICAL_INDICATORS = True
 USE_MACROECONOMIC_INDICATORS = True
 # Configuration for covariance features
-USE_COVARIANCE_FEATURES = True
+USE_COVARIANCE_FEATURES = False
 
 # Environment representation columns
 ENVIRONMENT_COLUMNS = [
