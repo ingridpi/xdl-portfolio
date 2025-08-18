@@ -1,0 +1,35 @@
+\begin{longtable}{|l|l|l|l|}
+    \hline
+    \textbf{Algorithm} & \textbf{Metric} & \textbf{Default parameters} & \textbf{Tuned parameters} \\ \midrule
+    \endfirsthead
+
+    \hline
+    \textbf{Algorithm} & \textbf{Metric} & \textbf{Default parameters} & \textbf{Tuned parameters} \\ \midrule
+    \endhead
+
+    \caption{Hyper-parameter tuning experiment results for the DowJones30 dataset with indicators environment representation.}
+    \label{tab:experiment_hyperparameters_indicators}
+
+    \endfoot
+
+    \hline  
+    \multirow{2}{*}{\textbf{A2C}}
+    & Cumulative Return & 0.3139 & 0 \\ \cline{2-4}
+    & Sharpe ratio & 1.2575 & 0 \\ \hline
+
+    \multirow{2}{*}{\textbf{PPO}}
+    & Cumulative Return & 0.2937 & 0 \\ \cline{2-4}
+    & Sharpe ratio & 1.2407 & 0 \\ \hline
+
+    \multirow{2}{*}{\textbf{DDPG}}
+    & Cumulative Return & 0.3663 & 0 \\ \cline{2-4}
+    & Sharpe ratio & 1.4896 & 0 \\ \hline
+
+    \multirow{2}{*}{\textbf{TD3}}
+    & Cumulative Return & 0.3456 & 0 \\ \cline{2-4}
+    & Sharpe ratio & 1.3938 & 0 \\ \hline
+
+    \multirow{2}{*}{\textbf{SAC}}
+    & Cumulative Return & 0.3189 & 0 \\ \cline{2-4}
+    & Sharpe ratio & 1.3340 & 0 \\ \hline
+\end{longtable}

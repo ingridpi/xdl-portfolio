@@ -137,4 +137,12 @@ For the commodities dataset, the results are completely different to those of th
 
 Finally, for the currencies dataset, the performance of the algorithms is significantly lower, going negative in some cases. A possible reason is the particular set of hyper-parameters used. In this experiment, algorithm configuration was not altered or tuned for each specific feature set.
 
-% \section{Experiment: Hyper-parameter Tuning} \label{sec:hyper-parameter-tuning}
+\section{Experiment: Hyper-parameter Tuning} \label{sec:hyper-parameter-tuning}
+
+As has been mentioned in the above experiments, the performance of the algorithms is hugely influenced by the choice of hyper-parameters. Ideally, a systematic approach should be employed to find the optimal hyper-parameters for each algorithm, dataset and environment representation combination. However, due to the computational cost of hyper-parameter tuning, it was only performed for the DowJones30 dataset with the simple and indicators environment representations and five trial runs. The results for each of the algorithms with the default hyper-parameters versus the tuned hyper-parameters are compared in Table \ref{tab:experiment_hyperparameters_simple} and Table \ref{tab:experiment_hyperparameters_indicators} for the two features sets: simple and with indicators, respectively.
+
+\input{tables/experiment_hyperparameters_dow30_simple.tex}
+\input{tables/experiment_hyperparameters_dow30_indicators.tex}
+
+By looking at the data presented in these tables, it is clear that finding the optimal configuration can have a significant impact on the performance of the algorithms. For instance, although the cumulative return for \acrshort{a2c} in the simple feature set only improves by 1\%, the Sharpe ratio increases from 1.32 to 1.43, meaning that the algorithm learns to better balance risk while maximising returns. Another example is the \acrshort{sac} algorithm, which achieves a cumulative return of 37.03\% with the tuned hyper-parameters, compared to 22.43\% with the default ones, and a Sharpe ratio of 1.45, which is significantly higher than the 0.97 of the default configuration. However, for the \acrshort{ppo}, \acrshort{ddpg} and \acrshort{td3} algorithms, there are no improvements and the default hyper-parameters perform better; this is due to only performing five trial runs, which is not enough to find the optimal configuration. With unlimited resources, a more extensive search could potentially yield better results for these algorithms.
+
