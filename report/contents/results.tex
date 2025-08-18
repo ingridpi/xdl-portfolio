@@ -145,3 +145,33 @@ As has been mentioned in the above experiments, the performance of the algorithm
 \input{tables/experiment_hyperparameters_dow30_indicators.tex}
 
 By looking at the data presented in these tables, it is clear that finding the optimal configuration can have a significant impact on the performance of the algorithms. For instance, although the cumulative return for \acrshort{a2c} in the simple feature set only improves by 1\%, the Sharpe ratio increases from 1.32 to 1.43, meaning that the algorithm learns to better balance risk while maximising returns. Another example is the \acrshort{sac} algorithm, which achieves a better performance than that of the default configuration. However, for the \acrshort{ppo}, \acrshort{ddpg} and \acrshort{td3} algorithms, there are no improvements and the default hyper-parameters perform better. Similarly, when looking at the indicators feature set, not all the algorithms show sign of improvements. These means that, for that particular algorithm, dataset and environment representation combination, the optimal hyper-parameter configuration has not been found. Understandably, due to the limited computational resources, the hyper-parameter search was very limited to only five runs, which is not sufficient for a thorough search.
+
+\section{Explainability Results} \label{sec:explainability-framework}
+
+A main objective of this thesis is to be able to interpret the decisions made by the \acrshort{drl} algorithms. The explainability framework is designed to provide insights into the decision-making process of the algorithms and to help present in a visual and human-readable manner the most relevant features that influence the portfolio allocation decision at each time step. As described in Section \ref{sec:post_hoc_explainability}, two approaches were employed: a surrogate model and direct explanations. 
+
+For the purposes of visualisation, the results are shown for a sample dataset of five tickers (AAPL, CSCO, HON, MSFT, V) from the \acrshort{djia} and using only the open, close, high, and low prices as the environment representation. This choice is made because explanations are more easily visualised when the number of assets and features is small. However, the explainability framework itself is general and can be applied to any number of assets and any environment representation. In practice, to support larger portfolios and more complex feature sets, an interactive dashboard could be developed, allowing users to select the relevant assets in the portfolio for which explanations are required and to explore the results in a more scalable and user-friendly manner. Moreover, only the explanations of the \acrshort{a2c} algorithm are presented, as it serves as a representative example of the framework's capabilities.
+
+The surrogate model was implemented following the proposal by de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}. Although their paper does not explicitly acknowledge the use of a surrogate model nor outline the reasons for its use, it can be inferred that using a simpler transparent algorithm as a proxy provides built-in feature importance, which is a global explainability method. However, there does not seem to be any clear value in doing so when using \acrshort{lime} and \acrshort{shap} as they are model-agnostic local methods capable of providing explanations for any black-box model, given the prediction function of the algorithm. 
+
+\subsection{Feature Importance Results} \label{sec:feature-importance-results}
+
+The feature importance results from the surrogate model are shown in Figure \ref{fig:feature_importance_top_features}, where the top 20 features are ranked according to the importance measure. The ranking shows that the low price of CSCO and the close price of MSFT are the two most important features, followed by the open price of CSCO. Looking at the bottom part of the ranking, HON and AAPL features have a lower importance. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/feature_importance_top_features.png}
+    \caption{Top features from the surrogate model according to feature importance.}
+    \label{fig:feature_importance_top_features}
+\end{figure}
+
+These trend is further confirmed by looking at the mean importance of the features for each asset, as shown in Figure \ref{fig:mean_feature_importance_by_asset}. This indicates that the agent heavily relied on the performance of MSFT and CSCO to guide its portfolio allocation decisions, while the other assets played a less significant role. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/feature_importance_mean_ticker.png}
+    \caption{Mean feature importance per asset from the surrogate model.}
+    \label{fig:mean_feature_importance_by_asset}
+\end{figure}
+
+Another interesting result about the feature importance shown in Figure \ref{fig:feature_importance_top_features} is that the different assets have a different \acrshort{ohlcv} feature importance distribution, which suggests that the agent may have developed distinct strategies for each asset. Figure \ref{fig:feature_importance_by_asset} in the Appendix \ref{app:feature_importance} shows the top features grouped by asset, where it can be seen more clearly how each asset has a different most important feature. In the case of AAPL, HON and CSCO, the low price played a more critical role in informing the agent's decisions, showing how extreme price changes lead the agent to adjust the portfolio allocation. In contrast, for MSFT, the close price is the most important feature leading to believe that the agent is more focused on the end of day activities of this asset. Finally, looking over all the assets, Figure \ref{fig:mean_feature_importance_by_feature} in Appendix \ref{app:feature_importance} shows how features corresponding to low and high prices contributed to the agent's decisions. This indicates that the agent is sensitive to price extremes of the assets.
