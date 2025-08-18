@@ -56,12 +56,6 @@ where the value of the portfolio at time $t$ is given by the dot product of the 
     V_t = \mathbf{w}_t \cdot \mathbf{p}_t.
 \end{equation}
 
-An alternative formulation of the reward function is to use the Sharpe ratio \cite{Sharpe1994}, which is defined as the ratio of the expected return to the standard deviation of the returns:
-\begin{equation}
-    R(s_t, a_t, s_{t+1}) = \frac{E[r_{t+1}]}{\sigma[r_{t+1}]},
-\end{equation}
-where $E[r_{t+1}]$ is the expected return of the portfolio at time $t+1$ and $\sigma[r_{t+1}]$ is the standard deviation of the returns at time $t+1$. This formulation encourages the agent to maximise the expected return while minimising the risk of the portfolio.
-
 Regardless of the choice of reward function, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
 \begin{equation}
     J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right],
@@ -87,7 +81,7 @@ The implementation is done using the \texttt{Stable Baselines3} library \cite{Ra
 
 Hyper-parameter tuning is a crucial step in the training process of \acrshort{drl} models, as the right choice of hyper-parameters can significantly impact the model's performance. In this thesis, hyper-parameter tuning refers to the process of optimising the training parameters of the \acrshort{drl} algorithms to maximise their performance in the task of portfolio optimisation. The hyper-parameters tuned include the learning rate, batch size, number of training steps, and other algorithm-specific parameters, which are summarised in Appendix \ref{app:hyperparameter_tuning}. 
 
-To implement hyper-parameter tuning in Python, the \texttt{wandb} \cite{wandb} library is used, which provides a simple and efficient way to track experiments, visualise results, and manage hyper-parameter sweeps. A sweep is defined as a search for hyper-parameters that optimises a cost function, in our case, the Sharpe ratio. Given that the models were implemented using the \texttt{Stable Baselines3} library, the integration with \texttt{wandb} allows for seamless tracking of hyper-parameter configurations and their corresponding performance metrics \cite{WeightsBiases2025}.
+To implement hyper-parameter tuning in Python, the \texttt{wandb} \cite{wandb} library is used, which provides a simple and efficient way to track experiments, visualise results, and manage hyper-parameter sweeps. A sweep is defined as a search for hyper-parameters that optimises a cost function, in our case, the Sharpe ratio \cite{Sharpe1994}. Given that the models were implemented using the \texttt{Stable Baselines3} library, the integration with \texttt{wandb} allows for seamless tracking of hyper-parameter configurations and their corresponding performance metrics \cite{WeightsBiases2025}.
 
 As mentioned above, sweeps can optimise a cost function to avoid naively testing every possible combination. Using \texttt{wandb}, a Bayesian optimisation approach is taken \cite{Falkner2018}, which uses a probabilistic model to estimate the performance of different hyper-parameter configurations and selects the next configuration to test based on the expected improvement over the current best configuration. This allows for a more efficient search of the hyper-parameter space and reduces the number of configurations that need to be tested. Another option to reduce the time taken to find the optimal hyper-parameters is to use early termination. This method will stop a poorly performing run before it has fully completed, saving computational resources.
 
