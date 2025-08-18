@@ -175,3 +175,15 @@ These trend is further confirmed by looking at the mean importance of the featur
 \end{figure}
 
 Another interesting result about the feature importance shown in Figure \ref{fig:feature_importance_top_features} is that the different assets have a different \acrshort{ohlcv} feature importance distribution, which suggests that the agent may have developed distinct strategies for each asset. Figure \ref{fig:feature_importance_by_asset} in the Appendix \ref{app:feature_importance} shows the top features grouped by asset, where it can be seen more clearly how each asset has a different most important feature. In the case of AAPL, HON and CSCO, the low price played a more critical role in informing the agent's decisions, showing how extreme price changes lead the agent to adjust the portfolio allocation. In contrast, for MSFT, the close price is the most important feature leading to believe that the agent is more focused on the end of day activities of this asset. Finally, looking over all the assets, Figure \ref{fig:mean_feature_importance_by_feature} in Appendix \ref{app:feature_importance} shows how features corresponding to low and high prices contributed to the agent's decisions. This indicates that the agent is sensitive to price extremes of the assets.
+
+\subsection{Local Interpretable Model-agnostic Explanations Results} \label{sec:lime-results}
+
+Moving on to the local explanations of \acrshort{lime}, the direct explanations for the \acrshort{a2c} algorithm are provided. The benefit of \acrshort{lime} is its ability to provide explanations at a particular point in time. In this case, the local explanations are provided for the first time step of the test dataset, which corresponds to the 2nd of January 2024. In this section, Figure \ref{fig:a2c_lime_msft} illustrates the local explanations for the MSFT asset, whilst the other assets are found in Appendix \ref{app:lime_explanations}. This particular instance is affected by V's low price in the positive terms, meaning that it pushes the price higher, whilst the high price of CSCO and the open of V negatively affect the prediction by pushing it lower. Looking at these explanations over a number of days can help an investor decide whether there exist particular features that consistently contribute to the portfolio allocation decision.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/a2c_lime_msft.png}
+    \label{fig:a2c_lime_msft}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the MSFT asset. The orange bars indicate features that contribute positively to the prediction, while the blue bars indicate features that contribute negatively.}
+\end{figure}
+
