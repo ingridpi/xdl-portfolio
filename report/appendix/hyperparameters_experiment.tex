@@ -11,7 +11,7 @@ The hyper-parameters were tuned according to the specifications in Table \ref{ta
     \label{fig:dataset_split}
 \end{figure}
 
-The \texttt{wandb} library provides an interactive website to visualise the results of the hyper-parameters in terms of the metric chosen for the optimisation and, if applicable, any other metrics that were chosen to be reported. In this case, the optimisation metric was the Sharpe ratio, as it balances the trade-off between risk and return, and additionally, the cumulative return was also reported. Figure \ref{fig:a2c_hyperparameter_tuning} shows the reported results for the hyper-parameter tuning of the \acrshort{a2c} algorithm. Within the figure, there are three charts where the left one shows the Sharpe ratio over all sweeps, the middle one shows the cumulative return, and the right one shows the hyper-parameters that were tuned and how they correlate to the optimisation metric.
+The \texttt{wandb} library provides an interactive website to visualise the results of the hyper-parameters in terms of the metric chosen for the optimisation and, if applicable, any other metrics that were chosen to be reported. In this case, the optimisation metric was the Sharpe ratio, as it balances the trade-off between risk and return, and additionally, the cumulative return was also reported. Figure \ref{fig:a2c_hyperparameter_tuning} shows the reported results for the hyper-parameter tuning of the \acrshort{a2c} algorithm. Within the figure, there are three charts where the left one shows the Sharpe ratio over all sweeps, the middle one shows the cumulative return, and the right one shows the hyper-parameters that were tuned and the resulting optimisation metric.
 
 \begin{figure}[h]
 \centering
@@ -20,6 +20,6 @@ The \texttt{wandb} library provides an interactive website to visualise the resu
 \label{fig:a2c_hyperparameter_tuning}
 \end{figure}
 
-The hyper-parameter tuning process was repeated for the other four algorithms, resulting in the hyper-parameters shown in Table \ref{tab:default_hyperparameters}. Since the search had been done in the validation dataset, the algorithms were evaluated and benchmarked against the test dataset to assess their generalisation performance, whose results are presented in Table \ref{tab:test_results}.
+The hyper-parameter tuning process was repeated for the other four algorithms, resulting in the hyper-parameters shown in Table \ref{tab:default_hyperparameters}. Since the search had been done in the validation dataset, the best-performing models were evaluated and benchmarked against the test dataset to assess their generalisation performance, whose results are presented in Table \ref{tab:test_results}.
 
 \input{tables/default_test_results.tex}
