@@ -31,24 +31,17 @@ To address the challenge of finding a suitable algorithm for portfolio optimisat
 
 The strength of \acrshort{drl} algorithms lies in their ability to learn from high-dimensional data, which is why the goal is to evaluate whether a more exhaustive environment representation leads to better performance. However, with higher dimensionality comes a higher computational cost.
 
-Another particular challenge is the choice of suitable reward function, which is crucial for the success of the algorithms in any \acrshort{rl} setting. The reward function should ideally be designed to encourage the model to learn an investment strategy that maximises returns while minimising risk. As a result, two choices of reward function were considered:
-\begin{itemize}
-    \item Change in portfolio value: The reward is the change in portfolio value at each time step, which encourages the model to maximise returns.
-    \item Sharpe ratio: The reward is the Sharpe ratio of the portfolio, which measures the risk-adjusted return.
-\end{itemize}
-
-Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. Ideally, the hyper-parameters should be tuned to find the optimal configuration for each algorithm and dataset combination. However, it was not feasible to perform tuning for all combinations of algorithms, datasets, environment representations and reward functions. Consequently, the default hyper-parameters for all the experiments are outlined in Table \ref{tab:default_hyperparameters}. The hyper-parameters were chosen based on those from a testing run that was done on a small dataset of five tickers with indicators as environment representation. Those results can be seen in Appendix \ref{app:experiment_hyperparameters}.
+Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. Ideally, the hyper-parameters should be tuned to find the optimal configuration for each algorithm and dataset combination. However, it was not feasible to perform tuning for all combinations of algorithms, datasets and environment representations. Consequently, the default hyper-parameters for all the experiments are outlined in Table \ref{tab:default_hyperparameters}. The hyper-parameters were chosen based on those from a testing run that was done on a small dataset of five tickers with indicators as environment representation. Those results can be seen in Appendix \ref{app:experiment_hyperparameters}.
 
 \input{tables/default_hyperparameters.tex}
 
-Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing five algorithms on five distinct datasets with four possible environment representations and two potential reward functions would result in a total of forty different experiments. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
+Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing five algorithms on five distinct datasets with four possible environment representations would result in a total of twenty different experiments per algorithm. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
 \begin{itemize}
     \item Hyper-parameter tuning was performed only for the Dow Jones 30 dataset with simple and indicators environment representation, as it is the smallest equities dataset and requires less computational time.
     \item Since the covariance matrix, significantly increases the dimensionality of the environment representation, it was only included in the experiments with the Dow Jones 30, the currencies and the commodities datasets.
-    \item The reward function was set to the change in portfolio value for all experiments, as it is the most straightforward and intuitive choice for portfolio optimisation. However, the Sharpe ratio performance was evaluated in the Dow Jones 30 dataset, with environment representations that exclude the covariance.
 \end{itemize}
 
-The final experimental design consists of 18 experiments, which are summarised in Table \ref{tab:experiments-summary}, where each row represents a unique combination of dataset, environment representation, reward function and whether hyper-parameter tuning is performed for this combination.
+The final experimental design consists of 16 experiments, which are summarised in Table \ref{tab:experiments-summary}, where each row represents a unique combination of dataset, environment representation and whether hyper-parameter tuning is performed for this combination.
 
 \input{tables/experiments_summary.tex}
 

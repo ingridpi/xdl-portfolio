@@ -56,12 +56,6 @@ where the value of the portfolio at time $t$ is given by the dot product of the 
     V_t = \mathbf{w}_t \cdot \mathbf{p}_t.
 \end{equation}
 
-An alternative formulation of the reward function is to use the Sharpe ratio \cite{Sharpe1994}, which is defined as the ratio of the expected return to the standard deviation of the returns:
-\begin{equation}
-    R(s_t, a_t, s_{t+1}) = \frac{E[r_{t+1}]}{\sigma[r_{t+1}]},
-\end{equation}
-where $E[r_{t+1}]$ is the expected return of the portfolio at time $t+1$ and $\sigma[r_{t+1}]$ is the standard deviation of the returns at time $t+1$. This formulation encourages the agent to maximise the expected return while minimising the risk of the portfolio.
-
 Regardless of the choice of reward function, the goal of the agent is to learn a policy $\pi: \mathcal{S} \to \mathcal{A}$ that maximises the expected cumulative reward over time, which can be expressed as:
 \begin{equation}
     J(\pi) = \mathbb{E} \left[\sum_{t=0}^{T} \gamma^t R(s_t, a_t, s_{t+1}) \right],
