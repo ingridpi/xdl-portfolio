@@ -22,6 +22,7 @@
 \RequirePackage{amsthm}
 \RequirePackage{bm}
 \RequirePackage{booktabs}
+\RequirePackage{caption}
 \RequirePackage{color}
 \RequirePackage{fancyhdr}
 \RequirePackage{float}
