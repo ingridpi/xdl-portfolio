@@ -2,7 +2,7 @@
 import os
 import sys
 
-REPO_ROOT = "/Users/ingridperez/Documents/GitHub Repositiories/xdl-portfolio"
+REPO_ROOT = "/Users/ingridperez/Documents/GitHub Repositories/xdl-portfolio"
 sys.path.append(REPO_ROOT)
 
 import pandas as pd
