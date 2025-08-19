@@ -212,6 +212,8 @@ logs/*
 *.ist
 *.ilg
 *.nls
+# Ignore Minted files
+report/_minted/*
 
 # VS Code settings
 .vscode/settings.json
