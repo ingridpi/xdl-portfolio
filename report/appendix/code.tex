@@ -1,0 +1,157 @@
+\chapter{Code} \label{app:code}
+
+The following section illustrates the code implementation of the project. It includes the main components of the codebase such as data download and pre-processing, model training and evaluation, benchmarking and explainability techniques. 
+
+The code is structured in a modular way, where each module corresponds to a specific functionality. The main components are:
+\begin{itemize}
+    \item \textbf{Configuration}: This module manages the configuration settings that define the list of assets, the training-test periods, and other hyper-parameters.
+    \item \textbf{Data Download and Pre-processing:} This module handles the downloading of datasets, cleaning, and pre-processing steps necessary for training the models.
+    \item \textbf{Agents}: This module contains the implementation of the \acrshort{drl} agents capable of interacting with the environment, learning from it, and making decisions based on the observations received.
+    \item \textbf{Environments}: This module defines the various environments in which the agents operate, including the state and action spaces, as well as the reward functions.
+    \item \textbf{Benchmarking}: This module contains the implementation of the benchmarking strategies as well as the evaluation metrics used to assess the performance of the agents.
+    \item \textbf{Explainability}: This module implements the explainability techniques used to interpret the agents' decisions and understand their behaviour.
+    \item \textbf{Visualiser}: This module provides visualisations tools for the data, agents' performance, benchmarking comparisons and explainability results.
+    \item \textbf{Optimisation}: This module contains the integration with hyper-parameter tuning libraries to find optimal configurations and track the experiments.
+\end{itemize}
+
+The modules are implemented as Python packages, each containing the necessary code and resources for its specific functionality. Additionally, the project contains a folder titled \texttt{examples}, where the main Jupyter notebooks to perform each of the separate tasks of this project are implemented. The directory structure is organized as follows:
+
+% Add caption and smaller text size and less spacing between lines
+\begin{verbatim}
+xdl-portfolio/
+|
++-- agents/
+|   +-- __init__.py
+|   +-- drl_agent.py
+|   +-- tb_callback.py
+|
++-- config/
+|   +-- __init__.py
+|   +-- config.py
+|   +-- config_indicators.py
+|   +-- config_tickers.py
+|   +-- config_models.py
+|
++-- environments/
+|   +-- __init__.py
+|   +-- env_portfolio_optimisation.py
+|
++-- examples/
+|   +-- findownloader.ipynb
+|   +-- finpreprocessor.ipynb
+|   +-- portfolio_optimisation.ipynb
+|   +-- backtesting.ipynb
+|   +-- hyperparameter_tuning.ipynb
+|   +-- explainability.ipynb
+|
++-- explainability/
+|   +-- __init__.py
+|   +-- explainability.py
+|   +-- feature_importance.py
+|   +-- lime_explainability.py
+|   +-- shap_explainability.py
+|
++-- optimisation/
+|   +-- __init__.py
+|   +-- wandb_opt.py
+|
++-- benchmark/
+|   +-- __init__.py
+|   +-- portfolio_benchmark.py
+|
++-- preprocessor/
+|   +-- __init__.py
+|   +-- findata_downloader.py
+|   +-- findata_preprocessor.py
+|
++-- visualisation/
+|   +-- __init__.py
+|   +-- benchmark_visualiser.py
+|   +-- findata_visualiser.py
+|   +-- model_visualiser.py
+|   +-- shap_visualiser.py
+|   +-- style.mplstyle
++-- README.md
++-- requirements.txt
+\end{verbatim}
+
+The code is available as a GitHub repository at \href{https://github.com/ingridpi/xdl-portfolio.git}{XDL-Portfolio}.
+
+\section{Configuration Module}
+
+\captionof{listing}{\texttt{config.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../config/config.py}
+
+\captionof{listing}{\texttt{config\_tickers.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../config/config_tickers.py}
+
+\captionof{listing}{\texttt{config\_indicators.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../config/config_indicators.py}
+
+\captionof{listing}{\texttt{config\_models.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../config/config_models.py}
+
+\section{Data Download and Pre-processing Module}
+
+\captionof{listing}{\texttt{findata\_downloader.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../preprocessor/findata_downloader.py}
+
+\captionof{listing}{\texttt{findata\_preprocessor.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../preprocessor/findata_preprocessor.py}
+
+\section{Agents Module}
+
+\captionof{listing}{\texttt{drl\_agent.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../agents/drl_agent.py}
+
+\captionof{listing}{\texttt{tb\_callback.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../agents/tb_callback.py}
+
+\section{Environments Module}
+
+\captionof{listing}{\texttt{env\_portfolio\_optimisation.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../environments/env_portfolio_optimisation.py}
+
+\section{Benchmarking Module}
+
+\captionof{listing}{\texttt{portfolio\_benchmark.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../pbenchmark/portfolio_benchmark.py}
+
+\section{Explainability Module}
+
+\captionof{listing}{\texttt{explainability.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../explainability/explainability.py}
+
+\captionof{listing}{\texttt{feature\_importance.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../explainability/feature_importance.py}
+
+\captionof{listing}{\texttt{lime\_explainability.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../explainability/lime_explainability.py}
+
+\captionof{listing}{\texttt{shap\_explainability.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../explainability/shap_explainability.py}
+
+\section{Visualisation Module}
+
+\captionof{listing}{\texttt{\_\_init\_\_.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/__init__.py}
+
+\captionof{listing}{\texttt{benchmark\_visualiser.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/benchmark_visualiser.py}
+
+\captionof{listing}{\texttt{findata\_visualiser.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/findata_visualiser.py}
+
+\captionof{listing}{\texttt{model\_visualiser.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/model_visualiser.py}
+
+\captionof{listing}{\texttt{shap\_visualiser.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/shap_visualiser.py}
+
+\captionof{listing}{\texttt{style.mplstyle}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../visualiser/style.mplstyle}
+
+\section{Optimisation Module}
+
+\captionof{listing}{\texttt{wandb.py}}
+\inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../optimisation/wandb_opt.py}
