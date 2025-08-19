@@ -26,12 +26,13 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{float}
 \RequirePackage{framed}
-\RequirePackage{geometry}[paper=a4paper]
-\RequirePackage{glossaries}[acronym,nonumberlist]
+\RequirePackage[paper=a4paper]{geometry}
+\RequirePackage[acronym,nonumberlist]{glossaries}
 \RequirePackage{graphbox}
 \RequirePackage{graphicx}
 \RequirePackage{hyperref}
-\RequirePackage{inputenc}[utf8]
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{listings}
 \RequirePackage{longtable}
 \RequirePackage{minted}
 \RequirePackage{multirow}
@@ -39,8 +40,8 @@
 \RequirePackage{pgfgantt}
 \RequirePackage{setspace}
 \RequirePackage{subfigure}
-\RequirePackage{todonotes}[textsize=tiny,figwidth=8cm]
-\RequirePackage{tocbibind}[nottoc,notlot,notlof]
+\RequirePackage[textsize=tiny,figwidth=8cm]{todonotes}
+\RequirePackage[nottoc,notlot,notlof]{tocbibind}
 \RequirePackage{wasysym}
 
 %% Nomenclature
