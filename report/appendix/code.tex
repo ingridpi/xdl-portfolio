@@ -160,20 +160,26 @@ The code is available as a GitHub repository at \href{https://github.com/ingridp
 
 The examples are originally a set of Jupyter Notebooks. However, for visualisation purposes in this report, they have been converted to Python scripts. 
 
+\texttt{findownloader.ipynb} demonstrates how to download the data for the tickers specified in the \texttt{config/config.py} file.
 \captionof{listing}{\texttt{findownloader.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/findownloader.py}
 
+\texttt{finpreprocessor.ipynb} demonstrates how to preprocess the data downloaded in the previous step. This includes calculating technical indicators, macroeconomic indicators, and other features.
 \captionof{listing}{\texttt{finpreprocessor.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/finpreprocessor.py}
 
+\texttt{portfolio\_optimisation.ipynb} demonstrates how to use the portfolio optimisation environment and train agents to optimise a portfolio of stocks using reinforcement learning.
 \captionof{listing}{\texttt{portfolio\_optimisation.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/portfolio_optimisation.py}
 
+\texttt{backtesting.ipynb} demonstrates how to run the benchmark strategies and compare the performance of the trained agents against these benchmarks according to the evaluation metrics.
 \captionof{listing}{\texttt{backtesting.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/backtesting.py}
 
+\texttt{hyperparameter\_tuning.ipynb} demonstrates how to use \href{https://wandb.ai/site/}{Weights and Biases} to perform hyper-parameter tuning by running a sweep, whose configuration is in \texttt{config.py} and \texttt{config\_models.py}.
 \captionof{listing}{\texttt{hyperparameter\_tuning.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/hyperparameter_tuning.py}
 
+\texttt{explainability.ipynb} demonstrates how to use the explainability tools (feature importance, LIME and SHAP) to understand the decision-making process of a single model.
 \captionof{listing}{\texttt{explainability.py}}
 \inputminted[fontsize=\footnotesize,linenos,breaklines=true,breakanywhere=true,frame=lines,baselinestretch=1]{python}{../examples/explainability.py}
