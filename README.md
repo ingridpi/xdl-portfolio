@@ -59,7 +59,7 @@ The recommended usage of the repo is to run the Jupyter notebooks in the `exampl
 1. `finpreprocessor.ipynb`: Demonstrates how to preprocess the data downloaded in the previous step. This includes calculating technical indicators, macroeconomic indicators, and other features.
 1. `portfolio_optimisation.ipynb`: Demonstrates how to use the portfolio optimisation environment and train agents to optimise a portfolio of stocks using reinforcement learning.
 1. `backtesting.ipynb`: Demonstrates how to use the benchmark strategies and compare the performance of the trained agents against these benchmarks.
-1. `hyperparameter_tuning.ipynb`: Using [Weights and Biases](https://wandb.ai/site/), perform hyper-parameter tuning by running a sweep, whose configuration is in `config.py` and `config_models.py`.
+1. `hyperparameter_tuning.ipynb`: Using [Weights and Biases](https://wandb.ai/site/), performs hyper-parameter tuning by running a sweep, whose configuration is in `config.py` and `config_models.py`.
 1. `explainability.ipynb`: Demonstrates how to use the explainability tools (feature importance, LIME and SHAP) to understand the decision-making process of a single model. 
 
 Note that to run the notebooks, it is necessary to update the `REPO_ROOT` variable at the top of each notebook. Additionally, a [Weights and Biases](https://wandb.ai/site/) account is required to perform hyper-parameter tuning.
