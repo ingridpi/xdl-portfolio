@@ -1,6 +1,10 @@
 \begin{algorithmic}
-\Require Number of iterations $M$, instance of interest $\mathbf{x}$, feature index $j$, data matrix $\mathbf{X}$, model $\hat{f}$
-\Ensure Estimated Shapley value $\phi_j(\mathbf{x})$
+\State \textbf{Initialise:} 
+\State Number of iterations $M$
+\State Instance of interest $\mathbf{x}$
+\State Feature index $j$
+\State Data matrix $\mathbf{X}$
+\State Model $\hat{f}$
 
 \For{$m = 1$ to $M$}
     \State Draw a random instance $\mathbf{z}$ from data matrix $\mathbf{X}$
