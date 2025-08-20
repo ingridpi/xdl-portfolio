@@ -1,13 +1,13 @@
 \chapter{Results} \label{ch:results}
 
-This chapter presents the results of conducting experiments under the methodology proposed in Chapter \ref{ch:methodology}. The experiments were designed to evaluate the performance of the implemented \acrshort{drl} models for portfolio optimisation in changing environment representations and market conditions. Moreover, to analyse the interpretability of the model's decisions, a framework using post-hoc explainability techniques is explored.
+This chapter presents the results of conducting experiments under the methodology proposed in Chapter \ref{ch:methodology}. The experiments were designed to evaluate the performance of the implemented \acrshort{drl} models for portfolio optimisation in changing environment representations and market conditions. Moreover, to enable the interpretability of the model's decisions, a framework using post-hoc explainability techniques is explored.
 
 \section{Dataset} \label{sec:dataset}
 
 Given the general difficulty in finding the appropriate \acrshort{drl} algorithm with a suitable \gls{rewardfunction} for portfolio optimisation, the five implemented algorithms were tested on five different datasets. Each dataset consists of a different set of financial assets, ranging from three different asset classes. First, three datasets were constructed using the stock constituents of three renowned indexes:
 \begin{itemize}
     \item \acrfull{djia} with 30 stocks,
-    \item \acrfull{eurostoxx50} with 50 stocks,
+    \item \acrfull{eurostoxx50} with 50 stocks, and
     \item \acrfull{ftse100} with 100 stocks.
 \end{itemize}
 
@@ -15,36 +15,25 @@ The constituents of each of the indexes were retrieved in April 2025 and can be 
 
 Additionally, two datasets were constructed using commodities and currencies, respectively. The commodities dataset includes six different commodities, which are listed in Appendix \ref{sec:datasets-commodities}. These are a sample of the most traded commodities in the market and were chosen by their availability in the \texttt{Yahoo! Finance API} \footnote{https://uk.finance.yahoo.com}. With regard to the currencies dataset, it includes ten different currency pairs, listed in Appendix \ref{sec:datasets-currencies}. These were selected based on their trading volume and liquidity, with all pairs quoted in \acrfull{usd}.
 
-The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \cite{yfinance}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set starting on January 2024 until July 2025. The training set is used to train the \acrshort{drl} models, while the testing set is used to evaluate their performance. For hyper-parameter tuning, the training set is further split into a training and validation set, with the validation set corresponding to the period between January 2023 and December 2023. The validation set is used to evaluate the performance of the models for each hyper-parameter combination. The train-validation-test split is summarised in Table \ref{tab:dataset-split}.
-
-\input{tables/dataset_split.tex}
+The datasets are constructed using daily data from January 2016 to July 2025 downloaded using the Python \texttt{yfinance} library \cite{yfinance}. The dataset is partitioned into two disjoint sets: training and testing, with the training set containing data from January 2016 to December 2023, and the testing set starting on January 2024 until July 2025. For hyper-parameter tuning, the training set is further split into a training and validation set, with the validation sets corresponding to the period between January 2023 and December 2023. 
 
 \section{Experiment Design} \label{sec:experiment-design}
 
-To address the challenge of finding a suitable algorithm for portfolio optimisation, the five implemented \acrshort{drl} algorithms were tested on the five datasets described in Section \ref{sec:dataset}, with the goal of evaluating the performance of each algorithm in different scenarios and market conditions. Moreover, the environment representation will also be varied to assess the impact of more information on the model's performance. Four environment representations were considered, each with a different number of features:
+To address the challenge of finding a suitable algorithm for portfolio optimisation, the five implemented \acrshort{drl} algorithms were tested on the five datasets described in Section \ref{sec:dataset}, with the goal of evaluating the performance of each algorithm in different scenarios and market conditions. Moreover, the environment representation will also be varied to assess the impact of more information on the model's performance. Four environment representations were considered, each with a different number of features.
 \begin{itemize}
-    \item Simple dataset: \acrfull{ohlcv} prices of the assets.
+    \item Simple dataset: \acrfull{ohlcv} of the assets.
     \item Covariance dataset: To the simple dataset, the covariance matrix of the assets is added to explicitly model the relationships between the assets.
     \item Indicators dataset: Technical and macroeconomic indicators are added to the simple dataset.
-    \item Complete dataset: The complete dataset includes the simple dataset, the covariance matrix and the technical and macroeconomic indicators.
+    \item Complete dataset: The complete dataset includes the \acrshort{ohlcv}, the covariance matrix and the technical and macroeconomic indicators.
 \end{itemize}
 
-The strength of \acrshort{drl} algorithms lies in their ability to learn from high-dimensional data, which is why the goal is to evaluate whether a more exhaustive environment representation leads to better performance. However, with higher dimensionality comes a higher computational cost.
+The strength of \acrshort{drl} algorithms lies in their ability to learn from high-dimensional data, which is why the goal is to evaluate whether a more exhaustive environment representation leads to better performance, despite the higher computational cost.
 
-Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. Ideally, the hyper-parameters should be tuned to find the optimal configuration for each algorithm and dataset combination. However, it was not feasible to perform tuning for all combinations of algorithms, datasets and environment representations. Consequently, the default hyper-parameters for all the experiments are outlined in Table \ref{tab:default_hyperparameters}. The hyper-parameters were chosen based on those from a testing run that was done on a small dataset of five tickers with indicators as environment representation. Those results can be seen in Appendix \ref{app:experiment_hyperparameters}.
+Finally, the performance of the algorithms is closely related to the choice of hyper-parameters. Ideally, the hyper-parameters should be tuned to find the optimal configuration for each algorithm and dataset combination. However, it was not feasible to perform tuning for all combinations of algorithms, datasets and environment representations. Consequently, the default hyper-parameters for all the experiments were chosen based on a testing run that was done on a small dataset of five tickers with indicators as environment representation. Those results can be seen in Appendix \ref{app:experiment_hyperparameters} and the default hyper-parameters are summarised in Table \ref{tab:default_hyperparameters}.
 
-\input{tables/default_hyperparameters.tex}
+Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing five algorithms on five distinct datasets with four possible environment representations would result in a total of twenty different experiments per algorithm. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. 
 
-Overall, the experiments were designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios, with the goal of finding the most suitable algorithm for portfolio optimisation. However, testing five algorithms on five distinct datasets with four possible environment representations would result in a total of twenty different experiments per algorithm. Additionally, optimising the parameters for each experiment further expands the experimental space and significantly increases the computational time required. Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows:
-\begin{itemize}
-    \item Hyper-parameter tuning was performed only for the Dow Jones 30 dataset with simple and indicators environment representation, as it is the smallest equities dataset and requires less computational time.
-    \item Since the covariance matrix, significantly increases the dimensionality of the environment representation, it was only included in the experiments with the Dow Jones 30, the currencies and the commodities datasets.
-\end{itemize}
-
-The final experimental design consists of 16 experiments, which are summarised in Table \ref{tab:experiments-summary}, where each row represents a unique combination of dataset, environment representation and whether hyper-parameter tuning is performed for this combination.
-
-\input{tables/experiments_summary.tex}
-
+Due to limited computational resources\footnote{The university did not provide access to a computing cluster; therefore, all experiments were conducted on a personal computer.}, the scope of experiments was adjusted as follows. Firstly, hyper-parameter tuning was performed only for the Dow Jones 30 dataset with simple and indicators environment representation, as it is the smallest equities dataset and requires less computational time. Second, since the covariance matrix increases the dimensionality of the environment representation, it was only included in the experiments with the Dow Jones 30, the currencies and the commodities datasets.
 \section{Evaluation} \label{sec:evaluation}
 
 As outlined in the previous section, the experiments are designed to evaluate the performance of the implemented \acrshort{drl} algorithms in different scenarios and market conditions. The evaluation will focus on key performance metrics, as well as benchmarking against traditional portfolio optimisation techniques.
@@ -78,12 +67,10 @@ The main metrics for comparison are:
         \text{Max Drawdown} = \frac{\text{Peak Value} - \text{Trough Value}}{\text{Peak Value}}.
     \end{equation}
 \end{itemize}
-
-Other metrics available through the \texttt{pyfolio} library are outlined in Appendix \ref{app:evaluation_metrics}.
-
+    
 \subsection{Benchmark Strategies} \label{sec:benchmark-strategies}
 
-Aside from computing relevant performance metrics, the algorithms will be benchmarked against traditional portfolio optimisation methods. The benchmarks are designed to provide a baseline for comparison and to evaluate the performance of the \acrshort{drl} algorithms in relation to established methods. The following benchmark strategies were considered.
+Aside from computing relevant performance metrics, the algorithms will be benchmarked against traditional portfolio optimisation methods. These are designed to provide a baseline for comparison and to evaluate the performance of the \acrshort{drl} algorithms in relation to established methods. The following benchmark strategies were considered.
 \begin{itemize}
     \item Equal-weighted portfolio: A simple strategy that allocates an equal weight to each asset in the portfolio.
     \item Mean-variance optimisation: A classic portfolio optimisation method that aims to maximise Sharpe ratio.
@@ -103,13 +90,15 @@ In this section, the results of the experiment to identify the suitability of th
 
 \input{tables/experiment_algorithms_a2c.tex}
 
-For the case of \acrshort{a2c}, the algorithm demonstrates competitive performance particularly for the DowJones30 dataset, achieving a cumulative return of 21.65\% and a Sharpe ratio of 1.32. Positive results are also obtained with the commodities dataset, which demonstrates the highest cumulative return of 23.53\% and a Sharpe ratio of 1.14. Despite being of the same asset class, the EuroStoxx50 and the FTSE100 datasets show relatively lower performance, with cumulative returns of 14.67\% and 10.52\%, respectively. With regard to the currencies dataset, the performance of the algorithm is less impressive, with near-zero cumulative returns and Sharpe ratios, indicating that the algorithm struggles to learn a profitable strategy in this asset class.
+For the case of \acrshort{a2c}, the algorithm demonstrates competitive performance particularly for the DowJones30 dataset, achieving a cumulative return of 21.65\% and a Sharpe ratio of 1.32. Positive results are also obtained with the commodities dataset, which demonstrates the highest cumulative return of 23.53\% and a Sharpe ratio of 1.14. Despite being of the same asset class, the EuroStoxx50 and the FTSE100 datasets show relatively lower performance, with cumulative returns of 14.67\% and 10.52\%, respectively, most likely due to the higher number of assets. With regard to the currencies dataset, the performance of the algorithm is less impressive, with near-zero cumulative returns and Sharpe ratios, indicating that the algorithm struggles to learn a profitable strategy in this asset class.
 
-Although similar observations can be made for the other algorithms, the performance varies significantly across different datasets. Regarding \acrshort{ppo}, better performance is achieved in the commodities dataset, with a cumulative return of 25.31\% and a Sharpe ratio of 1.26. which is slightly more than 0.1 higher than that of the \acrshort{a2c} algorithm. \acrshort{ddpg} performs the best in the DowJones30 dataset, achieving similar performance to that of \acrshort{a2c}, with a 22.06\% cumulative return and a Sharpe ratio of 1.38. However, \acrshort{td3} surpasses all other algorithms for the DowJones30 dataset and the Commodities datasets, achieving 24.78\% and 27.68\% in cumulative return, respectively. Finally, \acrshort{sac} demonstrates a strong performance in the EuroStoxx50 dataset, with a cumulative return of 17.61\% and a Sharpe ratio of 1.14, but it does not outperform the other algorithms in the DowJones30 and Commodities datasets. The algorithm that performs better in the FTSE100 dataset is \acrshort{ddpg}, with a cumulative return of 13.36\% and a Sharpe ratio of 1.08.
+Although similar observations can be made for the other algorithms, the performance varies significantly across different datasets, as outlined in Appendix \ref{app:experiment_algorithms_comparison}. Regarding \acrshort{ppo}, better performance is achieved in the commodities dataset, with a cumulative return of 25.31\% and a Sharpe ratio of 1.26. which is slightly more than 0.1 higher than that of the \acrshort{a2c} algorithm. \acrshort{ddpg} performs the best in the DowJones30 dataset, achieving similar performance to that of \acrshort{a2c}, with a 22.06\% cumulative return and a Sharpe ratio of 1.38. However, \acrshort{td3} surpasses all other algorithms for the DowJones30 dataset and the Commodities datasets, achieving 24.78\% and 27.68\% in cumulative return, respectively. Finally, \acrshort{sac} demonstrates a strong performance in the EuroStoxx50 dataset, with a cumulative return of 17.61\% and a Sharpe ratio of 1.14, but it does not outperform the other algorithms in the DowJones30 and Commodities datasets. The algorithm that performs better in the FTSE100 dataset is \acrshort{ddpg}, with a cumulative return of 13.36\% and a Sharpe ratio of 1.08.
+
+%% ALL IN ALL PARAGRAPH - GENERAL CONCLUSION
 
 Taking the DowJones30 dataset with an environment representation made up of the \acrshort{ohlcv} prices and the indicators, the performance of the algorithms can be benchmarked against traditional strategies and the \acrshort{djia} Index. The evolution of the cumulative returns over the testing period is shown in Figure \ref{fig:dowjones30_indicators_cumulative_returns} and the corresponding performance metrics are summarised in Table \ref{tab:experiment_algorithms_dow30}.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figures/dowjones30_indicators_cumulative_returns.png}
     \caption{Evolution of the Cumulative Returns for the DowJones30 dataset with the \acrshort{ohlcv} prices and indicators environment representation.}
@@ -118,7 +107,9 @@ Taking the DowJones30 dataset with an environment representation made up of the 
 
 \input{tables/experiment_algorithms_dow30.tex}
 
-The results show that all the algorithms outperform the performance of the index for all the considered metrics, as well as the min-variance portfolio. Out of all the \acrshort{drl} algorithms, \acrshort{ddpg} achieves the highest cumulative return of 23.41\% and a Sharpe ratio of 1.49, followed by \acrshort{td3} with a cumulative return of 22.14\% and a Sharpe ratio of 1.39, while \acrshort{ppo} has the worst performance of the five with a cumulative return of 18.95\% and a Sharpe ratio of 1.24. However, none of these outperform the mean-variance and momentum benchmark strategies, with the latter achieving a Sharpe ratio of 1.74 and a cumulative return of 38.55\%, which is significantly higher than the performance of the \acrshort{drl} algorithms.
+The results show that all the algorithms outperform the index for all the considered metrics, as well as the min-variance portfolio. Out of all the \acrshort{drl} algorithms, \acrshort{ddpg} achieves the highest cumulative return of 23.41\% and a Sharpe ratio of 1.49, followed by \acrshort{td3} with a cumulative return of 22.14\% and a Sharpe ratio of 1.39, while \acrshort{ppo} has the worst performance of the five with a cumulative return of 18.95\% and a Sharpe ratio of 1.24. However, none of these outperform the mean-variance and momentum benchmark strategies, with the latter achieving a Sharpe ratio of 1.74 and a cumulative return of 38.55\%, which is significantly higher than the performance of the \acrshort{drl} algorithms. 
+
+%% ALL IN ALL GENERIC RESULTS
 
 \subsection{Environment Representation} \label{sec:environment-representation}
 
@@ -128,9 +119,9 @@ Another source of variability in the performance of the algorithms is the enviro
 
 The results show that the performance of the algorithms varies significantly across different environment representations. For the DowJones30 dataset, the \acrshort{ohlcv} prices representation achieves the highest Sharpe ratio of 1.49 for \acrshort{td3}, closely followed by the \acrshort{ohlcv} prices with indicators. The \acrshort{ohlcv} prices with covariance representation achieves 1.47 for \acrshort{sac}. For the complete feature set, only the \acrshort{a2c} algorithm achieves a higher Sharpe ratio of 1.39 than the other algorithms.
 
-For the commodities dataset, the results are completely different to those of the DowJones30. The only coincidence is that \acrshort{td3} achieves the highest Sharpe ratio and highest cumulative return in the simple feature set. Moreover, when looking at this dataset, explicitly adding the covariance to the environment representation does not lead to better performance in terms of Sharpe ratio and there is only one instance where the cumulative returns are highest, which would be for the \acrshort{ddpg} algorithm with the complete feature set.
+For the commodities dataset, the results are completely different to those of the DowJones30. The only coincidence is that \acrshort{td3} achieves the highest Sharpe ratio and highest cumulative return in the simple feature set. Moreover, when looking at this dataset, explicitly adding the covariance to the environment representation does not lead to better performance in terms of Sharpe ratio.
 
-Finally, for the currencies dataset, the performance of the algorithms is significantly lower, going negative in some cases. A possible reason is the particular set of hyper-parameters used. In this experiment, algorithm configuration was not altered or tuned for each specific feature set.
+Finally, for the currencies dataset, the performance of the algorithms is significantly lower, going negative in some cases. A possible reason is the particular set of hyper-parameters used. 
 
 \subsection{Hyper-parameter Tuning} \label{sec:hyper-parameter-tuning}
 
@@ -143,11 +134,11 @@ By looking at the data presented in these tables, it is clear that finding the o
 
 \section{Explainability Results} \label{sec:explainability-framework}
 
-A main objective of this thesis is to be able to interpret the decisions made by the \acrshort{drl} algorithms. The following explainability framework is designed to provide insights into the decision-making process of the algorithms and present the most relevant features that influence the portfolio allocation decision at each time step in a visual and human-readable manner. As described in Section \ref{sec:post_hoc_explainability}, two approaches were employed: a surrogate model and direct explanations. 
+A main objective of this thesis is to be able to interpret the decisions made by the \acrshort{drl} algorithms. The following explainability framework is designed to provide insights into the decision-making process of the algorithms and present the most relevant features that influence the portfolio allocation decision in a visual and human-readable manner. As described in Section \ref{sec:post_hoc_explainability}, two approaches were employed: a surrogate model and direct explanations. 
 
 For the purposes of visualisation, the results are shown for a sample dataset of five tickers (AAPL, CSCO, HON, MSFT, V) from the \acrshort{djia} and using only the open, close, high, and low prices as the environment representation. This choice is made because explanations are more easily visualised when the number of assets and features is small. However, the explainability framework itself is general and can be applied to any number of assets and any environment representation. In practice, to support larger portfolios and more complex feature sets, an interactive dashboard could be developed, allowing users to select the relevant assets in the portfolio for which explanations are required. Moreover, only the explanations of the \acrshort{a2c} algorithm are presented, as it serves as a representative example of the framework's capabilities.
 
-The surrogate model was implemented following the proposal by de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}. Although their paper does not explicitly acknowledge the use of a surrogate model nor outline the reasons for its use, it can be inferred that using a simpler transparent algorithm as a proxy provides built-in feature importance, which is a global explainability method. However, there does not seem to be any clear value when using \acrshort{lime} and \acrshort{shap} as they are both model-agnostic methods capable of providing explanations for any black-box model, given the prediction function of the algorithm. 
+The surrogate model was implemented following the proposal by de-la-Rica-Escudero et al. (2025) \cite{de-La-Rica-Escudero2025}. Although their paper does not explicitly acknowledge the use of a surrogate model nor outline the reasons for its use, it can be inferred that using a simpler transparent algorithm as a proxy provides built-in feature importance, which is a global explainability method. However, there does not seem to be any added value when using \acrshort{lime} and \acrshort{shap} as they are both model-agnostic methods capable of providing explanations for any black-box model.
 
 \subsection{Feature Importance Results} \label{sec:feature-importance-results}
 
@@ -155,7 +146,7 @@ The feature importance results from the surrogate model are shown in Figure \ref
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/feature_importance_top_features.png}
+    \includegraphics[width=\textwidth]{figures/feature_importance_top_features.png}
     \caption{Top features from the surrogate model according to feature importance.}
     \label{fig:feature_importance_top_features}
 \end{figure}
@@ -164,33 +155,33 @@ This trend is further confirmed by looking at the mean importance of the feature
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/feature_importance_mean_ticker.png}
+    \includegraphics[width=\textwidth]{figures/feature_importance_mean_ticker.png}
     \caption{Mean feature importance per asset from the surrogate model.}
     \label{fig:mean_feature_importance_by_asset}
 \end{figure}
 
-Another interesting result about the feature importance shown in Figure \ref{fig:feature_importance_top_features} is that the different assets have a different \acrshort{ohlcv} feature importance distribution, which suggests that the agent may have developed distinct strategies for each asset. Figure \ref{fig:feature_importance_by_asset} in the Appendix \ref{app:feature_importance} shows the top features grouped by asset, where it can be seen more clearly how each asset has a different most important feature. In the case of AAPL, HON and CSCO, the low price played a more critical role in informing the agent's decisions, showing how extreme price changes lead the agent to adjust the portfolio allocation. In contrast, for MSFT, the close price is the most important feature, which might imply the agent is more focused on the end of day activities of this asset. Finally, looking over all the assets, Figure \ref{fig:mean_feature_importance_by_feature} in Appendix \ref{app:feature_importance} shows how features corresponding to low and high prices contributed to the agent's decisions. This again indicates that the agent is sensitive to price extremes of the assets.
+Another interesting result about the feature importance shown in Figure \ref{fig:feature_importance_top_features} is that the different assets have a different \acrshort{ohlcv} feature importance distribution, which suggests that the agent may have developed distinct strategies for each asset. Figure \ref{fig:feature_importance_by_asset} in Appendix \ref{app:feature_importance} shows the top features grouped by asset, where it can be seen more clearly how each asset has a different most important feature. In the case of AAPL, HON and CSCO, the low price played a more critical role in informing the agent's decisions, showing how extreme price changes lead the agent to adjust the portfolio allocation. In contrast, for MSFT, the close price is the most important feature, which might imply the agent is more focused on the end of day activities of this asset. Finally, looking over all the assets, Figure \ref{fig:mean_feature_importance_by_feature} in Appendix \ref{app:feature_importance} shows how features corresponding to low and high prices contributed the most to the agent's decisions. This again indicates that the agent is sensitive to price extremes of the assets.
 
 \subsection{Local Interpretable Model-agnostic Explanations Results} \label{sec:lime-results}
 
-Moving on to the local explanations of \acrshort{lime}, the direct explanations for the \acrshort{a2c} algorithm are provided. The benefit of \acrshort{lime} is its ability to provide explanations at a particular point in time. In this case, the local explanations are provided for the first time step of the test dataset, which corresponds to the 2nd of January 2024. In this section, Figure \ref{fig:a2c_lime_msft} illustrates the local explanations for the MSFT asset, whilst the other assets are found in Appendix \ref{app:lime_explanations}. This particular instance is affected by V's low price in the positive terms, meaning that it pushes the price higher, whilst the high price of CSCO and the open of V negatively affect the prediction by pushing it lower. Looking at these explanations over a number of days can help an investor decide whether there exist particular features that consistently contribute to the portfolio allocation decision.
+Moving on to the local explanations of \acrshort{lime}, the direct explanations for the \acrshort{a2c} algorithm are provided. The benefit of \acrshort{lime} is its ability to provide explanations at a particular point in time. In this case, the local explanations are provided for an instance of the test dataset, i.e. a specific trading day. In this section, Figure \ref{fig:a2c_lime_msft} illustrates the local explanations for the MSFT asset, whilst the other assets are found in Appendix \ref{app:lime_explanations}. This particular instance is affected by V's low price in the positive terms, meaning that it pushes the price higher, whilst the high price of CSCO and the open of V negatively affect the prediction by pushing it lower. Looking at these explanations over a number of days can help an investor decide whether there exist particular features that consistently contribute to the portfolio allocation decision.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/a2c_lime_msft.png}
+    \includegraphics[width=\textwidth]{figures/a2c_lime_msft.png}
     \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the MSFT asset. The orange bars indicate features that contribute positively to the prediction, while the blue bars indicate features that contribute negatively.}
     \label{fig:a2c_lime_msft}
 \end{figure}
 
 \subsection{Shapley Additive Explanations Results} \label{sec:shap-results}
 
-Finally, the results of the \acrshort{shap} analysis are presented. These provide a global view of the feature importance across all time steps and assets, as well as a local interpretation for individual predictions. As with the case of \acrshort{lime}, instead of using a surrogate model, the explanations are extracted from the \acrshort{a2c} model directly. Since the predictions of the output are weight allocations across all portfolio assets, the \acrshort{shap} values presented in this section correspond only to the AAPL asset, but the interpretations can be generalised to other assets and algorithms.
+Finally, the results of the \acrshort{shap} analysis provide a global view of the feature importance across all time steps and assets, as well as a local interpretation for individual predictions. As with the case of \acrshort{lime}, instead of using a surrogate model, the explanations are extracted from the \acrshort{a2c} model directly. Since the predictions of the output are weight allocations across all portfolio assets, the \acrshort{shap} values presented in this section correspond only to AAPL, but the interpretations can be generalised to other assets and algorithms.
 
-Looking at Figure \ref{fig:a2c_shap_beeswarm_aapl}, the x-axis represents the \acrshort{shap} value, which measures the impact of a feature on the model's output; while the y-axis displays the top features. Each point in the beeswarm plot represents a single prediction, with the point's colour indicating whether its corresponding feature value is low, coloured in blue, or high, coloured in magenta. The beeswarm plot provides a visual representation of the distribution of \acrshort{shap} values for each feature, allowing for an easy comparison of their importance. Surprisingly, the most important feature for the AAPL asset is the low price of the MSFT asset and, by visual inspection, the high values of the low price of MSFT push the AAPL allocation lower, while the low values of the low price of MSFT push the AAPL allocation higher. However, this is not quite significant as there is a cluster of data points around the zero, indicating that most frequently, the low price of MSFT does not have an impact on AAPL's allocation. 
+Figure \ref{fig:a2c_shap_beeswarm_aapl} depicts a beeswarm plot, where the x-axis represents the \acrshort{shap} value, which measures the impact of a feature on the model's output; while the y-axis displays the top features. Each point in the beeswarm plot represents a single prediction, with the point's colour indicating whether its corresponding feature value is low, coloured in blue, or high, coloured in magenta. The beeswarm plot provides a visual representation of the distribution of \acrshort{shap} values for each feature, allowing for an easy comparison of their importance. Surprisingly, the most important feature for the AAPL asset is the low price of the MSFT asset and, by visual inspection, the high values of the low price of MSFT push the AAPL allocation lower, while the low values of the low price of MSFT push the AAPL allocation higher. However, this is not quite significant as there is a cluster of data points around the zero, indicating that, for a number of trading days, the low price of MSFT does not have an impact on AAPL's allocation. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/a2c_shap_beeswarm_aapl.png}
+    \includegraphics[width=\textwidth]{figures/a2c_shap_beeswarm_aapl.png}
     \caption{Beeswarm \acrshort{shap} explanations for the \acrshort{a2c} algorithm for the AAPL asset. The x-axis represents the \acrshort{shap} values, whilst the y-axis represents the top features. The colour indicates the feature value, with magenta being high and blue being low.}
     \label{fig:a2c_shap_beeswarm_aapl}
 \end{figure}
@@ -204,20 +195,20 @@ The \texttt{shap} Python library provides numerous visualisations to explain the
     \label{fig:a2c_shap_forceplot_aapl}
 \end{figure}
 
-The \texttt{shap} library provides the output in an interactive \acrfull{html} format that allows us to interact with the visualisation and gain deeper insights into the model's behaviour. From the beeswarm plot in Figure \ref{fig:a2c_shap_beeswarm_aapl}, the most important feature for the AAPL asset is the low price of MSFT. Using the force plot, it is possible to single out the effects of this particular feature over the test period, as shown in Figure \ref{fig:a2c_shap_forceplot_aapl_lowmsft}, as well as its isolated effect in one specific prediction. Its impact is very well-defined as for approximately the first 30 samples, it has a positive contribution, increasing the AAPL allocation, while for the rest of the time steps, it has a negative contribution, decreasing the AAPL allocation.
+The \texttt{shap} library provides the output in an interactive \acrfull{html} format that allows us to interact with the visualisation and gain deeper insights into the model's behaviour. Using the force plot, it is possible to single out the effects of AAPL's most important feature over the test period, as shown in Figure \ref{fig:a2c_shap_forceplot_aapl_lowmsft}, as well as its isolated effect in one specific prediction. Its impact is very well-defined as for approximately the first 30 samples, it has a positive contribution, increasing the allocation, while for the rest of the time steps, it has a negative contribution, decreasing it.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/a2c_shap_forceplot_aapl_lowmsft.png}
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_aapl_lowmsft.png}
     \caption{\acrshort{shap} force plot for the impact of MSFT low price feature in the weight allocation of the AAPL asset for the \acrshort{a2c} algorithm.}
     \label{fig:a2c_shap_forceplot_aapl_lowmsft}
 \end{figure}
 
-Lundberg and Lee (2017) \cite{Lundberg2017} showed that \acrshort{lime} is a subset of \acrshort{shap}, it is possible to obtain local explanations using the \texttt{shap} library. Figure \ref{fig:a2c_shap_forceplot_singleobs_aapl} shows the local explanation for the AAPL asset at the first time step of the test dataset, which corresponds to the 2nd of January 2024. Although the visualisation is different, the information it provides is similar to that of \acrshort{lime}. Shown horizontally, the features shown in magenta push the allocation higher, while those in blue push it lower. 
+Lundberg and Lee (2017) \cite{Lundberg2017} showed that \acrshort{lime} is a subset of \acrshort{shap} and, as a consequence, it is possible to obtain local explanations using the \texttt{shap} library. Figure \ref{fig:a2c_shap_forceplot_singleobs_aapl} shows the local explanation for the AAPL asset at a single observation of the test dataset. Although the visualisation is different, the information it provides is similar to that of \acrshort{lime}. Shown horizontally, the features in magenta push the allocation higher, while those in blue push it lower. In this case, the most important features that contribute to the allocation weight of AAPL are only features that increase the allocation and, as such, no blue features are present.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{figures/a2c_shap_forceplot_singleobs_aapl.png}
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_singleobs_aapl.png}
     \caption{\acrshort{shap} force plot for the weight allocation of the AAPL asset for the \acrshort{a2c} algorithm at the first time step of the test dataset.}
     \label{fig:a2c_shap_forceplot_singleobs_aapl}
 \end{figure}
