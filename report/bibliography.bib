@@ -207,6 +207,18 @@
   year      = {2025},
   publisher = {Harvard Business School Publishing Corporation}
 }
+@misc{DowJones30,
+  author  = {Financial Times},
+  journal = {Financial Times},
+  title   = {Dow Jones Industrial Average Constituents},
+  url     = {https://markets.ft.com/data/indices/tearsheet/constituents?s=DJI:DJI}
+}
+@misc{EuroStoxx50,
+  author  = {STOXX},
+  journal = {STOXX Website},
+  title   = {EURO STOXX 50 Index},
+  url     = {https://www.stoxx.com/document/Bookmarks/CurrentComponents/SX5GT.pdf}
+}
 @article{Falkner2018,
   abstract  = {Modern deep learning methods are very sensitive to many hyperparameters, and, due to the long training times of state-of-the-art models, vanilla Bayesian hyperparameter optimization is typically computationally infeasible. On the other hand, bandit-based configuration evaluation approaches based on random search lack guidance and do not converge to the best configurations as quickly. Here, we propose to combine the benefits of both Bayesian optimization and bandit-based methods, in order to achieve the best of both worlds: strong anytime performance and fast convergence to optimal configurations. We propose a new practical state-of-the-art hyperparameter optimization method, which consistently outperforms both Bayesian optimization and Hyperband on a wide range of problem types, including high-dimensional toy functions, support vector machines, feed-forward neural networks, Bayesian neural networks, deep reinforcement learning, and convolutional neural networks. Our method is robust and versatile, while at the same time being conceptually simple and easy to implement.},
   author    = {Stefan Falkner and Aaron Klein and Frank Hutter},
@@ -242,6 +254,12 @@
   volume    = {11},
   url       = {http://arxiv.org/abs/1811.12560 http://dx.doi.org/10.1561/2200000071},
   year      = {2018}
+}
+@misc{FTSE100,
+  author  = {London Stock Exchange},
+  journal = {London Stock Exchange},
+  title   = {FTSE 100 Constituents },
+  url     = {https://www.londonstockexchange.com/indices/ftse-100/constituents/table}
 }
 @article{Fujimoto2018,
   abstract  = {In value-based reinforcement learning methods such as deep Q-learning, function approximation errors are known to lead to overestimated value estimates and suboptimal policies. We show that this problem persists in an actor-critic setting and propose novel mechanisms to minimize its effects on both the actor and the critic. Our algorithm builds on Double Q-learning, by taking the minimum value between a pair of critics to limit overestimation. We draw the connection between target networks and overestimation bias, and suggest delaying policy updates to reduce per-update error and further improve performance. We evaluate our method on the suite of OpenAI gym tasks, outperforming the state of the art in every environment tested.},
@@ -936,27 +954,6 @@
   title   = {Stable Baselines 3 | Weights \& Biases Documentation},
   url     = {https://docs.wandb.ai/guides/integrations/stable-baselines-3/},
   year    = {2025}
-}
-@misc{WikipediaDowJones30,
-  author = {Wikipedia},
-  month  = {7},
-  title  = {Dow Jones Industrial Average - Wikipedia},
-  url    = {https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average},
-  year   = {2025}
-}
-@misc{WikipediaEuroStoxx50,
-  author = {Wikipedia},
-  month  = {7},
-  title  = {EURO STOXX 50 - Wikipedia},
-  url    = {https://en.wikipedia.org/wiki/EURO_STOXX_50},
-  year   = {2025}
-}
-@misc{WikipediaFtse100,
-  author = {Wikipedia},
-  month  = {8},
-  title  = {FTSE 100 Index - Wikipedia},
-  url    = {https://en.wikipedia.org/wiki/FTSE_100_Index},
-  year   = {2025}
 }
 @article{Wu2017,
   abstract  = {In this work, we propose to apply trust region optimization to deep reinforcement learning using a recently proposed Kronecker-factored approximation to the curvature. We extend the framework of natural policy gradient and propose to optimize both the actor and the critic using Kronecker-factored approximate curvature (K-FAC) with trust region; hence we call our method Actor Critic using Kronecker-Factored Trust Region (ACKTR). To the best of our knowledge, this is the first scalable trust region natural gradient method for actor-critic methods. It is also a method that learns non-trivial tasks in continuous control as well as discrete control policies directly from raw pixel inputs. We tested our approach across discrete domains in Atari games as well as continuous domains in the MuJoCo environment. With the proposed methods, we are able to achieve higher rewards and a 2- to 3-fold improvement in sample efficiency on average, compared to previous state-of-the-art on-policy actor-critic methods. Code is available at https://github.com/openai/baselines},
