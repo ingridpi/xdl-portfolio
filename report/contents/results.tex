@@ -178,7 +178,7 @@ Moving on to the local explanations of \acrshort{lime}, the direct explanations 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_lime_msft.png}
-    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the MSFT asset. The orange bars indicate features that contribute positively to the prediction, while the blue bars indicate features that contribute negatively.}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the MSFT asset. The orange bars indicate features that contribute positively to the prediction, while the blue bars indicate features that contribute negatively.}
     \label{fig:a2c_lime_msft}
 \end{figure}
 
@@ -209,7 +209,7 @@ The \texttt{shap} library provides the output in an interactive \acrfull{html} f
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_shap_forceplot_aapl_lowmsft.png}
-    \caption{\acrshort{shap} force plot for the weight allocation of the AAPL asset for the \acrshort{a2c} algorithm.}
+    \caption{\acrshort{shap} force plot for the impact of MSFT low price feature in the weight allocation of the AAPL asset for the \acrshort{a2c} algorithm.}
     \label{fig:a2c_shap_forceplot_aapl_lowmsft}
 \end{figure}
 
