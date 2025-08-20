@@ -95,7 +95,9 @@ The implementation of the mean-variance and the min-variance portfolio allocatio
 
 Finally, if the portfolio is made up of equities of a relevant index, the benchmark will also include the index itself, which serves as a reference point for the performance of the portfolio. 
 
-\section{Experiment: Algorithm Comparison} \label{sec:exp-algorithm-comparison}
+\section{Deep Reinforcement Learning Algorithm Experiments} \label{sec:exp-drl-algorithms}
+
+\subsection{Algorithm Comparison} \label{sec:exp-algorithm-comparison}
 
 In this section, the results of the experiment to identify the suitability of the implemented \acrshort{drl} algorithms for portfolio optimisation under different market conditions are presented. The algorithms are trained on data with a simple environment representation, which only includes the \acrshort{ohlcv} prices of the assets, and evaluated on the five datasets. The table \ref{tab:experiment_algorithms_a2c} summarises the results of the experiment for the \acrshort{a2c} algorithm, where each row corresponds to a different dataset and each column to a different performance metric. The results for the other algorithms are presented in Appendix \ref{app:experiment_algorithms_comparison}.
 
@@ -118,7 +120,7 @@ Taking the DowJones30 dataset with an environment representation made up of the 
 
 The results show that all the algorithms outperform the performance of the index for all the considered metrics, as well as the min-variance portfolio. Out of all the \acrshort{drl} algorithms, \acrshort{ddpg} achieves the highest cumulative return of 23.41\% and a Sharpe ratio of 1.49, followed by \acrshort{td3} with a cumulative return of 22.14\% and a Sharpe ratio of 1.39, while \acrshort{ppo} has the worst performance of the five with a cumulative return of 18.95\% and a Sharpe ratio of 1.24. However, none of these outperform the mean-variance and momentum benchmark strategies, with the latter achieving a Sharpe ratio of 1.74 and a cumulative return of 38.55\%, which is significantly higher than the performance of the \acrshort{drl} algorithms.
 
-\section{Experiment: Environment Representation} \label{sec:environment-representation}
+\subsection{Environment Representation} \label{sec:environment-representation}
 
 Another source of variability in the performance of the algorithms is the environment representation. In this section, the results of comparing the \acrshort{drl} algorithms on different environment representations are presented. For the experiment to be meaningful, it has been performed on the DowJones30 dataset, the currencies and the commodities datasets. This choice provides the ability to compare the performance of the algorithms across different asset classes, while also allowing for a more manageable computational cost. The table \ref{tab:experiment_environment_sharpe} compares the performance according to the Sharpe ratio and, in Appendix \ref{app:experiment_environment_representation}, according to the cumulative return.
 
@@ -130,7 +132,7 @@ For the commodities dataset, the results are completely different to those of th
 
 Finally, for the currencies dataset, the performance of the algorithms is significantly lower, going negative in some cases. A possible reason is the particular set of hyper-parameters used. In this experiment, algorithm configuration was not altered or tuned for each specific feature set.
 
-\section{Experiment: Hyper-parameter Tuning} \label{sec:hyper-parameter-tuning}
+\subsection{Hyper-parameter Tuning} \label{sec:hyper-parameter-tuning}
 
 As has been mentioned in the above experiments, the performance of the algorithms is substantially influenced by the choice of hyper-parameters. Ideally, a systematic approach should be employed to find the optimal hyper-parameters for each algorithm, dataset and environment representation combination. However, due to the computational cost of hyper-parameter tuning, it was only performed for the DowJones30 dataset with the \acrshort{ohlcv} and indicators environment representations over five trials. The results for each of the algorithms with the default hyper-parameters versus the tuned hyper-parameters are compared in Table \ref{tab:experiment_hyperparameters_simple} and Table \ref{tab:experiment_hyperparameters_indicators} for the two features sets: simple and with indicators, respectively.
 
