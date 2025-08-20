@@ -14,31 +14,36 @@
 
 \LoadClass[11pt, a4paper]{report}
 
-\RequirePackage{amsmath, amsfonts, amsthm, amssymb}
-\RequirePackage{wasysym}
-\RequirePackage{color}
-\RequirePackage[nottoc,notlot,notlof]{tocbibind}
-\RequirePackage{hyperref}
-\RequirePackage{fancyhdr}
-\RequirePackage{subfigure}
-\RequirePackage[textsize=tiny,figwidth=8cm]{todonotes}
-\RequirePackage{float}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{graphbox}
-\RequirePackage{pgfgantt}
-\RequirePackage{nomencl}
-\RequirePackage[acronym,nonumberlist]{glossaries}
-\RequirePackage{amsmath}
 \RequirePackage{algorithm}
 \RequirePackage{algpseudocode}
+\RequirePackage{amsfonts}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
 \RequirePackage{bm}
-\RequirePackage{multirow}
 \RequirePackage{booktabs}
-\RequirePackage{longtable}
-\RequirePackage{graphicx}
-\RequirePackage[paper=a4paper]{geometry}
-\RequirePackage{setspace}
+\RequirePackage{caption}
+\RequirePackage{color}
+\RequirePackage{fancyhdr}
+\RequirePackage{float}
 \RequirePackage{framed}
+\RequirePackage[paper=a4paper]{geometry}
+\RequirePackage[acronym,nonumberlist]{glossaries}
+\RequirePackage{graphbox}
+\RequirePackage{graphicx}
+\RequirePackage{hyperref}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{listings}
+\RequirePackage{longtable}
+\RequirePackage{minted}
+\RequirePackage{multirow}
+\RequirePackage{nomencl}
+\RequirePackage{pgfgantt}
+\RequirePackage{setspace}
+\RequirePackage{subfigure}
+\RequirePackage[textsize=tiny,figwidth=8cm]{todonotes}
+\RequirePackage[nottoc,notlot,notlof]{tocbibind}
+\RequirePackage{wasysym}
 
 %% Nomenclature
 \renewcommand\nomgroup[1]{%

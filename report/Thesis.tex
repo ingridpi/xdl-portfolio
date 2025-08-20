@@ -58,11 +58,12 @@
 \setlength{\parskip}{6pt}
 
 %%%%% Abstract and acknowledgements
+\include{contents/originality}
 \include{contents/abstract}
 \include{contents/acknowledgements}
 
 %%%%% Table of contents
-\pagenumbering{roman}
+\pagenumbering{Roman}
 \setcounter{tocdepth}{2}
 \tableofcontents
 \newpage
@@ -104,8 +105,6 @@
 \include{contents/issues}
 \include{contents/conclusion}
 
-\pagenumbering{roman}
-
 %%%%%% Bibliography
 \renewcommand{\bibname}{References}
 \bibliographystyle{ieeetr}
@@ -121,5 +120,6 @@
 \include{appendix/evaluation_metrics}
 \include{appendix/experiments}
 \include{appendix/explanations}
+\include{appendix/code}
 
 \end{document}
