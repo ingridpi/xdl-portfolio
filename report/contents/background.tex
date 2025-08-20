@@ -1,6 +1,6 @@
 \chapter{Background} \label{ch:background}
 
-This chapter provides an overview of the problem of portfolio optimisation in the financial domain, followed by a comprehensive explanation of the fundamentals of \acrfull{dl} and \acrfull{rl}, including the relevant algorithms in the field of \acrfull{drl}. In addition, it discusses the need for explainability in \acrfull{ml} and the relevant post-hoc explainability techniques to achieve interpretable and transparent models. Finally, it presents the state of the art in portfolio optimisation using \acrshort{drl} and the recent advancements in explainability techniques in the field. 
+This chapter provides an overview of the problem of portfolio optimisation in the financial domain, followed by a comprehensive explanation of the fundamentals of \acrfull{dl} and \acrfull{rl}, and relevant algorithms in the field of \acrfull{drl}. In addition, it discusses the need for explainability in \acrfull{ml} and the relevant post-hoc explainability techniques to achieve interpretable and transparent models. Finally, it presents the state of the art in portfolio optimisation using \acrshort{drl} and the recent advancements in explainability techniques in the field. 
 
 \section{Portfolio Optimisation} \label{sec:portfoliooptimisation}
 
@@ -8,7 +8,7 @@ This chapter provides an overview of the problem of portfolio optimisation in th
 
 \subsection{Modern Portfolio Theory}
 
-There exist several traditional frameworks that formalise the problem of portfolio allocation. Markowitz's \acrfull{mpt} was proposed in 1952 \cite{Markowitz1952} and it provides a mathematical framework where investors choose optimal portfolios based on risk and return, by either minimising the risk given a specified return or, maximising the return given a specified risk \cite{kent}. The theory extends the concept of diversification by suggesting that owning financial assets of different kinds is less risky than owning assets of the same kind, due to the correlations between assets. 
+One of the most well known traditional frameworks that formalise the problem of portfolio allocation is Markowitz's \acrfull{mpt}, proposed in 1952 \cite{Markowitz1952}. It provides a mathematical framework where investors choose optimal portfolios based on risk and return, by either minimising the risk given a specified return or, maximising the return given a specified risk \cite{kent}. The theory extends the concept of diversification by suggesting that owning financial assets of different kinds is less risky than owning assets of the same kind, due to the correlations between assets.
 
 The main assumptions in \acrshort{mpt} are:
 \begin{itemize}
@@ -18,11 +18,11 @@ The main assumptions in \acrshort{mpt} are:
 	\item assets are infinitely divisible.
 \end{itemize}
 
-Under these assumptions, portfolio risk and return can be modelled as an optimisation problem. Let $\mathbf{w} = \left(w_1, w_2, \dots, w_N\right)^T$ denote the portfolio weight vector, where each $w_i$ indicates the proportion of capital allocated to asset $i$, subject to the budget constraint:
+Under these assumptions, portfolio risk and return can be modelled as an optimisation problem. Let $\mathbf{w} = \left(w_1, w_2, \dots, w_N\right)^T$ denote the portfolio weight vector, where each $w_i$ indicates the proportion of capital allocated to asset $i$, subject to the budget constraint
 \begin{equation}
-    \sum_{i=1}^{N} w_i = 1 \quad \Leftrightarrow \quad \mathbf{w}^T \mathbf{1} = 1
+    \sum_{i=1}^{N} w_i = 1
 \end{equation}
-with $\mathbf{1} \in \mathbb{R}^N$ being a vector of ones, and subject to the non-negativity constraint, meaning that short-selling is not allowed:
+and subject to the non-negativity constraint, meaning that short-selling is not allowed:
 \begin{equation}
     w_i \geq 0 \quad \forall i = 1, 2, \dots, N.
 \end{equation}
@@ -73,16 +73,14 @@ Despite the simplicity in the formulation of \acrshort{mpt}, its assumptions do 
 \begin{itemize}
     \item \textbf{\Gls{supervisedlearning}}: Task of training a classification or regression model from labelled data, where the model learns to map inputs to outputs based on examples.
     \item \textbf{\Gls{unsupervisedlearning}}: Task of drawing inferences from datasets consisting of unlabelled data, where the model learns to identify patterns or structures in the data.
-    \item \textbf{\acrlong{rl}}: Task of training an agent to sequentially make decisions by taking actions in an environment with the goal of maximising cumulative reward, using feedback from the environment to learn an optimal strategy.
+    \item \textbf{\acrfull{rl}}: Task of training an agent to sequentially make decisions by taking actions in an environment with the goal of maximising cumulative reward, using feedback from the environment to learn an optimal strategy.
 \end{itemize}
 
-\acrlong{dl} is a set of methods and techniques to solve such \acrshort{ml} tasks, specially in supervised and unsupervised learning tasks. \acrshort{dl} focuses on the use of \acrfullpl{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformations that allow the model to learn a representation of the data with various levels of abstraction.
-
-Therefore, \acrfull{drl} combines \acrfull{dl} and \acrfull{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Shao2019,Silver2016}.
+\acrfull{dl} is a set of methods and techniques to solve such \acrshort{ml} tasks, which focuses on the use of \acrfullpl{dnn} \cite{Goodfellow2016}, which are characterised by a succession of layers of non-linear transformations that allow the model to learn a representation of the data with various levels of abstraction. Therefore, \acrfull{drl} combines \acrshort{dl} and \acrshort{rl} to solve sequential decision-making problems with high-dimensionality in the environment representation. This approach has gained significant attention in recent years due to its success in various applications, including robotics \cite{Tang2024} and game playing \cite{Shao2019,Silver2016}.
 
 \subsection{Reinforcement Learning} \label{sec:reinforcementlearning}
 
-As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem of sequential decision-making through continuous interaction with an environment. The agent learns to take actions given a representation of the environment's state with the goal of optimising a pre-defined notion of reward. The agent learns by successively adjusting its policy based on its observations and interactions with the environment. 
+As mentioned, \acrshort{rl} is a type of \acrshort{ml} that solves the problem of sequential decision-making through continuous interaction with an environment. The agent learns to take actions given an observation of the environment's state with the goal of optimising a pre-defined notion of reward.
 
 The \acrshort{rl} problem can be formalised as a discrete-time stochastic control process where an agent interacts with the environment. At each time step $t$, the agent observes the state of the environment $s_t \in \mathcal{S}$, takes an action $a_t \in \mathcal{A}$ to obtain a reward $r_t \in \mathbb{R}$ and transition to a new state $s_{t+1} \in \mathcal{S}$, where $\mathcal{S}$ is the state space and $\mathcal{A}$ is the action space \cite{Francois-Lavet2018}. The agent's interaction with the environment is visually represented in Figure \ref{fig:agent_environment_interaction}.
 
@@ -93,18 +91,18 @@ The \acrshort{rl} problem can be formalised as a discrete-time stochastic contro
     \label{fig:agent_environment_interaction}
 \end{figure}
 
-A discrete time stochastic control process can be formalised as a \acrfull{mdp}, if it fulfils the Markov Property. 
+A discrete-time stochastic control process can be formalised as a \acrfull{mdp}, if it fulfils the Markov Property. 
 
 \begin{definition}[Markov Property]
-    A discrete time stochastic control process satisfies the Markov Property if:
+    A discrete-time stochastic control process satisfies the Markov Property if:
     \begin{eqnarray}
-        P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0) \\  
-        P(r_t | s_t, a_t) = P(r_t | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0)
+        P(s_{t+1} | s_t, a_t) = P(s_{t+1} | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0), \text{and} \\ 
+        P(r_t | s_t, a_t) = P(r_t | s_t, a_t, s_{t-1}, a_{t-1}, \dots, s_0, a_0),
     \end{eqnarray}
     where $P(s_{t+1} | s_t, a_t)$ is the transition probability of moving to state $s_{t+1}$ given the current state $s_t$ and action $a_t$, and $P(r_t | s_t, a_t)$ is the reward function that defines the expected reward received at time $t$ given the current state and action.
 \end{definition}
 
-This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends on the current state $s_t$ and action $a_t$. Similarly, the reward $r_t$ only depends on the current state and action and not on the history of previous states and actions. Consequently, a \acrlong{mdp} \cite{Bellman1957} is a discrete time stochastic control process defined as:
+This implies that the state $s_{t+1}$ at a future time step $t+1$ only depends on the current state $s_t$ and action $a_t$. Similarly, the reward $r_t$ only depends on the current state and action and not on the history of previous states and actions. Consequently, a \acrlong{mdp} \cite{Bellman1957} is a discrete-time stochastic control process defined as:
 
 \begin{definition}[Markov Decision Process]
     An \acrshort{mdp} is a tuple $\mathcal{M} = \left(\mathcal{S}, \mathcal{A}, T, R, \gamma\right)$, where:
@@ -127,45 +125,43 @@ At each time step, the probability of advancing to the next state $s_{t+1}$ is g
     \label{fig:mdp}
 \end{figure}
 
-The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions, in order to maximise the expected cumulative reward over time. Policies can be categorised as:
+The agent's objective is to learn a policy $\pi: \mathcal{S} \rightarrow \mathcal{A}$ that maps states to actions that maximises the expected cumulative reward over time. Policies can be categorised as:
 \begin{itemize}
     \item deterministic: $\pi(s) : \mathcal{S} \to \mathcal{A}$, at a given state $s$, the policy specifies the only available action to take, or
     \item stochastic: $\pi(s, a) : \mathcal{S} \times \mathcal{A} \to [0, 1]$, at a given state $s$, the policy specifies the probability of taking action $a$.
 \end{itemize}
 
-\acrlong{mdp} are based on the idea that the current state is fully representative of the environment. However, in most real world scenarios, the agent does not have access to the complete state. In such cases, a \acrfull{pomdp} can be used to model the uncertainty in the agent's observations and actions.
-
 The goal of the agent is to maximise the cumulative long-term reward $G_t$, which is defined as the sum of discounted rewards over time:
 \begin{equation}
-    G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = r_{t+1} + \gamma G_{t+1}
+    G_t = r_{t+1} + \gamma r_{t+2} + \gamma^2 r_{t+3} + \dots = r_{t+1} + \gamma G_{t+1},
 \end{equation}
 where $\gamma \in [0, 1)$ is the discount factor and is used to balance the importance between immediate and future rewards. If the discount factor is set to 0, the agent is myopic and only maximises the immediate reward; whereas, as $\gamma$ approaches $1$, the agent becomes more far-sighted and places greater importance on future rewards.
 
 The expected cumulative reward is defined as the state value function $V^\pi(s): \mathcal{S} \to \mathbb{R}$, which is the expected return when starting from state $s$ and following policy $\pi$:
 \begin{equation}
-    V^\pi(s) = \mathbb{E}_\pi \left[G_t | s_t = s\right] 
+    V^\pi(s) = \mathbb{E}_\pi \left[G_t | s_t = s\right],
 \end{equation}
 where $\mathbb{E}_\pi$ denotes the expectation over the policy $\pi$.
 
 Similarly, the state-action value function $Q^\pi(s, a): \mathcal{S} \times \mathcal{A} \to \mathbb{R}$ is defined as the expected return when starting from state $s$, taking action $a$, and then following policy $\pi$:
 \begin{equation}
-    Q^\pi(s, a) = \mathbb{E}_\pi \left[G_t | s_t = s, a_t = a\right] 
+    Q^\pi(s, a) = \mathbb{E}_\pi \left[G_t | s_t = s, a_t = a\right].
 \end{equation}
 
 The state value function $V^\pi(s)$ and the state-action value function $Q^\pi(s, a)$ are related as follows:
 \begin{equation}
-    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a | s) Q^\pi(s, a) = \mathbb{E}_\pi \left[Q^\pi(s, a) \mid s_t = s\right]
+    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi(a | s) Q^\pi(s, a) = \mathbb{E}_\pi \left[Q^\pi(s, a) \mid s_t = s\right].
 \end{equation}
 
 Moreover, the advantage function $A^\pi(s, a)$ combines both the state value function $V^\pi(s)$ and the state-action value function $Q^\pi(s, a)$, and is defined as:
 \begin{equation}
-    A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s)
+    A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s).
 \end{equation} 
 
 A policy $\pi$ is said to be optimal if the policy's value function is the optimal value function of the \acrshort{mdp}, defined as: 
 \begin{eqnarray}
-    V^*(s) = \max_{\pi'} V^{\pi'}(s), \forall s \in \mathcal{S} \\ 
-    Q^*(s, a) = \max_{\pi'} Q^{\pi'}(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}
+    V^*(s) = \max_{\pi'} V^{\pi'}(s), \forall s \in \mathcal{S}, \\ 
+    Q^*(s, a) = \max_{\pi'} Q^{\pi'}(s, a), \forall s \in \mathcal{S}, a \in \mathcal{A}.
 \end{eqnarray}
 The optimal policy $\pi^*$ is:
 \begin{equation}
@@ -176,24 +172,26 @@ As a result, the optimal policy is the greedy policy that performs the optimal a
 
 The \Gls{bellmanequations} \cite{Bellman1957book} provide a recursive relation between the value functions in terms of the future state/action values. There are four main Bellman equations, classified in two groups: the Bellman expectation equations and the Bellman optimality equations. The Bellman expectation equations are defined as follows:
 \begin{eqnarray}
-    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi\left(a \mid s\right) \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma V^\pi(s')\right] \\ 
-    Q^\pi(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma \sum_{a' \in \mathcal{A}} \pi\left(a' \mid s'\right) Q^\pi(s', a')\right]
+    V^\pi(s) = \sum_{a \in \mathcal{A}} \pi\left(a \mid s\right) \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma V^\pi(s')\right], \\ 
+    Q^\pi(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma \sum_{a' \in \mathcal{A}} \pi\left(a' \mid s'\right) Q^\pi(s', a')\right],
 \end{eqnarray}
 
 and the Bellman optimality equations are defined as:
 \begin{eqnarray}
-    V^*(s) = \max_{a \in \mathcal{A}} \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma V^*(s')\right] \\
-    Q^*(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma \max_{a' \in \mathcal{A}} Q^*(s', a')\right]
+    V^*(s) = \max_{a \in \mathcal{A}} \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma V^*(s')\right], \\
+    Q^*(s, a) = \sum_{s'\in \mathcal{S}} T\left(s, a, s'\right) \left[R\left(s,a,s'\right) + \gamma \max_{a' \in \mathcal{A}} Q^*(s', a')\right].
 \end{eqnarray}
 
-Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. Another problem that arises is that of balancing \gls{exploration} and \gls{exploitation} \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if all the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting its current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
+Although explicitly solving the Bellman equations would lead to the optimal policy, it is often intractable due to the size of the state and action spaces. Therefore, in \acrshort{rl} algorithms, the goal is to learn an approximation of the optimal value functions, which can be used to derive the optimal policy. 
+
+Another problem that arises is that of balancing \gls{exploration} and \gls{exploitation} \cite{Thrun1992}. Theoretically, following the greedy action yields the optimal policy, but this is only true if all the action values are known. In practice, the agent at each time step and given state chooses either an action whose value is higher, thus exploiting its current knowledge, or picks an action at random, thus exploring the environment and gaining more information about the state-action space, leading to potentially discovering a better action than the greedy one.
 
 \subsection{Deep Reinforcement Learning Algorithms} \label{sec:drlalgorithms}
 
 A \acrfull{rl} agent includes one or more of the following components \cite{Francois-Lavet2018}:
 \begin{itemize}
     \item a representation of the value function that provides a prediction of the value of each state or state-action pair,
-    \item a direct representation of the policy, and
+    \item a direct representation of the policy, or
     \item a model of the environment, consisting of estimates of transition and reward functions.
 \end{itemize}
 
@@ -216,26 +214,24 @@ The taxonomy of the \acrshort{rl} algorithms is shown in Figure \ref{fig:rl_taxo
     \label{fig:rl_taxonomy}
 \end{figure}
 
-The full potential of \acrshort{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrlongpl{dnn} to approximate the value functions, or use gradient ascent to find the optimal policy parameters. This thesis will focus on policy-based and actor-critic algorithms.
+The full potential of \acrshort{rl} algorithms is achieved when leveraging the power of \acrlong{dl} to solve dynamic stochastic control problems that have high-dimensionality in their representation of the state and action spaces. \acrshort{drl} algorithms use \acrlongpl{dnn} to approximate the value functions, or use gradient ascent to find the optimal policy parameters. This thesis will focus on policy-based and actor-critic algorithms. The pseudo-code for the algorithms is provided in Appendix \ref{app:drl_algorithms}.
 
 \subsubsection{Advantage Actor-Critic (A2C)} \label{sec:a2c}
 
-The \acrfull{a2c} algorithm was developed by Mnih et al. (2016) in their paper on \textit{Asynchronous methods for deep reinforcement learning} \cite{Mnih2016}. The main contribution is the usage of the advantage function to address the variance issues present in policy gradient methods. The \acrshort{a2c} is the synchronous version of \acrshort{a3c}, and is preferred due to its better performance in terms of training time and cost-effectiveness \cite{Wu2017}.
+The \acrfull{a2c} algorithm was developed by Mnih et al. (2016) \cite{Mnih2016}. The main contribution is the usage of the advantage function to address the variance issues present in policy gradient methods. The \acrshort{a2c} is the synchronous version of \acrshort{a3c}, and is preferred due to its better performance in terms of training time and cost-effectiveness \cite{Wu2017}.
 
 The algorithm consists of a dual-network architecture, where the actor network learns a stochastic policy $\pi\left(a_t\mid s_t; \theta\right)$ and the critic network learns the value function $V\left(s_t; \theta_v\right)$. The policy and the value function are updated after every $t_{max}$ actions or when a terminal state is reached. The advantage function is estimated as follows: 
 \begin{equation}
-    A\left(s_t, a_t; \theta, \theta_v\right) = \sum_{i=0}^{k-1} \gamma^i r_{t+i} + \gamma^k V\left(s_{t+k}; \theta_v\right) - V\left(s_t; \theta_v\right)
+    A\left(s_t, a_t; \theta, \theta_v\right) = \sum_{i=0}^{k-1} \gamma^i r_{t+i} + \gamma^k V\left(s_{t+k}; \theta_v\right) - V\left(s_t; \theta_v\right),
 \end{equation}
 where $k$ represents the $n$-step return and is upper-bounded by the maximum number of steps $t_{max}$, and $\gamma$ is the discount factor. The algorithm's objective function is defined as:
 \begin{equation}
-    J\left(\theta, \theta_v\right) = \mathbb{E}_{\pi}\left[\log \pi\left(a_t\mid s_t; \theta\right) A\left(s_t, a_t; \theta, \theta_v\right)\right]
+    J\left(\theta, \theta_v\right) = \mathbb{E}_{\pi}\left[\log \pi\left(a_t\mid s_t; \theta\right) A\left(s_t, a_t; \theta, \theta_v\right)\right].
 \end{equation}
-
-The pseudo-code for the algorithm for \acrshort{a2c} is outlined in Appendix \ref{alg:a2c}. 
 
 \subsubsection{Proximal Policy Optimisation (PPO)} \label{sec:ppo}
 
-\acrfull{ppo} is a policy gradient algorithm that was introduced by Schulman et al. (2017) in their paper on \textit{Proximal Policy Optimization Algorithms} \cite{Schulman2017} with the objective of constraining policy updates. The algorithm balances sufficiently large updates in order to improve the policy, while avoiding excessively large changes that could hinder performance. 
+\acrfull{ppo} is a policy gradient algorithm that was introduced by Schulman et al. (2017) \cite{Schulman2017} with the objective of constraining policy updates. The algorithm balances sufficiently large updates in order to improve the policy, while avoiding excessively large changes that could hinder performance. 
 
 \acrshort{ppo} improves the performance of \acrfull{trpo} \cite{Schulman2015} by using a clipped surrogate objective function that ensures that the probability ratio $r_t$ is bounded within a range of $[1 - \epsilon, 1 + \epsilon]$, where $\epsilon$ is a hyperparameter that controls the clipping range. The objective function is defined as:
 \begin{equation}
@@ -245,15 +241,15 @@ where
 \begin{equation}
     r_t(\theta) = \frac{\pi_\theta(a_t | s_t)}{\pi_{\theta_{old}}(a_t | s_t)}
 \end{equation}
-is the probability ratio between the current policy $\pi_\theta$ and the old policy $\pi_{\theta_{old}}$
+is the probability ratio between the current policy $\pi_\theta$ and the old policy $\pi_{\theta_{old}}$.
 
-Another improvement with respect to \acrshort{trpo} is the use of simple first-order optimisation methods as opposed to the second-order methods used in \acrshort{trpo}. Consequently, \acrshort{ppo} maintains the stability and reliability of other trust-region methods, while being easier to implement and more computationally efficient. The pseudo-code for the algorithm for \acrshort{ppo} is outlined in Appendix \ref{alg:ppo}.
+Another improvement with respect to \acrshort{trpo} is the use of simple first-order optimisation methods as opposed to the second-order methods used in \acrshort{trpo}. Consequently, \acrshort{ppo} maintains the stability and reliability of other trust-region methods, while being easier to implement and more computationally efficient.
 
 \subsubsection{Deep Deterministic Policy Gradient (DDPG)} \label{sec:ddpg}
 
-\acrfull{ddpg} is an off-policy actor-critic algorithm that was introduced by Lillicrap et al. (2015) in their paper on \textit{Continuous control with deep reinforcement learning} \cite{Lillicrap2015}. The algorithm arises to solve the challenges of applying \acrlong{dqn} \cite{Mnih2013} to continuous action spaces by applying \acrfull{dpg}, which enables the efficient computation of the policy gradient without the need to integrate over the action space. 
+\acrfull{ddpg} is an off-policy actor-critic algorithm that was introduced by Lillicrap et al. (2015) \cite{Lillicrap2015}. The algorithm arises to solve the challenges of applying \acrlong{dqn} \cite{Mnih2013} to continuous action spaces by applying \acrfull{dpg}, which enables the efficient computation of the policy gradient without the need to integrate over the action space. 
 
-The algorithm uses the following networks: the actor network $\mu(s_t; \theta_\mu)$, which learns a deterministic policy, the critic network $Q(s_t, a_t; \theta_Q)$, which learns the state-action value function, and the actor's and critic's target networks. The actor network is updated using \acrshort{dpg}: 
+The algorithm uses the following networks: the actor network $\mu(s_t; \theta_\mu)$, which learns a deterministic policy; the critic network $Q(s_t, a_t; \theta_Q)$, which learns the state-action value function; and the actor's and critic's target networks. The actor network is updated using \acrshort{dpg}: 
 \begin{equation}
     \nabla_{\theta_\mu} J \approx \mathbb{E}_{s_t \sim \mathcal{D}} \left[\nabla_a Q(s_t, a_t; \theta_Q) \nabla_{\theta_\mu} \mu(s_t; \theta_\mu)\right],
 \end{equation}
@@ -263,24 +259,17 @@ where $\mathcal{D}$ is the replay buffer that stores the agent's experiences, $\
 \end{equation}
 where $\theta_Q'$ are the parameters of the target critic network. 
 
-From \acrlong{dqn}, the algorithm incorporates a replay buffer to store the agent's experiences, which allows the agent to learn from past experiences and improve its performance over time. Moreover, \acrshort{ddpg} incorporates noise, typically Ornstein-Uhlenbeck noise \cite{Uhlenbeck1930}, to the actions taken by the actor network to encourage \gls{exploration} of the action space. The pseudo-code for the algorithm for \acrshort{ddpg} is outlined in Appendix \ref{alg:ddpg}.
+From \acrlong{dqn}, the algorithm incorporates a replay buffer to store the agent's experiences, which allows the agent to learn from past experiences and improve its performance over time. Moreover, \acrshort{ddpg} incorporates noise, typically Ornstein-Uhlenbeck noise \cite{Uhlenbeck1930}, to the actions taken by the actor network to encourage \gls{exploration} of the action space.
 
 \subsubsection{Twin Delayed Deep Deterministic Policy Gradient (TD3)} \label{sec:td3}
 
-\acrfull{td3} is an extension of \acrshort{ddpg} introduced by Fujimoto et al. (2018) in their paper on \textit{Addressing Function Approximation Error in Actor-Critic Methods} \cite{Fujimoto2018}. The proposal addresses the hyper-parameter sensitivity and overestimation bias present in the critic network of \acrshort{ddpg}. The main improvements are:
-\begin{itemize}
-    \item \textbf{Clipped Double Q-Learning}: The algorithm employs two critic networks and uses their minimum value to compute the target value for the actor network, which reduces the overestimation bias. 
-    \item \textbf{Delayed Policy Updates}: The actor and critic networks updates are performed at different frequencies. The critic networks are updated every time step, whereas the actor and target networks are updated less frequently. The main benefit is that it allows the critic to improve the accuracy of the value estimates before the actor updates its policy.
-    \item \textbf{Target Policy Smoothing}: The algorithm adds noise to the target action during the critic updates to smooth the value function over similar actions, resulting in a lower impact of approximation errors and more robust policies. 
-\end{itemize}
-
-The pseudo-code for the algorithm for \acrshort{td3} is outlined in Appendix \ref{alg:td3}.
+\acrfull{td3} is an extension of \acrshort{ddpg} introduced by Fujimoto et al. (2018) \cite{Fujimoto2018}. The proposal addresses the hyper-parameter sensitivity and overestimation bias present in the critic network of \acrshort{ddpg} by proposing three main main improvements. First, clipped double Q-learning, where the algorithm employs two critic networks and uses their minimum value to compute the target value for the actor network, which reduces the overestimation bias. Second, by introducing delayed policy updates, the actor and critic networks' updates are performed at different frequencies. The critic networks are updated every time step, whereas the actor and target networks are updated less frequently. The main benefit is that it allows the critic to improve the accuracy of the value estimates before the actor updates its policy. Third, to perform target policy smoothing, the algorithm adds noise to the target action during the critic updates to smooth the value function over similar actions, resulting in a lower impact of approximation errors and more robust policies. 
 
 \subsubsection{Soft Actor-Critic (SAC)} \label{sec:sac}
 
-\acrfull{sac}, despite being an off-policy actor-critic algorithm, represents a paradigm shift in \acrshort{rl}. The algorithm was presented by Haarnoja et al. (2018) in their paper on \textit{Soft Actor-Critic: Off-Policy Maximum Entropy Deep Reinforcement Learning with a Stochastic Actor} \cite{Haarnoja2018} and is based on the maximum entropy framework, which aims to maximise both the expected return and the \gls{entropy} of the policy, encouraging the agent to succeed at the task while acting as randomly as possible. 
+\acrfull{sac}, despite being an off-policy actor-critic algorithm, represents a paradigm shift in \acrshort{rl}. The algorithm was presented by Haarnoja et al. (2018) \cite{Haarnoja2018} and is based on the maximum entropy framework, which aims to maximise both the expected return and the \gls{entropy} of the policy, encouraging the agent to succeed at the task while acting as randomly as possible. 
 
-The algorithm uses two critic networks to estimate the state-action value function, and a stochastic actor network that learns a policy that maximises the expected return while also maximising the entropy of the policy. The critic networks are updated using the Bellman equations, and the actor network is updated using the policy gradient method. The objective function for the actor network is defined as:
+The algorithm uses two critic networks to estimate the state-action value function, and a stochastic actor network that learns a policy that maximises the expected return while also maximising the entropy of the policy. The objective function for the actor network, which is updated using the policy gradient method, is defined as:
 \begin{equation}
     J(\theta) = \mathbb{E}_{s_t \sim \mathcal{D}} \left[\mathbb{E}_{a_t \sim \pi_\theta} \left[\alpha \log \pi_\theta(a_t | s_t) + Q(s_t, a_t; \theta_Q)\right]\right],
 \end{equation}
@@ -293,8 +282,6 @@ where $\mathcal{N}(0, \sigma)$ is the noise added to the action to encourage exp
     J(\alpha) = \mathbb{E}_{s_t \sim \mathcal{D}} \left[\alpha \log \pi_\theta(a_t | s_t)\right].
 \end{equation}
 This parameter is used to control the trade-off between the entropy and the reward terms, effectively controlling the stochasticity of the policy.
-
-The pseudo-code for the algorithm for \acrshort{sac} is outlined in Appendix \ref{alg:sac}.
 
 \subsubsection{Algorithm comparison} \label{sec:algorithmcomparison}
 
@@ -310,7 +297,7 @@ An overview of the algorithms and their key characteristics is summarised in Tab
 
 Although there are many possible classifications of \acrshort{xai} methods, they can be broadly categorised into two main categories. First, transparent algorithms are inherently understandable and interpretable, such as linear regression, decision trees and rule-based systems. Second, post-hoc explanations are methods that require the usage of an additional algorithm to clarify the decisions made by a model. Examples include saliency maps \cite{Sequeira2020} and interaction data \cite{Greydanus2018}. 
 
-Another classification relates to whether the explanation method depends on the type of model it is being applied to. On the one hand, model-agnostic methods can be applied to any model regardless of its internal architecture, effectively treating all types of models as black boxes. The analysis is conducted by understanding the input-output behaviour and how small perturbations to the input impact the output. Examples include \acrfull{lime} \cite{Ribeiro2016} and \acrfull{shap} \cite{Lundberg2017}. On the other hand, model-specific methods are tailored to a particular architecture and leverage its components as part of the explanation process. In the case of neural networks, this can be achieved by analysing the learned features or by incorporating attention mechanisms \cite{Amirshahi2023}. The model-agnostic methods can be further sub-divided between global and local explanations. The goal of global explainability is to provide an understanding of the model's overall behaviour across an entire dataset, while local explainability focuses on explaining the individual predictions.
+Another classification relates to whether the explanation method depends on the type of model it is being applied to. On the one hand, model-agnostic methods work with any model regardless of its internal architecture, effectively treating all types of models as black boxes. The analysis is conducted by understanding the input-output behaviour and how small perturbations to the input impact the output. These methods can be further sub-divided between global explanations, which provide an understanding of the model's overall behaviour across an entire dataset, and local techniques, which focus on explaining the individual predictions. \acrfull{shap} \cite{Lundberg2017} is an example of a global method, while \acrfull{lime} \cite{Ribeiro2016} provides local interpretations. On the other hand, model-specific methods are tailored to a particular architecture and leverage its components as part of the explanation process. In the case of neural networks, this can be achieved by analysing the learned features or by incorporating attention mechanisms \cite{Amirshahi2023}. 
 
 The taxonomy of the \acrshort{xai} methods is shown in Figure \ref{fig:xai_taxonomy}.
 \begin{figure}[h]
@@ -322,15 +309,15 @@ The taxonomy of the \acrshort{xai} methods is shown in Figure \ref{fig:xai_taxon
 
 \subsection{Feature Importance} \label{sec:featureimportance}
 
-\Gls{featureimportance} is a global model-specific method that quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance \cite{Breiman2001} measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary.
+\Gls{featureimportance} is a global model-specific method that quantifies the contribution of each feature to the model's predictions. In particular, permutation feature importance measures the contribution of each feature by evaluating the model's performance on the original dataset and comparing it to the performance on a permuted version of the dataset, where a specific feature is randomly shuffled \cite{Breiman2001}. The process allows to understand how much the model's relies on a particular feature for its prediction, by measuring the decrease in predictive power if the input feature's values vary.
 
-An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing an impurity measure at each node, normally Gini impurity for classification tasks or \acrfull{mse} for regression. As such, a variable responsible for a split with a large decrease in impurity is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and trees in the forest where the particular feature was used to split the data. While powerful, this method suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that importance is computed on the training set. 
+An alternative method, well-suited for tree-based models, is impurity-based feature importance. Random forests split their features with the goal of reducing an impurity measure at each node, normally Gini impurity for classification tasks or \acrfull{mse} for regression \cite{Louppe2014}. As such, a variable responsible for a split with a large decrease in impurity is considered important \cite{Nembrini2018}. As a result, the impurity importance of a feature is the sum of all impurity reductions across all nodes and trees in the forest where the particular feature was used to split the data. While powerful, this method suffers from bias towards features with high cardinality and they do not necessarily reflect the ability of a feature to make useful predictions on the test set, given that importance is computed on the training set \cite{Breiman2001}. 
 
 \subsection{Local Interpretable Model-agnostic Explanations} \label{sec:lime}
 
-\acrfull{lime} is a model-agnostic explanation method that interprets individual predictions of a \acrlong{ml} model by analysing the model locally around the prediction of interest. The method, introduced by Ribeiro et al. (2016) in their paper on \textit{Why should I trust you? Explaining the predictions of any classifier} \cite{Ribeiro2016}, utilises the black box model to understand what happens to the outputs when the input data is slightly modified, then fits a simpler, interpretable model to the perturbed data to approximate the black box model's behaviour in that local region.
+\acrfull{lime} is a model-agnostic explanation method that interprets individual predictions of a \acrlong{ml} model by analysing the model locally around the prediction of interest. The method, introduced by Ribeiro et al. (2016) \cite{Ribeiro2016}, utilises the black box model to understand what happens to the outputs when the input data is slightly modified, then fits a simpler, interpretable model to the perturbed data to approximate its behaviour in that local region.
 
-For a more rigorous definition, let $\mathcal{L}(f,g,\pi_x)$ be a measure of how unfaithful an explanation model $g$ is in approximating the model $f:\mathbb{R}^d \to \mathbb{R}$ in the neighbourhood of the instance $x$ defined as $\pi_x$. The goal is to find an interpretable model $g \in G$ that minimises the following objective function:
+For a more rigorous definition, let $\mathcal{L}(f,g,\pi_x)$ be a measure of how unfaithful an explanation model $g$ is in approximating the model $f:\mathbb{R}^d \to \mathbb{R}$ in the neighbourhood of the instance $x$ defined as $\pi_x$. The goal is to find an interpretable model $g \in G$, where $G$ is the space of all interpretable models, that minimises the following objective function:
 \begin{equation}
     \xi(x) = \mathcal{L}(f, g, \pi_x) + \Omega(g)
 \end{equation}
@@ -350,7 +337,7 @@ Its main advantages are its ability to work across different types of data and m
 
 \subsection{Shapley Additive Explanations} \label{sec:shap}
 
-Another model-agnostic technique is \acrfull{shap}, which was introduced by Lundberg and Lee (2017) in their paper on \textit{A unified approach to interpreting model predictions} \cite{Lundberg2017}. The method is based on cooperative game theory and the concept of Shapley values \cite{Shapley1953}.
+Another model-agnostic technique is \acrfull{shap}, which was introduced by Lundberg and Lee (2017) \cite{Lundberg2017}. The method is based on cooperative game theory and the concept of Shapley values \cite{Shapley1953}.
 
 The Shapley value arises in cooperative game theory to answer the question of how to fairly distribute the contribution of each player in a coalition. In this framework, a coalitional game is represented as a tuple $(N,v)$, where $N = \{1, 2, \ldots, n\}$ is the set of players and $v: 2^N \rightarrow \mathbb{R}$ is the characteristic function that assigns a value $v(S)$ to each possible coalition $S \subseteq N$, with the convention that $v(\emptyset) = 0$. The characteristic function $v(S)$ represents the total value that coalition $S$ can achieve through cooperation. 
 
@@ -383,7 +370,7 @@ The advantage of Shapley values is that it is the only attribution method that r
 
 The algorithm for approximating Shapley values is outlined in Appendix \ref{alg:shapley}. However, the method is computationally expensive, as it requires evaluating the model for all possible coalitions of features.
 
-The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining black-box regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method. The explanation is given as:
+The use of Shapley values in \acrshort{ml} was not introduced until 2011, when Štrumbelj and Kononenko \cite{Strumbelj2011} proposed it as a method for explaining \gls{blackbox} regression models. However, it was popularised in 2017 by Lundberg and Lee \cite{Lundberg2017}, who introduced the \acrshort{shap} framework. Although their proposal relies on the principles of Shapley values, their main contribution is to represent the Shapley value as an additive feature attribution method given as:
 \begin{equation}
     g(\mathbf{z}') = \phi_0 + \sum_{j=1}^{M} \phi_j z'_j
 \end{equation}
@@ -393,16 +380,16 @@ where $g$ is the explanation model, $\mathbf{z}' \in \{0,1\}^M$ is the coalition
 
 The KernelSHAP algorithm builds on the \acrshort{shap} framework by using a kernel-based approach to estimate Shapley values. It approximates the Shapley value by sampling different coalitions and using a weighted linear regression model to fit the contributions of each feature. The method relies on not all coalitions contributing equally to the final Shapley value and as such uses kernel weights to identify the most important coalitions. The main steps of the KernelSHAP algorithm are:
 \begin{itemize}
-    \item Sample a set of coalitions from the feature space: $\mathbf{z}'_k \in \{0,1\}^M, k \in \{1, \ldots, K\}$, where $K$ is the total number of samples.
-    \item For each coalition $\mathbf{z}'_k$, compute the model's prediction by first converting $\mathbf{z}'_k$ to the original feature space and then applying the model $\hat{f}$ : $\hat{f}\left(h_\mathbf{x}\left(\mathbf{z}'_k\right)\right)$.
-    \item Compute the weight for each coalition with the SHAP kernel: $\pi_\mathbf{x} (\mathbf{z}')$ 
-    \item Fit a weighted linear regression model to the sampled coalitions and their corresponding predictions.
-    \item Return Shapley values $\phi_k$ as the coefficients of the fitted model.
+    \item sample a set of coalitions from the feature space: $\mathbf{z}'_k \in \{0,1\}^M, k \in \{1, \ldots, K\}$, where $K$ is the total number of samples;
+    \item for each coalition $\mathbf{z}'_k$, compute the model's prediction by first converting $\mathbf{z}'_k$ to the original feature space and then applying the model $\hat{f}$ : $\hat{f}\left(h_\mathbf{x}\left(\mathbf{z}'_k\right)\right)$;
+    \item compute the weight for each coalition with the SHAP kernel: $\pi_\mathbf{x} (\mathbf{z}')$;
+    \item fit a weighted linear regression model to the sampled coalitions and their corresponding predictions; and
+    \item return Shapley values $\phi_k$ as the coefficients of the fitted model.
 \end{itemize}
 
 The sample coalitions are generated by randomly selecting subsets of the features, or equivalently, a vector of 0s and 1s indicating whether a feature is included in the coalition. The sampled coalitions represent the dataset for the regression model whose target is the prediction for a coalition. However, the sampled coalitions are not on the target feature space and, as such, it is necessary to implement another function $h_{\mathbf{x}}\left(\mathbf{z}'\right) = \mathbf{z}$ that maps the sampled coalitions to the original feature space. In the case of tabular data, this is done by replacing the features that are not included in the coalition with their mean value or a random sample from its possible values. As a result, sampling from the marginal distribution ignores the dependence structure between features.
 
-Although there are similarities between \acrshort{shap} and \acrshort{lime}, their main difference lies in feature weighting in the regression model. The \acrshort{shap} weighting assumes that small and large coalitions provide the most information about its isolated effects or its total effects, respectively. Whereas coalitions with half the features add little information about a specific feature's contributions. The proposed weighting function for KernelSHAP is:
+Although there are similarities between KernelSHAP and \acrshort{lime}, their main difference lies in feature weighting in the regression model. The \acrshort{shap} weighting assumes that small and large coalitions provide the most information about its isolated effects or its total effects, respectively; whereas coalitions with half the features add little information about a specific feature's contributions \cite{Lundberg2017}. The proposed weighting function for KernelSHAP is:
 \begin{equation}
     \pi_\mathbf{x} (\mathbf{z}') = \frac{(M - 1)}{\binom{M}{|\mathbf{z}'|} |\mathbf{z}'| \left(M - |\mathbf{z}'|\right)},
 \end{equation}
@@ -417,15 +404,15 @@ Consequently, given the samples, the KernelSHAP algorithm fits a weighted linear
 
 The goal is to minimise the following loss function:
 \begin{equation}
-    \mathcal{L}(\hat{f}, g, \pi_{\mathbf{x}}) = \sum_{\mathbf{z}' \in \mathcal{Z}} \left[\hat{f} \left(h_{\mathbf{x}}\left(\mathbf{z}'\right)\right) - g(\mathbf{z}')\right]^2 \pi_{\mathbf{x}}(\mathbf{z}'),
+    \mathcal{L}(\hat{f}, g, \pi_{\mathbf{x}}) = \sum_{\mathbf{z}' \in \mathbf{Z}} \left[\hat{f} \left(h_{\mathbf{x}}\left(\mathbf{z}'\right)\right) - g(\mathbf{z}')\right]^2 \pi_{\mathbf{x}}(\mathbf{z}'),
 \end{equation}
 where $\mathbf{Z}$ is the dataset of sampled coalitions. 
 
 \subsubsection{TreeSHAP} \label{sec:treeshap}
 
-A variant of their original proposal is TreeSHAP \cite{Lundberg2019}, designed specifically for tree-based models, such as decision trees, random forests or gradient-boosted trees. In this case, the method is model-specific and by leveraging the structure of the tree, it improves the computational efficiency by reducing computation time from exponential for KernelSHAP to polynomial. 
+A variant of their original proposal is TreeSHAP \cite{Lundberg2019}, designed specifically for tree-based models. In this case, the method is model-specific and by leveraging the structure of the tree, it improves the computational efficiency by reducing computation time from exponential for KernelSHAP to polynomial. 
 
-The method works by exploiting the tree structure and the main steps of the algorithm are as follows:
+The method works by exploiting the tree structure and the main steps of the algorithm are as follows.
 \begin{itemize}
     \item For each feature, traverse the tree and compute the contribution of the feature to the prediction at each node.
     \item For each node, compute the contribution of the feature to the prediction by considering the difference between the prediction at the node and the prediction at the parent node.
@@ -436,19 +423,19 @@ The method works by exploiting the tree structure and the main steps of the algo
 
 The emergence of \acrfull{ml} and its rise in popularity have led to a new research direction in various financial applications, due to its ability to learn complex patterns from high-dimensional data and adapt to changing market conditions. Particularly, the main approaches in the financial field include the use of \acrlong{dl} and \acrfull{rl} for price trend prediction \cite{Zhang2023} and portfolio optimisation \cite{Millea2021}. 
 
-The topic of portfolio optimisation with multiple risky financial assets has been extensively studied and it still poses a challenging task due to the complex and stochastic nature of financial markets. Traditional approaches to portfolio optimisation, such as the \acrfull{mvo} \cite{Markowitz1952}, have been widely used, but they often rely on assumptions that do not hold in practice, such as the normality of returns and the stability of the covariance matrix. As a result, these methods can lead to suboptimal portfolios and poor performance in real-world scenarios.
+The topic of portfolio optimisation with multiple risky financial assets has been extensively studied and it still poses a challenging task due to the complex and stochastic nature of financial markets. Traditional approaches to portfolio optimisation, such as \acrfull{mvo} \cite{Markowitz1952}, have been widely used, but often rely on assumptions that do not hold in practice, such as the normality of returns and the stability of the covariance matrix. As a result, these methods can lead to suboptimal portfolios and poor performance in real-world scenarios.
 
-The use of \acrlong{dl} architectures is particularly prominent in the context of price prediction, where deep neural networks are employed to learn complex patterns in historical price data. For instance, \acrfull{lstm} architectures are particularly well-suited for financial time series forecasting due to their ability to capture long-term dependencies and temporal patterns in the data. The performance of these architectures can lead to a \acrfull{mape} as low as 2.72\%, as demonstrated by Chaudhary (2025) \cite{Chaudhary2025}. Shen et al. (2020) \cite{Shen2020} also propose a \acrshort{lstm} architecture for short-term trend prediction. Despite its simple architecture, its main contributions rely on the feature engineering process. The proposal incorporates feature extension, followed by recursive feature elimination and finally, performs \acrfull{pca} to reduce the dimensionality of the input data for the \acrshort{lstm} model. The use of \acrshort{pca} improves the training efficiency of the architecture by 36.8\% \cite{Shen2020}. 
+The use of \acrlong{dl} architectures is particularly prominent in the context of price prediction, where deep neural networks are employed to learn complex patterns in historical price data. For instance, \acrfull{lstm} architectures are particularly well-suited for financial time series forecasting due to their ability to capture long-term dependencies and temporal patterns in the data \cite{Jia2021}. The performance of these architectures can lead to a \acrfull{mape} as low as 2.72\%, as demonstrated by Chaudhary (2025) \cite{Chaudhary2025}. Shen et al. (2020) \cite{Shen2020} also propose an \acrshort{lstm} architecture for short-term trend prediction with the main contribution being the feature engineering process. The proposal incorporates feature extension, followed by recursive feature elimination and, finally, performs \acrfull{pca} to reduce the dimensionality of the input data for the \acrshort{lstm} model. The use of \acrshort{pca} improves the training time of the architecture by 36.8\% \cite{Shen2020}.
 
-The use of ensemble methods is also prominent for price prediction, where techniques such as stacking, blending, boosting and bagging are employed to combine the predictions of multiple models. For example, Nti et al. (2020) \cite{Nti2020} explore twenty-five different ensemble classifiers and regressors based on Decision Trees, Support Vector Machines and Neural Networks. Their research shows that although stacking and boosting ensemble algorithms provide better results in terms of accuracy, they are the most computationally expensive. 
+Ensemble methods are also prominent for price prediction, where techniques such as stacking, blending, boosting and bagging are employed to combine the predictions of multiple models. For example, Nti et al. (2020) \cite{Nti2020} explore twenty-five different ensemble classifiers and regressors based on Decision Trees, Support Vector Machines and Neural Networks. Their research shows that although stacking and boosting ensemble algorithms provide better results in terms of accuracy, they are the most computationally expensive. 
 
-When it comes to portfolio optimisation, \acrshort{drl} algorithms are particularly better suited as they address the sequential decision making nature of portfolio management. Unlike traditional \Gls{supervisedlearning} approaches that require labelled data, \acrshort{drl} enables agents to learn optimal investment strategies through direct interaction with market environments. This paradigm allows for the dynamic adjustment of portfolio weights without the need for predefined rules, making it suitable to capture market non-linearities and adapt to changing conditions. There are numerous \acrshort{drl} algorithms, as outlined in Section \ref{sec:drlalgorithms}, with each being particularly befitting to different aspects of the portfolio management process, namely, \acrshort{ddpg} encourages maximum returns, while \acrshort{a2c} reduces the variance. 
+When it comes to portfolio optimisation, \acrshort{drl} algorithms are particularly better suited as they address the sequential decision making nature of portfolio management. Unlike traditional \Gls{supervisedlearning} approaches that require labelled data, \acrshort{drl} enables agents to learn optimal investment strategies through direct interaction with market environments. This paradigm allows for the dynamic adjustment of portfolio weights without the need for predefined rules, making it suitable to capture market non-linearities and adapt to changing conditions. There are numerous \acrshort{drl} algorithms, as outlined in Section \ref{sec:drlalgorithms}, with each particularly befitting to different aspects of the portfolio management process.
 
-Liu et al. (2018) \cite{Liu2018} propose the use of \acrshort{ddpg} for profitable stock trading, where the agent learns to buy, hold and sell stocks based on the historical price data with the goal of maximising the investment return. Their proposal outperforms the \acrfull{djia} and the min-variance portfolio allocation strategies, achieving an annualised return of 25.86\% and a Sharpe ratio of 1.79. Their work is further extended by Liu (2020) \cite{Liu2020} by proposing a Python library, FinRL, which provides a comprehensive framework for developing and evaluating \acrshort{drl} algorithms in the context of financial trading. Although the library provides implementation for numerous \acrshort{drl} algorithms including \acrshort{dqn}, \acrshort{a2c} and \acrshort{sac}, in this paper, they only evaluate the performance of \acrshort{td3} and \acrshort{ddpg} on the \acrfull{djia} constituents for the tasks of multiple stock trading and portfolio allocation. Notwithstanding, an interesting aspect of their work is the incorporation of the turbulence index, that measures extreme asset price fluctuations, to control portfolio risk. Beyond traditional assets, optimal portfolio allocation has also been explored in the context of cryptocurrencies \cite{Jiang2016} and future contracts \cite{Zhang2019}.
+Liu et al. (2018) \cite{Liu2018} propose the use of \acrshort{ddpg} for profitable stock trading, where the agent learns to buy, hold and sell stocks based on the historical price data with the goal of maximising the investment return. Their proposal outperforms the \acrfull{djia} and the min-variance portfolio allocation strategies, achieving an annualised return of 25.86\% and a Sharpe ratio of 1.79. Their work is further extended by proposing a Python library, FinRL, which provides a comprehensive framework for developing and evaluating \acrshort{drl} algorithms in the context of financial trading \cite{Liu2020}. Although the library provides implementation for numerous \acrshort{drl} algorithms including \acrshort{dqn}, \acrshort{a2c} and \acrshort{sac}, they only evaluate the performance of \acrshort{td3} and \acrshort{ddpg} on the \acrfull{djia} constituents for the tasks of multiple stock trading and portfolio allocation. Notwithstanding, an interesting aspect of their work is the incorporation of the turbulence index, that measures extreme asset price fluctuations, to control portfolio risk. Beyond traditional assets, optimal portfolio allocation has also been explored in the context of cryptocurrencies \cite{Jiang2016} and future contracts \cite{Zhang2019}.
 
-Despite the significant applications of \acrshort{drl} in portfolio optimisation, the field still faces significant challenges that prevent its widespread adoption. When it comes to market conditions, identifying the correct objective function that guarantees both efficiency and accuracy remains an open research question. Finally, one of the most significant concerns is the lack of transparency of \acrshort{ml} models. If there is to be widespread use of these models in the financial field, great strides must be made in the area of explainability.
+Despite the significant applications of \acrshort{drl} in portfolio optimisation, the field still faces significant challenges that prevent its widespread adoption. When it comes to market conditions, identifying the correct objective function that guarantees both efficiency and accuracy remains an open research question. Finally, one of the most significant concerns is the lack of transparency of \acrshort{ml} models. If there is to be general acceptance of these models in the financial field, great strides must be made in the area of explainability.
 
-Barriedo et al. (2020) \cite{BarredoArrieta2019} provide a comprehensive overview of \acrfull{xai} methods and their need in different fields. In 2024, the \acrlong{eu} has passed the Regulation 2024/1689, commonly known as the \acrshort{ai} Act \cite{AIAct2024}. The goal is to ensure that the \acrshort{ai} systems used in the \acrlong{eu} are safe, transparent and traceable. Given the regulatory requirements, it is crucial for financial institutions to adopt techniques that enhance the interpretability and traceability of \acrshort{ml} models.
+Barriedo et al. (2020) \cite{BarredoArrieta2019} provide a comprehensive overview of \acrfull{xai} methods and their need in different fields. Given the regulatory requirements, it is crucial for financial institutions to adopt techniques that enhance the interpretability and traceability of \acrshort{ml} models \cite{AIAct2024}.
 
 The application of \acrshort{xai} methods has gained traction in the financial domain, with notable use cases including stock market trend prediction \cite{Mandeep2022} and auditing \cite{Zhang2022}. However, despite examples of \acrshort{xai} methods in finance, there is still a lack of research in \acrshort{drl}. An interesting study was conducted by González Cortés et al. (2024) \cite{Cortes2024}, whose authors address the black box behaviour of \acrshort{drl} models by proposing an intrinsically transparent algorithm. They use \acrfull{a2c} \footnote{In the paper \cite{Cortes2024}, they refer to \acrshort{a2c} as \acrfull{saac}} enhanced with an attention-layered \acrshort{lstm} to determine the importance of the input features. Although their results show an improvement in performance compared against two variants of the Markowitz model, their implementation does not scale well with the number of assets in the portfolio, as the attention mechanism is independent for each stock.
 

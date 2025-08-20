@@ -363,6 +363,23 @@
   url    = {https://www.theiet.org/about/governance/rules-of-conduct},
   year   = {2024}
 }
+@article{Jia2021,
+  abstract  = {In recent years, machine learning for trading has been widely studied. The direction and size of position should be determined in trading decisions based on market conditions. However, there is no research so far that considers variable position sizes in models developed for trading purposes. In this paper, we propose a deep reinforcement learning model named LSTM-DDPG to make trading decisions with variable positions. Specifically, we consider the trading process as a Partially Observable Markov Decision Process, in which the long short-term memory (LSTM) network is used to extract market state features and the deep deterministic policy gradient (DDPG) framework is used to make trading decisions concerning the direction and variable size of position. We test the LSTM-DDPG model on IF300 (index futures of China stock market) data and the results show that LSTM-DDPG with variable positions performs better in terms of return and risk than models with fixed or few-level positions. In addition, the investment potential of the model can be better tapped by the reward function of the differential Sharpe ratio than that of profit reward function.},
+  author    = {Zhichao Jia and Qiang Gao and Xiaohong Peng},
+  doi       = {10.3390/S21196571},
+  issn      = {14248220},
+  issue     = {19},
+  journal   = {Sensors (Basel, Switzerland)},
+  keywords  = {Deep reinforcement learning,Reward function,Trading strategy,Variable positions},
+  month     = {10},
+  pages     = {6571},
+  pmid      = {34640890},
+  publisher = {MDPI},
+  title     = {LSTM-DDPG for Trading with Variable Positions},
+  volume    = {21},
+  url       = {https://pmc.ncbi.nlm.nih.gov/articles/PMC8512099/},
+  year      = {2021}
+}
 @article{Jiang2016,
   abstract  = {Portfolio management is the decision-making process of allocating an amount of fund into different financial investment products. Cryptocurrencies are electronic and decentralized alternatives to government-issued money, with Bitcoin as the best-known example of a cryptocurrency. This paper presents a model-less convolutional neural network with historic prices of a set of financial assets as its input, outputting portfolio weights of the set. The network is trained with 0.7 years' price data from a cryptocurrency exchange. The training is done in a reinforcement manner, maximizing the accumulative return, which is regarded as the reward function of the network. Backtest trading experiments with trading period of 30 minutes is conducted in the same market, achieving 10-fold returns in 1.8 months' periods. Some recently published portfolio selection strategies are also used to perform the same back-tests, whose results are compared with the neural network. The network is not limited to cryptocurrency, but can be applied to any other financial markets.},
   author    = {Zhengyao Jiang and Jinjun Liang},
@@ -444,6 +461,15 @@
   title     = {FinRL: A Deep Reinforcement Learning Library for Automated Stock Trading in Quantitative Finance},
   url       = {https://papers.ssrn.com/abstract=3737257},
   year      = {2020}
+}
+@article{Louppe2014,
+  abstract = {Data analysis and machine learning have become an integrative part of the modern scientific methodology, offering automated procedures for the prediction of a phenomenon based on past observations, unraveling underlying patterns in data and providing insights about the problem. Yet, caution should avoid using machine learning as a black-box tool, but rather consider it as a methodology, with a rational thought process that is entirely dependent on the problem under study. In particular, the use of algorithms should ideally require a reasonable understanding of their mechanisms, properties and limitations, in order to better apprehend and interpret their results. Accordingly, the goal of this thesis is to provide an in-depth analysis of random forests, consistently calling into question each and every part of the algorithm, in order to shed new light on its learning capabilities, inner workings and interpretability. The first part of this work studies the induction of decision trees and the construction of ensembles of randomized trees, motivating their design and purpose whenever possible. Our contributions follow with an original complexity analysis of random forests, showing their good computational performance and scalability, along with an in-depth discussion of their implementation details, as contributed within Scikit-Learn. In the second part of this work, we analyse and discuss the interpretability of random forests in the eyes of variable importance measures. The core of our contributions rests in the theoretical characterization of the Mean Decrease of Impurity variable importance measure, from which we prove and derive some of its properties in the case of multiway totally randomized trees and in asymptotic conditions. In consequence of this work, our analysis demonstrates that variable importances [...].},
+  author   = {Gilles Louppe},
+  month    = {7},
+  title    = {Understanding Random Forests: From Theory to Practice},
+  url      = {https://arxiv.org/abs/1407.7502v3},
+  year     = {2014},
+  journal  = {arXiv preprint arXiv:1407.7502v3}
 }
 @article{Lundberg2017,
   abstract  = {Understanding why a model makes a certain prediction can be as crucial as the prediction's accuracy in many applications. However, the highest accuracy for large modern datasets is often achieved by complex models that even experts struggle to interpret, such as ensemble or deep learning models, creating a tension between accuracy and interpretability. In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. Its novel components include: (1) the identification of a new class of additive feature importance measures, and (2) theoretical results showing there is a unique solution in this class with a set of desirable properties. The new class unifies six existing methods, notable because several recent methods in the class lack the proposed desirable properties. Based on insights from this unification, we present new methods that show improved computational performance and/or better consistency with human intuition than previous approaches.},
