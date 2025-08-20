@@ -1,4 +1,7 @@
 \begin{longtable}{|l|l|p{8cm}|}
+    \caption{Hyper-parameter tuning configurations for different RL algorithms.}
+    \label{tab:model_hyperparameters}
+    \\ 
     \hline
     \textbf{Model} & \textbf{Hyperparameter} & \textbf{Values / Range} \\ \midrule
     \endfirsthead
@@ -36,6 +39,4 @@
     & Learning rate & Uniform[1$\times$10$^{-5}$, 1$\times$10$^{-2}$] \\ 
     & Learning starts & \{500, 1000, 2000, 5000\} \\ 
     & Entropy coefficient & \{"auto", "auto\_0.1", "auto\_0.01"\} \\ \hline
-    \caption{Hyper-parameter tuning configurations for different RL algorithms.}
-    \label{tab:model_hyperparameters}
 \end{longtable}

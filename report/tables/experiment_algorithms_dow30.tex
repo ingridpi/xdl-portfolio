@@ -1,6 +1,9 @@
 \begin{longtable}{|p{2cm}|p{2.1cm}|p{2.1cm}|p{2.1cm}|p{1.5cm}|p{2cm}|}
+    \caption{Algorithm comparison results for the DowJones30 dataset. The colours correspond to the best performing configurations, with blue for the best performing \acrshort{drl} algorithm and green for the best benchmark.}
+    \label{tab:experiment_algorithms_dow30} 
+    \\ 
     \hline
-    \textbf{Dataset} & \textbf{Cumulative return} & \textbf{Annualised return} & \textbf{Annualised volatility} & \textbf{Sharpe ratio} & \textbf{Max drawdown}  \\ \midrule
+    \textbf{Algorithm / Benchmark} & \textbf{Cumulative return} & \textbf{Annualised return} & \textbf{Annualised volatility} & \textbf{Sharpe ratio} & \textbf{Max drawdown}  \\ \midrule
     \endfirsthead
 
     \hline
@@ -20,7 +23,4 @@
     \textbf{Momentum} & \textcolor{green}{0.3855} & 0.6204 & 0.1990 & \textcolor{green}{1.7388} & -0.1929 \\ \hline
     \textbf{Equal} & 0.2066 & 0.3205 & 0.1476 & 1.3461 & -0.1541 \\ \hline
     \textbf{Index} & 0.1110 & 0.1692 & 0.1532 & 0.7635 & -0.1637 \\ \hline
-
-    \caption{Algorithm comparison results for the DowJones30 dataset. The colour correspond to the best performing configurations, with blue for the best performing \acrshort{drl} algorithm and green for the best benchmark.}
-    \label{tab:experiment_algorithms_dow30}
 \end{longtable}

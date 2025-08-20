@@ -1,4 +1,7 @@
 \begin{longtable}{|l|l|l|l|}
+    \caption{Comparison of Deep Reinforcement Learning Algorithms.}
+    \label{tab:drl_algorithms_comparison}
+    \\ 
     \hline
     \textbf{Algorithm} & \textbf{Policy Type} & \textbf{On/Off Policy} & \textbf{Key Idea} \\ \midrule
     \endfirsthead
@@ -10,11 +13,9 @@
     \endfoot
 
     \hline
-    \acrshort{a2c} & Stochastic & On-Policy & Advantage Function Estimation \\ \hline
-    \acrshort{ppo} & Stochastic & On-Policy & Clipped Policy Updates \\ \hline
-    \acrshort{ddpg} & Deterministic & Off-Policy & Actor-Critic + Replay buffer \\ \hline
-    \acrshort{td3} & Deterministic & Off-Policy & Double critics + Delayed updates \\ \hline
-    \acrshort{sac} & Stochastic & Off-Policy & Max-entropy \acrshort{rl} \\ \hline
-\caption{Comparison of Deep Reinforcement Learning Algorithms}
-\label{tab:drl_algorithms_comparison}
+    \acrshort{a2c} & Stochastic & On & Advantage Function Estimation \\ \hline
+    \acrshort{ppo} & Stochastic & On & Clipped Policy Updates \\ \hline
+    \acrshort{ddpg} & Deterministic & Off & Actor-Critic + Replay buffer \\ \hline
+    \acrshort{td3} & Deterministic & Off & Double critics + Delayed updates \\ \hline
+    \acrshort{sac} & Stochastic & Off & Max-entropy \acrshort{rl} \\ \hline
 \end{longtable}
