@@ -1,0 +1,38 @@
+\begin{longtable}{|c|c|c|c|c|c|}
+    \caption{Hyper-parameter tuning experiment results for the DowJones30 dataset for simple and indicators feature set. The colours correspond to the best performing configurations, with blue for the best performance on the simple feature set and green for the indicators one.}
+    \label{tab:experiment_hyperparameters_dow30}
+    \\ 
+    \hline
+    \multirow{2}{*}{\textbf{Algorithm}} & \multirow{2}{*}{\textbf{Metric}} & \multicolumn{2}{c|}{\textbf{Simple}} & \multicolumn{2}{c|}{\textbf{Indicators}} \\
+\cline{3-6}
+     &  & \textbf{Default} & \textbf{Tuned} & \textbf{Default} & \textbf{Tuned} \\ \midrule
+    \endfirsthead
+
+    \hline
+    \multirow{2}{*}{\textbf{Algorithm}} & \multirow{2}{*}{\textbf{Metric}} & \multicolumn{2}{c|}{\textbf{Simple}} & \multicolumn{2}{c|}{\textbf{Indicators}} \\
+\cline{3-6}
+     &  & \textbf{Default} & \textbf{Tuned} & \textbf{Default} & \textbf{Tuned} \\ \midrule
+    \endhead
+
+    \endfoot
+ 
+    \multirow{2}{*}{\textbf{A2C}}
+    & Cumulative Return & 0.3387 & 0.3491 & 0.3139 & 0.3573 \\ \cline{2-6}
+    & Sharpe ratio & 1.3203 & \textcolor{blue}{1.4307} & 1.2575 & \textcolor{green}{1.3994} \\ \midrule
+
+    \multirow{2}{*}{\textbf{PPO}}
+    & Cumulative Return & 0.3174 & 0.2844 & 0.2937 & 0.3134 \\ \cline{2-6}
+    & Sharpe ratio & \textcolor{blue}{1.3410} & 1.1939 & 1.2407 & \textcolor{green}{1.3679} \\ \midrule
+
+    \multirow{2}{*}{\textbf{DDPG}}
+    & Cumulative Return & 0.3454 & 0.27404 & 0.3663 & 0.4086 \\ \cline{2-6}
+    & Sharpe ratio & \textcolor{blue}{1.3826} & 1.2088 & 1.4896 & \textcolor{green}{1.5597} \\ \midrule
+
+    \multirow{2}{*}{\textbf{TD3}}
+    & Cumulative Return & 0.3902 & 0.2974 & 0.3456 & 0.2891 \\ \cline{2-6}
+    & Sharpe ratio & \textcolor{blue}{1.4911} & 1.2354 & \textcolor{green}{1.3938} & 1.2332 \\ \midrule
+
+    \multirow{2}{*}{\textbf{SAC}}
+    & Cumulative Return & 0.2243 & 0.3703 & 0.3189 & 0.2646 \\ \cline{2-6}
+    & Sharpe ratio & 0.9769 & \textcolor{blue}{1.4521} & \textcolor{green}{1.3340} & 1.1688 \\ \midrule
+\end{longtable}
