@@ -6,28 +6,23 @@ The development and deployment of \acrfull{drl} algorithms to perform profitable
 
 When deploying \acrfull{ml} algorithms in finance, the \acrfull{eu}'s \acrfull{aiact} \cite{AIAct2024} classifies them as high-risk under Article 6 due to their potential impact on an individual's economic well-being. Consequently, high-risk systems must comply with Chapter 3 - Section 2, Articles 9-15, which include the obligations for risk management, data governance, documentation, transparency and human supervision. In particular, Article 13 requires that high-risk AI systems's outputs are interpretable. The use of explainability techniques ensures that the decision-making process of the algorithm can be understood and justified, thus adhering to the legal requirements set forth by the \acrshort{aiact}.
 
-In addition, \gls{algorithmictrading} systems must adhere to the \acrlong{eu} directive on \acrfull{mifid} \cite{MiFIDII} and the \acrfull{uk} \acrfull{fca} guidance on \textit{Algorithmic Trading Compliance in Wholesale Markets}. These regulations require robust governance and oversight frameworks, risk controls and thorough testing infrastructure. In this project, back-testing has been carried out to assess the algorithm's performance under varying market conditions followed by explainability techniques to enable the auditability of the system.
+In addition, \gls{algorithmictrading} systems must adhere to the \acrlong{eu} directive on \acrfull{mifid} \cite{MiFIDII} and the \acrfull{uk} \acrfull{fca} guidance on \textit{Algorithmic Trading Compliance in Wholesale Markets} \cite{FCA2018}. These regulations require robust governance and oversight frameworks, risk controls and thorough testing infrastructure. In this project, \gls{backtesting} has been carried out to assess the algorithm's performance under varying market conditions followed by explainability techniques to enable the auditability of the system.
 
 \section{Social Issues} \label{sec:social-issues}
 
-Despite the growing exposure to \acrfull{ai} systems with the rise of \acrfullpl{llm}, there is still a significant lack of understanding and trust in these systems. Some of the reasons behind this mistrust include:
-\begin{itemize}
-    \item the \gls{blackbox} nature of models, making outputs hard to interpret,
-    \item lack of human-like qualities in the models, and
-    \item perceived limitations to adapt to new situations and learn from previous mistakes.
-\end{itemize}
+Despite the growing exposure to \acrfull{ai} systems with the rise of \acrfullpl{llm}, there is still a significant lack of understanding and trust in these systems. Some of the reasons behind this mistrust include the \gls{blackbox} nature of models, making outputs hard to interpret, lack of human-like qualities in the models, and perceived limitations to adapt to new situations and learn from previous mistakes.
 
 In the context of this work, the integration of explainability techniques addresses the black box behaviour of the implemented technology by offering clear, data-driven justifications. However, transparency must also be accessible. It is essential to provide a user-friendly interface to easily access the explanations and generate plain language descriptions for non-technical audiences.
 
 \section{Ethical Issues} \label{sec:ethical-issues}
 
-The ethical implications of \acrshort{drl} in portfolio optimisation are multifaceted. The primary concern is the potential for these systems to make decisions that may not align with human values or ethical standards. For instance, if the algorithm prioritises profit maximisation without considering the social or environmental impact of its investment choices, it could lead to unethical outcomes, such as supporting companies with poor labour practices or those contributing to environmental degradation. To address this concern, the following practices can be put in place:
+The ethical implications of \acrshort{drl} in portfolio optimisation are multifaceted. The primary concern is the potential for these systems to make decisions that may not align with human values or ethical standards. For instance, if the algorithm prioritises profit maximisation without considering the social and/or environmental impacts of its investment choices, it could lead to unethical outcomes, such as supporting companies with poor labour practices or those contributing to environmental degradation. To address this concern, the following practices can be put in place:
 \begin{enumerate}
-    \item the end-user should have full control over the assets included in their portfolio, allowing them to exclude companies that do not meet their ethical standards; or
+    \item the end-user should have full control over the assets included in their portfolio, allowing them to exclude companies that do not meet their ethical values; and
     \item the environment's representation can be expanded to include ethical dimensions, like social impact or environmental sustainability metrics.
 \end{enumerate}
 
-Regarding the environment representation, it was not possible to incorporate such data as it is not readily available nor in a standardised format. This is why, although there was an interest to broaden the environment representation to include other sources outside of the financial domain, it was not feasible to do so given the available resources.
+Regarding the environment representation, it was not possible to incorporate such data as it is not readily available nor in a standardised format. This is why, although there was an interest to broaden the environment representation to include other sources outside of the financial domain, it was not feasible to do so in this thesis.
 
 A critical point in portfolio allocation is risk management. In this research, a performance metric that balances return maximisation and risk minimisation is used for hyper-parameter tuning, ensuring that the agent learns to avoid overly risky investments. Additionally, the inclusion of a risk-free asset enables a safe-guard mechanism. The agent can be implemented to allocate all the resources to cash when market volatility exceeds a pre-defined threshold and resume only when said volatility decreases.
 
@@ -35,6 +30,4 @@ Finally, potential biases in the training data or model structure could result i
 
 \section{Professional Issues} \label{sec:professional-issues}
 
-This work has been conducted in accordance with the \acrfull{bcs} Code of Conduct \cite{BCSCodeConduct} and the \acrfull{iet} Rules of Conduct \cite{IETRules}. All the work in this report is original unless stated otherwise, and all external contributions are explicitly acknowledged, following the principles of the \acrshort{bcs} Code of Conduct \cite{BCSCodeConduct}. Moreover, all third-party libraries, datasets and code have been explicitly acknowledged and their use complies with the respective licences and guidelines.
-
-Most importantly, the project has been conducted within my own area of expertise: computational finance, \acrlong{rl}, and \acrlong{xai}. If any aspects of the project were beyond these, proper academic sources have been consulted to ensure the integrity and quality of the work. 
+In a research project of this calibre, it is crucial to conduct the work in accordance with the \acrfull{bcs} Code of Conduct \cite{BCSCodeConduct} and the \acrfull{iet} Rules of Conduct \cite{IETRules}. Particular focus must be put in ensuring that all non-original work and external contributions are explicitly acknowledged, following the principles of the \acrshort{bcs} Code of Conduct \cite{BCSCodeConduct}. This is not only limited to the written product, but the utmost consideration must be put in explicitly acknowledging all third-party libraries, datasets and code and following their use guidelines.

@@ -1,4 +1,7 @@
 \begin{longtable}{|p{2cm}|p{2.2cm}|p{2cm}|p{2cm}|p{2.2cm}|p{2cm}|}
+    \caption{Environment representation experiment comparison according to the Sharpe ratio. The colours correspond to the best performing per row, with blue for the DowJones30 dataset and green for the Commodities dataset.}
+    \label{tab:experiment_environment_sharpe}
+    \\ 
     \hline
     \textbf{Algorithm} & \textbf{Dataset} & \textbf{Simple} & \textbf{Indicators} & \textbf{Covariance} & \textbf{Complete} \\ \midrule
     \endfirsthead
@@ -7,24 +10,21 @@
     \textbf{Algorithm} & \textbf{Dataset} & \textbf{Simple} & \textbf{Indicators} & \textbf{Covariance} & \textbf{Complete}  \\ \midrule
     \endhead
 
-    \caption{Environment representation experiment comparison according to the Sharpe ratio. The colour correspond to the best performing per row, with blue for the DowJones30 dataset and green for the Commodities dataset.}
-    \label{tab:experiment_environment_sharpe}
-
     \endfoot
 
     \hline  
     \multirow{3}{*}{\textbf{A2C}}
-    & DowJones30 & 1.3203 & 1.2575 & 1.3615 & \textcolor{blue}{1.3929} \\ \cline{2-6}
+    & DowJones30 & \textcolor{blue}{1.4307} & 1.3994 & 1.3615 & 1.3929 \\ \cline{2-6}
     & Commodities & 1.1373 & \textcolor{green}{1.2881} & 1.0273 & 1.2079 \\ \cline{2-6}
     & Currencies & -0.0018 & -0.0571 & -0.0674 & -0.0053 \\ \midrule
 
     \multirow{3}{*}{\textbf{PPO}}
-    & DowJones30 & 1.3410 & 1.2407 & \textcolor{blue}{1.3524} & 1.1890 \\ \cline{2-6}
+    & DowJones30 & 1.3410 & \textcolor{blue}{1.3679} & 1.3524 & 1.1890 \\ \cline{2-6}
     & Commodities & \textcolor{green}{1.2600} & 1.1256 & 1.1559 & 1.2015 \\ \cline{2-6}
     & Currencies & 0.0014 & 0.0699 & 0.0652 & 0.1399 \\ \midrule
 
     \multirow{3}{*}{\textbf{DDPG}}
-    & DowJones30 & 1.3826 & \textcolor{blue}{1.4896} & 1.3562 & 1.3261 \\ \cline{2-6}
+    & DowJones30 & 1.3826 & \textcolor{blue}{1.5597} & 1.3562 & 1.3261 \\ \cline{2-6}
     & Commodities & \textcolor{green}{1.1745} & 0.9871 & 1.0731 & 1.1612 \\ \cline{2-6}
     & Currencies & 0.0528 & 0.0689 & 0.0200 & 0.0115 \\ \midrule
 
@@ -34,7 +34,7 @@
     & Currencies & 0.0807 & -0.0088 & -0.0086 & -0.0436 \\ \midrule
 
     \multirow{3}{*}{\textbf{SAC}}
-    & DowJones30 & 0.9769 & 1.3340 & \textcolor{blue}{1.4670} & 1.3017 \\ \cline{2-6}
+    & DowJones30 & 1.4521 & 1.3340 & \textcolor{blue}{1.4670} & 1.3017 \\ \cline{2-6}
     & Commodities & \textcolor{green}{1.3727} & 1.1973 & 1.1773 & 1.0500 \\ \cline{2-6}
     & Currencies & 0.0806 & 0.1771 & -0.1441 & 0.2550 \\ \midrule
 

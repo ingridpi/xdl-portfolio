@@ -29,27 +29,58 @@ With the \acrshort{lime} analysis, the explanations for the \acrshort{a2c} algor
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_lime_aapl.png}
     \label{fig:a2c_lime_aapl}
-    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the AAPL asset.}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the AAPL asset.}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_lime_csco.png}
     \label{fig:a2c_lime_csco}
-    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the CSCO asset.}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the CSCO asset.}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_lime_hon.png}
     \label{fig:a2c_lime_hon}
-    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the HON asset.}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the HON asset.}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{figures/a2c_lime_v.png}
     \label{fig:a2c_lime_v}
-    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm at the first time step of the test dataset for the V asset.}
+    \caption{\acrshort{lime} explanations for the \acrshort{a2c} algorithm for a specific observation in the test dataset for the V asset.}
 \end{figure}
 
+\section{Shapley Additive Explanations} \label{app:shap_explanations}
+
+For \acrshort{shap}, the explanations for the \acrshort{a2c} algorithm are provided. For the case of explanations of a particular instance, the main text only includes the output for one of the five assets in the portfolio, the following figures provide the explanations for the remaining assets. The explanations are presented as force plots, where the features that contribute positively to the allocation weight are shown in magenta and those that contribute negatively are shown in blue.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_singleobs_csco.png}
+    \caption{\acrshort{shap} force plot for the weight allocation of the CSCO asset for the \acrshort{a2c} algorithm at the first time step of the test dataset.}
+    \label{fig:a2c_shap_forceplot_singleobs_csco}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_singleobs_hon.png}
+    \caption{\acrshort{shap} force plot for the weight allocation of the HON asset for the \acrshort{a2c} algorithm at the first time step of the test dataset.}
+    \label{fig:a2c_shap_forceplot_singleobs_hon}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_singleobs_msft.png}
+    \caption{\acrshort{shap} force plot for the weight allocation of the MSFT asset for the \acrshort{a2c} algorithm at the first time step of the test dataset.}
+    \label{fig:a2c_shap_forceplot_singleobs_msft}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/a2c_shap_forceplot_singleobs_v.png}
+    \caption{\acrshort{shap} force plot for the weight allocation of the V asset for the \acrshort{a2c} algorithm at the first time step of the test dataset.}
+    \label{fig:a2c_shap_forceplot_singleobs_v}
+\end{figure}
