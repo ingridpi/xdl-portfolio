@@ -1,7 +1,38 @@
 \chapter{Hyper-parameter tuning} \label{app:hyperparameter_tuning}
 
-For the five implemented \acrlong{drl} algorithms, the following table summarises the hyper-parameters that were tuned during the training process.
+\section{Hyper-parameter search space} \label{app:hyperparameter_search_space}
+
+For the five implemented \acrlong{drl} algorithms, Table \ref{tab:model_hyperparameters} summarises the hyper-parameters that were tuned during the training process.
 
 \input{tables/hyperparameter_tuning.tex}
 
+\section{Default Hyper-parameter Configuration} \label{app:default_hyperparameters}
+
+In addition, the default hyper-parameter configuration is shown in Table \ref{tab:default_hyperparameters}.
 \input{tables/default_hyperparameters.tex}
+
+\section{Default Hyper-parameter Selection} \label{app:experiment_hyperparameters}
+
+The choice of hyper-parameters is crucial for the performance of \acrshort{drl} algorithms. However, it is computationally expensive to perform hyper-parameter tuning for all combinations of algorithms, datasets and environment representations. Therefore, the default hyper-parameters used in the experiments are outlined in Table \ref{tab:default_hyperparameters}. These hyper-parameters were selected based on preliminary tests conducted on a small dataset of five tickers (AAPL, CSCO, HON, MSFT, V) sampled from the \acrshort{djia} and only the open, close, high and low prices as the environment representation.
+
+The hyper-parameters were tuned according to the specifications in Table \ref{tab:model_hyperparameters} and the results were used to inform the default settings, outlined in Table \ref{tab:default_hyperparameters}. For each of the five \acrshort{drl} algorithms, the hyper-parameter search was performed using Bayesian optimisation using the \texttt{wandb} library and a maximum number of runs set to 20. The training set was data from January 2016 to December 2022, the validation set started in January 2023 and ended in December 2023, and the test set was between January 2024 and June 2025. The dataset split is visualised in Figure \ref{fig:dataset_split}. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/dataset_split.png}
+    \caption{Train-Validation-Test Split for the Hyper-parameter tuning on a sample of five assets from the Dow Jones Industrial Average index.}
+    \label{fig:dataset_split}
+\end{figure}
+
+The \texttt{wandb} library provides an interactive website to visualise the results of the hyper-parameters in terms of the metric chosen for the optimisation and, if applicable, any other metrics that were chosen to be reported. In this case, the optimisation metric was the Sharpe ratio, as it balances the trade-off between risk and return, and additionally, the cumulative return was also reported. Figure \ref{fig:a2c_hyperparameter_tuning} shows the reported results for the hyper-parameter tuning of the \acrshort{a2c} algorithm. It compares the chosen hyper-parameter with the resulting optimisation metric in the validation set.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{figures/a2c_hyperparameter_tuning.png}
+\caption{Hyper-parameter tuning results for the \acrshort{a2c} algorithm.}
+\label{fig:a2c_hyperparameter_tuning}
+\end{figure}
+
+The hyper-parameter tuning process was repeated for the other four algorithms, resulting in the hyper-parameters shown in Table \ref{tab:default_hyperparameters}. Since the search had been done in the validation dataset, the best-performing models were evaluated and benchmarked against the test dataset to assess their generalisation performance, whose results are presented in Table \ref{tab:test_results}.
+
+\input{tables/default_test_results.tex}
